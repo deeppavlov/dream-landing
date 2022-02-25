@@ -4,6 +4,7 @@ import type { NextPage } from "next";
 import html2canvas from "html2canvas";
 
 import styles from "./chat.module.css";
+import Sidebar from "../components/Sidebar";
 
 interface Message {
   sender: "bot" | "user";
@@ -13,6 +14,7 @@ interface Message {
 
 interface UseChatReturn {
   sendMsg: (msg: string) => void;
+  reset: () => void;
   messages: Message[];
   error: string | null;
   loading: boolean;
@@ -65,6 +67,11 @@ const useChat = (): UseChatReturn => {
     }
   }, [messages.length]);
 
+  const reset = () => {
+    setUserId(nanoid());
+    setMessages([]);
+  };
+
   const sendMsg = useCallback(
     (msgText: string) => {
       if (error) setError(null);
@@ -107,6 +114,7 @@ const useChat = (): UseChatReturn => {
     sendMsg,
     error,
     loading,
+    reset,
   };
 };
 
@@ -114,7 +122,7 @@ const MessageBubble: FC<{ msg: Message; isNew: boolean }> = ({
   msg,
   isNew,
 }) => {
-  const isRight = msg.sender === "bot";
+  const isRight = msg.sender === "user";
   const divRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (isNew && divRef.current) {
@@ -155,7 +163,7 @@ const ThinkingBubble: FC = () => {
 };
 
 const Chat: NextPage = () => {
-  const { messages, loading, error, sendMsg } = useChat();
+  const { messages, loading, error, sendMsg, reset } = useChat();
 
   const chatRef = useRef<HTMLDivElement>(null);
   const getChatPic = () => {
@@ -169,33 +177,38 @@ const Chat: NextPage = () => {
     });
   };
 
+  const [msgDraft, setMsgDraft] = useState("");
+  const onClickSend = useCallback(
+    () => msgDraft !== "" && (sendMsg(msgDraft), setMsgDraft("")),
+    [msgDraft]
+  );
+
   return (
-    <div className="page">
-      <h2>Chat with Dream!</h2>
-      {error && <div style={{ color: "red" }}>{error}</div>}
-      <div ref={chatRef} className={styles["chat-cont"]}>
-        {messages.map((msg, i) => (
-          <MessageBubble
-            key={i}
-            msg={msg}
-            isNew={i === messages.length - 1 && !loading}
+    <div className={`page ${styles["chat-page"]}`}>
+      <Sidebar onScreenshot={getChatPic} onReset={reset}></Sidebar>
+
+      <div className={styles["chat-cont"]}>
+        {error && <div style={{ color: "red" }}>{error}</div>}
+        <div ref={chatRef} className={styles["messages-cont"]}>
+          {messages.map((msg, i) => (
+            <MessageBubble
+              key={i}
+              msg={msg}
+              isNew={i === messages.length - 1 && !loading}
+            />
+          ))}
+          {loading && <ThinkingBubble />}
+        </div>
+        <div className={styles["input-cont"]}>
+          <input
+            type="text"
+            placeholder="Type your message here..."
+            value={msgDraft}
+            onInput={(ev) => setMsgDraft((ev.target as HTMLInputElement).value)}
+            onKeyDown={(ev) => ev.key === "Enter" && onClickSend()}
           />
-        ))}
-        {loading && <ThinkingBubble />}
-      </div>
-      <div className={styles['btns-cont']}>
-        <input
-          type="text"
-          placeholder="Type your message here..."
-          style={{flexGrow: 1, padding: '3px 4px'}}
-          onKeyDown={(ev) =>
-            ev.key === "Enter" &&
-            (ev.target as HTMLInputElement).value !== "" &&
-            (sendMsg((ev.target as HTMLInputElement).value),
-            ((ev.target as HTMLInputElement).value = ""))
-          }
-        />
-        <button onClick={getChatPic} style={{flexGrow: 0, marginLeft: '10px'}}>Share conversation</button>
+          <button onClick={onClickSend}>Send</button>
+        </div>
       </div>
     </div>
   );
