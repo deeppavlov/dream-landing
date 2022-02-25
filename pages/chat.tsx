@@ -65,7 +65,7 @@ const useChat = (): UseChatReturn => {
       const jsonMsgs = JSON.stringify(messages);
       localStorage.setItem("messages", jsonMsgs);
     }
-  }, [messages.length]);
+  }, [messages.length, messages]);
 
   const reset = () => {
     setUserId(nanoid());
@@ -106,7 +106,7 @@ const useChat = (): UseChatReturn => {
         .catch((err) => setError(err))
         .finally(() => setLoading(false));
     },
-    [userId]
+    [userId, error]
   );
 
   return {
@@ -180,7 +180,7 @@ const Chat: NextPage = () => {
   const [msgDraft, setMsgDraft] = useState("");
   const onClickSend = useCallback(
     () => msgDraft !== "" && (sendMsg(msgDraft), setMsgDraft("")),
-    [msgDraft]
+    [msgDraft, sendMsg]
   );
 
   return (
