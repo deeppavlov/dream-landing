@@ -3,6 +3,7 @@
   height: 60vh;
   border: 1px solid black;
   margin: 10px 0;
+  overflow-y: auto;
 }
 
 .btns-cont {
