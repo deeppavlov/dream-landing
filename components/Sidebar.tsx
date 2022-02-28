@@ -5,8 +5,10 @@ import { faTelegram } from "@fortawesome/free-brands-svg-icons";
 
 import styles from "./sidebar.module.css";
 
-const StarsRating: FC = () => {
-  const [rating, setRating] = useState(-1);
+const StarsRating: FC<{ rating: number; setRating: (r: number) => void }> = ({
+  rating,
+  setRating,
+}) => {
   const color = useCallback(
     (idx: number) => ({ color: idx <= rating ? "#ffd93a" : "gray" }),
     [rating]
@@ -33,7 +35,9 @@ const Sidebar: FC<{
   onScreenshot?: () => void;
   onReset?: () => void;
   onDownload?: () => void;
-}> = ({ onScreenshot, onReset }) => {
+  setRating: (r: number) => void;
+  rating: number;
+}> = ({ onScreenshot, onReset, setRating, rating }) => {
   return (
     <div className={styles["cont"]}>
       <div className={styles["avatar"]} />
@@ -46,11 +50,15 @@ const Sidebar: FC<{
       </div>
       <hr />
       <div className={styles["small-title"]}>Rate the dialog</div>
-      <StarsRating />
+      <StarsRating rating={rating} setRating={setRating} />
       <hr />
-      <button className={styles["action-btn"]} onClick={onScreenshot}>Take screenshot</button>
+      <button className={styles["action-btn"]} onClick={onScreenshot}>
+        Take screenshot
+      </button>
       <button className={styles["action-btn"]}>Download other dialogs</button>
-      <button className={styles["action-btn"]} onClick={onReset}>Start a new dialog</button>
+      <button className={styles["action-btn"]} onClick={onReset}>
+        Start a new dialog
+      </button>
       <div className={styles["small-title"]}>Save in messengers</div>
       <div className={styles["messengers-cont"]}>
         <div className={styles["messenger-btn"]}>

@@ -15,6 +15,8 @@ interface Message {
 interface UseChatReturn {
   sendMsg: (msg: string) => void;
   reset: () => void;
+  setRating: (rating: number) => void;
+  rating: number;
   messages: Message[];
   error: string | null;
   loading: boolean;
@@ -38,6 +40,7 @@ const API_URL = "https://7019.lnsigo.mipt.ru/";
 const useChat = (): UseChatReturn => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const dialogIdRef = useRef<string | null>(null);
 
   const [userId, setUserId] = useState(() => {
     if (typeof window !== "undefined" && window.localStorage) {
@@ -67,9 +70,46 @@ const useChat = (): UseChatReturn => {
     }
   }, [messages.length, messages]);
 
+  const [rating, _setRating] = useState<number>(() => {
+    if (typeof window !== "undefined" && window.localStorage) {
+      const stored = localStorage.getItem("dialog_rating");
+      if (stored) return parseInt(stored);
+    }
+    return -1;
+  });
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.localStorage) {
+      localStorage.setItem("dialog_rating", `${rating}`);
+    }
+  }, [rating]);
+  const setRating = useCallback(
+    (newRating: number) => {
+      if (dialogIdRef.current && rating === -1) {
+        const body = {
+          user_id: userId,
+          rating: newRating + 1, // It has to be 1-5
+          dialog_id: dialogIdRef.current,
+        };
+        fetch(API_URL + "rating/dialog", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        });
+
+        _setRating(newRating);
+      }
+    },
+    [rating, userId]
+  );
+
   const reset = () => {
     setUserId(nanoid());
     setMessages([]);
+    _setRating(-1);
+    dialogIdRef.current = null;
   };
 
   const sendMsg = useCallback(
@@ -97,6 +137,7 @@ const useChat = (): UseChatReturn => {
       })
         .then((res) => res.json())
         .then((res: MsgResponse) => {
+          dialogIdRef.current = res.dialog_id;
           addMsg({
             sender: "bot",
             type: "text",
@@ -112,6 +153,8 @@ const useChat = (): UseChatReturn => {
   return {
     messages,
     sendMsg,
+    setRating,
+    rating,
     error,
     loading,
     reset,
@@ -163,7 +206,8 @@ const ThinkingBubble: FC = () => {
 };
 
 const Chat: NextPage = () => {
-  const { messages, loading, error, sendMsg, reset } = useChat();
+  const { messages, loading, error, sendMsg, reset, setRating, rating } =
+    useChat();
 
   const chatRef = useRef<HTMLDivElement>(null);
   const getChatPic = () => {
@@ -185,7 +229,12 @@ const Chat: NextPage = () => {
 
   return (
     <div className={`page ${styles["chat-page"]}`}>
-      <Sidebar onScreenshot={getChatPic} onReset={reset}></Sidebar>
+      <Sidebar
+        onScreenshot={getChatPic}
+        onReset={reset}
+        setRating={setRating}
+        rating={rating}
+      ></Sidebar>
 
       <div className={styles["chat-cont"]}>
         {error && <div style={{ color: "red" }}>{error}</div>}
