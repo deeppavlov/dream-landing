@@ -2,6 +2,8 @@ import React, { useState, useCallback, FC, useEffect, useRef } from "react";
 import { nanoid } from "nanoid";
 import type { NextPage } from "next";
 import html2canvas from "html2canvas";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 
 import styles from "./chat.module.css";
 import Sidebar from "../components/Sidebar";
@@ -161,9 +163,40 @@ const useChat = (): UseChatReturn => {
   };
 };
 
-const MessageBubble: FC<{ msg: Message; isNew: boolean }> = ({
+const ratingEmojis = ["👍", "👎", "😍", "😄", "😲", "😡"];
+
+const MessageRating: FC = () => {
+  const [rating, setRating] = useState(-1);
+  const [isExpanded, setExpanded] = useState(false);
+
+  return (
+    <>
+      {rating > -1 && <div className={styles["rating-indicator"]}>{ratingEmojis[rating]}</div>}
+      <div
+        className={styles["bubble-rating"]}
+        onMouseLeave={() => setExpanded(false)}
+      >
+        {ratingEmojis.slice(0, isExpanded ? undefined : 2).map((em, idx) => (
+          <div key={em} className={styles["rating-emoji"]} onClick={() => setRating(idx)}>
+            {em}
+          </div>
+        ))}
+        {!isExpanded && (
+          <FontAwesomeIcon
+            className={styles["rating-expand"]}
+            icon={faEllipsis}
+            onClick={() => setExpanded(true)}
+          />
+        )}
+      </div>
+    </>
+  );
+};
+
+const MessageBubble: FC<{ msg: Message; isNew: boolean; isLast?: boolean }> = ({
   msg,
   isNew,
+  isLast = false,
 }) => {
   const isRight = msg.sender === "user";
   const divRef = useRef<HTMLDivElement>(null);
@@ -179,7 +212,9 @@ const MessageBubble: FC<{ msg: Message; isNew: boolean }> = ({
         styles["bubble-wrap"] + ` ${isRight ? styles["bubble-wrap-right"] : ""}`
       }
     >
-      <div className={styles["bubble"]}>{msg.content}</div>
+      <div className={styles["bubble"]}>
+        {msg.content} {isLast && <MessageRating />}{" "}
+      </div>
     </div>
   );
 };
@@ -244,6 +279,7 @@ const Chat: NextPage = () => {
               key={i}
               msg={msg}
               isNew={i === messages.length - 1 && !loading}
+              isLast={i === messages.length - 1 && !loading} // TODO: do this better
             />
           ))}
           {loading && <ThinkingBubble />}
