@@ -1,14 +1,31 @@
 .cont {
-  width: 500px;
+  /* position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0; */
   height: 100%;
-  background: white;
-  padding: 70px 60px 30px 60px;
-  display: flex;
-  flex-direction: column;
+  width: 450px;
+  padding-left: 100px;
+  padding-top: 30px;
 }
 
-.cont > * + * {
+.sidebar {
+  width: 350px;
+  height: 100%;
+  background: white;
+  padding: 64px 30px 30px 30px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 15px 15px 0 0;
+}
+
+.sidebar > * + * {
   margin-top: 30px;
+}
+
+.title + *,
+.small-title + * {
+  margin-top: 0.8em;
 }
 
 .avatar {
@@ -28,56 +45,29 @@
 }
 
 .small-title {
-  font-weight: bold;
-  width: 100%;
-  text-align: center;
-}
-
-.desc {
-  margin-top: 0.5em;
-  font-weight: 100;
-  color: rgb(51, 51, 51);
-  flex-grow: 1;
-}
-
-.stars {
-  margin-top: 17px;
-  margin-left: auto;
-  margin-right: auto;
+  text-transform: uppercase;
+  color: #bdbdbd;
   font-size: 0.9em;
 }
 
-.stars > svg + svg {
-  margin-left: 10px;
+.desc {
+  font-weight: 100;
+  color: rgb(51, 51, 51);
 }
 
-.action-btn {
-  width: 100%;
-  display: block;
+.actions-cont > * + * {
   margin-top: 10px;
-  padding: 10px 17px;
-  text-align: left;
-  background-color: #0069b3;
-  color: white;
-  border: none;
-  border-radius: 4px;
-}
-
-.action-btn:hover {
-  background-color: #4a85af;
-  cursor: pointer;
-}
-
-.cont > hr {
-  border: solid 1px rgb(192, 192, 192);
-  border-bottom: none;
-  margin: 50px -30px 20px -30px;
 }
 
 .messengers-cont {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  margin-top: 15px;
-  color: #0069b3;
+  color: #1c8adb;
+}
+
+.disclaimer {
+  text-decoration: underline;
+  color: #0069b4;
+  margin-top: auto;
+  cursor: pointer;
 }
