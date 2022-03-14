@@ -1,0 +1,10 @@
+.stars {
+  margin-top: 17px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 0.9em;
+}
+
+.stars > svg + svg {
+  margin-left: 10px;
+}
