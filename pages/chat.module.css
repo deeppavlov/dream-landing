@@ -2,12 +2,22 @@
   display: flex;
   flex-direction: row;
   align-items: stretch;
-  background-color: #f0f1f5;
+}
+
+.top-bar {
+  height: 70px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: -1;
+  background-color: #0069b3;
 }
 
 .chat-cont {
   flex-grow: 1;
   position: relative;
+  /* Space for the top bar */
+  padding-top: 80px;
 }
 
 .messages-cont {
@@ -17,6 +27,7 @@
   overflow-y: auto;
 }
 
+/* Message input */
 .input-cont {
   display: flex;
   flex-direction: row;
@@ -29,7 +40,6 @@
   box-shadow: 0 0 7px 2px rgba(92, 92, 92, 0.158);
 }
 
-/* Message input */
 .input-cont > input {
   flex-grow: 1;
   padding: 6px;

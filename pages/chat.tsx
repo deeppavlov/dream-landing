@@ -31,6 +31,8 @@ const Chat: NextPage = () => {
 
   return (
     <div className={`page ${styles["chat-page"]}`}>
+      <div className={styles["top-bar"]}></div>
+
       <Sidebar
         onScreenshot={getChatPic}
         onReset={reset}
