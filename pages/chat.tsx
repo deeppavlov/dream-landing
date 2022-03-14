@@ -46,7 +46,6 @@ const Chat: NextPage = () => {
               key={i}
               msg={msg}
               isNew={i === messages.length - 1 && !loading}
-              isLast={i === messages.length - 1 && !loading} // TODO: do this better
             />
           ))}
           {loading && <ThinkingBubble />}

@@ -1,14 +1,14 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 
-import styles from './messagebubble.module.css';
+import styles from "./messagebubble.module.css";
 import { Message } from "../hooks/useChat";
 import MessageRating from "./MessageRating";
 
-const MessageBubble: FC<{ msg: Message; isNew: boolean; isLast?: boolean }> = ({
-  msg,
-  isNew,
-  isLast = false,
-}) => {
+const MessageBubble: FC<{
+  msg: Message;
+  isNew: boolean;
+  disableRating?: boolean;
+}> = ({ msg, isNew, disableRating = false }) => {
   const isRight = msg.sender === "user";
   const divRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -24,14 +24,13 @@ const MessageBubble: FC<{ msg: Message; isNew: boolean; isLast?: boolean }> = ({
       }
     >
       <div className={styles["bubble"]}>
-        {msg.content} {isLast && <MessageRating />}{" "}
+        {msg.content} {!disableRating && !isRight && isNew && <MessageRating />}{" "}
       </div>
     </div>
   );
 };
 
 export default MessageBubble;
-
 
 export const ThinkingBubble: FC = () => {
   const [msg, setMsg] = useState("...");
@@ -50,6 +49,7 @@ export const ThinkingBubble: FC = () => {
         content: msg,
       }}
       isNew
+      disableRating
     />
   );
 };
