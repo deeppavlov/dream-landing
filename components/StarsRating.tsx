@@ -14,18 +14,22 @@ const StarsRating: FC<{ rating: number; setRating: (r: number) => void }> = ({
   );
 
   return (
-    <div className={styles["stars"]}>
-      {Array(5)
-        .fill(0)
-        .map((_, idx) => (
-          <FontAwesomeIcon
-            key={idx}
-            icon={faStar}
-            size="2x"
-            style={color(idx)}
-            onClick={() => setRating(idx)}
-          />
-        ))}
+    <div className={styles["stars-cont"]}>
+      Rate your dialog
+      <div className={styles["stars"]}>
+        {Array(5)
+          .fill(0)
+          .map((_, idx) => (
+            <FontAwesomeIcon
+              key={idx}
+              icon={faStar}
+              size="2x"
+              style={color(idx)}
+              onClick={() => setRating(idx)}
+            />
+          ))}
+      </div>
+      or <a>leave feedback</a>
     </div>
   );
 };
