@@ -7,6 +7,8 @@ import styles from "./chat.module.css";
 import Sidebar from "../components/Sidebar";
 import MessageBubble, { ThinkingBubble } from "../components/MessageBubble";
 import StarsRating from "../components/StarsRating";
+import FeedbackPopup from "../components/FeedbackPopup";
+import DisclaimerPopup from "../components/DisclaimerPopup";
 
 const Chat: NextPage = () => {
   const {
@@ -41,8 +43,11 @@ const Chat: NextPage = () => {
   return (
     <div className={`page ${styles["chat-page"]}`}>
       <div className={styles["top-bar"]}>
-        <StarsRating rating={rating} setRating={setRating} />
+        <StarsRating rating={rating} setRating={setRating} showFeedbackLink />
       </div>
+
+      <FeedbackPopup rating={rating} setRating={setRating}/>
+      <DisclaimerPopup />
 
       <Sidebar onScreenshot={getChatPic} onReset={reset}></Sidebar>
 

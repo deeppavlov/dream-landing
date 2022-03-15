@@ -7,6 +7,9 @@
   background-color: #0069b3;
   display: flex;
   flex-direction: row-reverse;
+  text-align: right;
+  padding: 10px 20px;
+  color: white;
 }
 
 .content {
@@ -24,7 +27,6 @@
   left: 450px;
   right: 0;
 }
-
 
 @media screen and (max-width: 1000px) {
   .chat-cont {

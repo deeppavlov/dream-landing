@@ -1,9 +1,3 @@
-.stars-cont {
-  text-align: right;
-  padding: 10px 20px;
-  color: white;
-}
-
 .stars {
   font-size: 0.9em;
   margin: 5px 0;
@@ -11,4 +5,9 @@
 
 .stars > svg + svg {
   margin-left: 10px;
+}
+
+.stars-cont a {
+  text-decoration: underline;
+  cursor: pointer;
 }

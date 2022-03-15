@@ -10,7 +10,7 @@
   flex-direction: column;
   padding: 64px 30px 30px 30px;
   border-radius: 15px 15px 0 0;
-  transition: left linear .2s;
+  transition: left linear 0.2s;
 }
 
 .hamburger {
@@ -22,11 +22,16 @@
   font-size: 2.3em;
 }
 
-.menu-toggle {
+.back-arrow {
   display: none;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 2em;
+  color: #0069b4;
 }
 
-.fog {
+.overlay {
   display: none;
   position: absolute;
   top: 0;
@@ -35,15 +40,6 @@
   right: 0;
   background-color: rgba(0, 0, 0, 0.527);
   z-index: 1;
-}
-
-.back-arrow {
-  display: none;
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 2em;
-  color: #0069b4;
 }
 
 @media screen and (max-width: 1000px) {
@@ -64,15 +60,12 @@
     display: block;
   }
 
-  .menu-toggle:checked + .sidebar {
+  .sidebar-open {
     left: 0;
   }
 
-  .menu-toggle:checked + .sidebar .back-arrow {
-    display: block;
-  }
-
-  .menu-toggle:checked ~ .fog {
+  .sidebar-open .back-arrow,
+  .sidebar-open ~ .overlay {
     display: block;
   }
 }

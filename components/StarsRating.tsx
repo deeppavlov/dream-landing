@@ -3,15 +3,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 import styles from "./starsrating.module.css";
+import { usePopup } from "./Popup";
 
-const StarsRating: FC<{ rating: number; setRating: (r: number) => void }> = ({
+const StarsRating: FC<{ rating: number; setRating: (r: number) => void; showFeedbackLink?: boolean }> = ({
   rating,
   setRating,
+  showFeedbackLink = false
 }) => {
   const color = useCallback(
     (idx: number) => ({ color: idx <= rating ? "#ffd93a" : "gray" }),
     [rating]
   );
+  const { show } = usePopup();
 
   return (
     <div className={styles["stars-cont"]}>
@@ -25,11 +28,11 @@ const StarsRating: FC<{ rating: number; setRating: (r: number) => void }> = ({
               icon={faStar}
               size="2x"
               style={color(idx)}
-              onClick={() => console.log("Clicked", idx)}
+              onClick={() => setRating(idx)}
             />
           ))}
       </div>
-      or <a>leave feedback</a>
+      {showFeedbackLink && (<>or <a onClick={() => show("feedback")}>leave feedback</a></> )}
     </div>
   );
 };

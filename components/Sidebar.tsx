@@ -11,29 +11,30 @@ import { faTelegram } from "@fortawesome/free-brands-svg-icons";
 
 import styles from "./sidebar.module.css";
 import ActionBtn from "./ActionBtn";
+import { usePopup } from "./Popup";
 
 const Sidebar: FC<{
   onScreenshot?: () => void;
   onReset?: () => void;
   onDownload?: () => void;
 }> = ({ onScreenshot, onReset }) => {
+  const [isOpen, setOpen] = useState(false);
+  const { show } = usePopup();
+
   return (
     <>
-      <div className={styles["hamburger"]}>
-        <label htmlFor="menu-toggle">
-          <FontAwesomeIcon icon={faBars} />
-        </label>
+      <div className={styles["hamburger"]} onClick={() => setOpen(true)}>
+        <FontAwesomeIcon icon={faBars} onClick={() => setOpen(false)} />
       </div>
-      <input
-        type="checkbox"
-        id="menu-toggle"
-        className={styles["menu-toggle"]}
-      />
 
-      <div className={styles["sidebar"]}>
-        <label htmlFor="menu-toggle" className={styles["back-arrow"]}>
+      <div
+        className={`${styles["sidebar"]} ${
+          isOpen ? styles["sidebar-open"] : ""
+        }`}
+      >
+        <div className={styles["back-arrow"]}>
           <FontAwesomeIcon icon={faArrowLeft} />
-        </label>
+        </div>
 
         <div className={styles["avatar"]} />
         <div className={styles["scroll-cont"]}>
@@ -63,11 +64,15 @@ const Sidebar: FC<{
             </div>
           </div>
 
-          <a className={styles["disclaimer"]}>Disclaimer of responsibility</a>
+          <a
+            className={styles["disclaimer"]}
+            onClick={() => show("disclaimer")}
+          >
+            Disclaimer of responsibility
+          </a>
         </div>
+        <div className={styles["overlay"]} onClick={() => setOpen(false)} />
       </div>
-
-      <label htmlFor="menu-toggle" className={styles["fog"]} />
     </>
   );
 };
