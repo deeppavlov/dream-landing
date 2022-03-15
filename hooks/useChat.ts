@@ -1,10 +1,14 @@
 import { nanoid } from "nanoid";
 import { useState, useEffect, useRef, useCallback } from "react";
+import usePost from "./usePost";
+import useStored from "./useStored";
 
 export interface Message {
   sender: "bot" | "user";
   type: "text";
   content: string;
+  utteranceId?: string;
+  reaction?: number;
 }
 
 interface UseChatReturn {
@@ -12,6 +16,7 @@ interface UseChatReturn {
   reset: () => void;
   setRating: (rating: number) => void;
   rating: number;
+  setMsgReaction: (uttId: string, reaction: number) => void;
   messages: Message[];
   error: string | null;
   loading: boolean;
@@ -30,86 +35,33 @@ interface MsgResponse {
   active_skill: string;
 }
 
-const API_URL = "https://7019.lnsigo.mipt.ru/";
-
 const useChat = (): UseChatReturn => {
-  const [error, setError] = useState(null);
+  const { error, post } = usePost();
   const [loading, setLoading] = useState(false);
   const dialogIdRef = useRef<string | null>(null);
 
-  const [userId, setUserId] = useState(() => {
-    if (typeof window !== "undefined" && window.localStorage) {
-      const stored = localStorage.getItem("user_id");
-      if (stored) return stored;
-    }
-    return nanoid();
-  });
-  useEffect(() => {
-    if (userId && typeof window !== "undefined" && window.localStorage) {
-      localStorage.setItem("user_id", userId);
-    }
-  }, [userId]);
+  const [userId, setUserId] = useStored("user-id", nanoid);
 
-  const [messages, setMessages] = useState<Message[]>(() => {
-    if (typeof window !== "undefined" && window.localStorage) {
-      const stored = localStorage.getItem("messages");
-      if (stored) return JSON.parse(stored);
-    }
-    return [];
-  });
-  const addMsg = (msg: Message) => setMessages((msgs) => [...msgs, msg]);
-  useEffect(() => {
-    if (typeof window !== "undefined" && window.localStorage) {
-      const jsonMsgs = JSON.stringify(messages);
-      localStorage.setItem("messages", jsonMsgs);
-    }
-  }, [messages.length, messages]);
-
-  const [rating, _setRating] = useState<number>(() => {
-    if (typeof window !== "undefined" && window.localStorage) {
-      const stored = localStorage.getItem("dialog_rating");
-      if (stored) return parseInt(stored);
-    }
-    return -1;
-  });
-  useEffect(() => {
-    if (typeof window !== "undefined" && window.localStorage) {
-      localStorage.setItem("dialog_rating", `${rating}`);
-    }
-  }, [rating]);
+  const [rating, setStoredRating] = useStored<number>("dialog_rating", -1);
   const setRating = useCallback(
     (newRating: number) => {
       if (dialogIdRef.current && rating === -1) {
-        const body = {
+        post("rating/dialog", {
           user_id: userId,
           rating: newRating + 1, // It has to be 1-5
           dialog_id: dialogIdRef.current,
-        };
-        fetch(API_URL + "rating/dialog", {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(body),
         });
-
-        _setRating(newRating);
+        setStoredRating(newRating);
       }
     },
-    [rating, userId]
+    [rating, userId, setStoredRating, post]
   );
 
-  const reset = () => {
-    setUserId(nanoid());
-    setMessages([]);
-    _setRating(-1);
-    dialogIdRef.current = null;
-  };
+  const [messages, setMessages] = useStored<Message[]>("messages", []);
 
   const sendMsg = useCallback(
     (msgText: string) => {
-      if (error) setError(null);
+      const addMsg = (msg: Message) => setMessages((msgs) => [...msgs, msg]);
 
       addMsg({
         sender: "user",
@@ -118,42 +70,63 @@ const useChat = (): UseChatReturn => {
       });
       setLoading(true);
 
-      const body: MsgRequest = {
+      post("", {
         user_id: userId,
         payload: msgText,
-      };
-      fetch(API_URL, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
       })
-        .then((res) => res.json())
-        .then((res: MsgResponse) => {
+        .then((res?: MsgResponse) => {
+          if (!res) return
           dialogIdRef.current = res.dialog_id;
           addMsg({
             sender: "bot",
             type: "text",
             content: res.response,
+            utteranceId: res.utt_id,
           });
         })
-        .catch((err) => setError(err))
         .finally(() => setLoading(false));
     },
-    [userId, error]
+    [userId, setMessages, post]
   );
+
+  const setMsgReaction = useCallback(
+    (uttId: string, reaction: number) => {
+      if (reaction !== -1) {
+        post("rating/utterance", {
+          user_id: userId,
+          rating: reaction,
+          utt_id: uttId,
+        });
+      }
+      setMessages((msgs) => {
+        const idx = msgs.findIndex(({ utteranceId }) => utteranceId === uttId);
+        return [
+          ...msgs.slice(0, idx),
+          { ...msgs[idx], reaction },
+          ...msgs.slice(idx + 1),
+        ];
+      });
+    },
+    [userId, setMessages, post]
+  );
+
+  const reset = () => {
+    setUserId(nanoid());
+    setMessages([]);
+    setStoredRating(-1);
+    dialogIdRef.current = null;
+  };
 
   return {
     messages,
     sendMsg,
     setRating,
     rating,
+    setMsgReaction,
     error,
     loading,
     reset,
   };
 };
 
-export default useChat
+export default useChat;
