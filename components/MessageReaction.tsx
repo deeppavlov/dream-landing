@@ -3,15 +3,44 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 
 import styles from "./messagerating.module.css";
+import { Popup, usePopup } from "./Popup";
 
 const ratingEmojis = ["👍", "👎", "😍", "😄", "😲", "😡"];
 
+export const ReactionsPopup: FC<{
+  onReact: (uttId: string, reaction: number) => void;
+}> = ({ onReact }) => {
+  return (
+    <Popup id="reaction" small>
+      {({ data, hide }) => (
+        <div className={styles["popup-emoji-cont"]}>
+          {ratingEmojis.map((em, idx) => (
+            <div
+              onClick={() => (hide(), onReact(data as string, idx))}
+              key={idx}
+              className={styles["popup-emoji"]}
+            >
+              {em}
+            </div>
+          ))}
+        </div>
+      )}
+    </Popup>
+  );
+};
+
 const MessageReaction: FC<{
+  uttId: string;
   reaction?: number;
-  onReact?: (reaction: number) => void;
+  onReact?: (uttId: string, reaction: number) => void;
   readOnly?: boolean;
-}> = ({ reaction = -1, readOnly = true, onReact }) => {
+}> = ({ uttId, reaction = -1, readOnly = true, onReact }) => {
   const [isExpanded, setExpanded] = useState(false);
+  const { show } = usePopup();
+  const expand = () => {
+    if (window.innerWidth <= 500) show("reaction", uttId);
+    else setExpanded(true);
+  };
 
   return (
     <>
@@ -29,7 +58,7 @@ const MessageReaction: FC<{
             <div
               key={em}
               className={styles["rating-emoji"]}
-              onClick={() => onReact && onReact(idx)}
+              onClick={() => onReact && onReact(uttId, idx)}
             >
               {em}
             </div>
@@ -38,7 +67,7 @@ const MessageReaction: FC<{
             <FontAwesomeIcon
               className={styles["rating-expand"]}
               icon={faEllipsis}
-              onClick={() => setExpanded(true)}
+              onClick={expand}
             />
           )}
         </div>

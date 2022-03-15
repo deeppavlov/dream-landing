@@ -19,6 +19,17 @@
   padding: 50px;
 }
 
+@media screen and (max-width: 500px) {
+    .popup {
+        align-self: flex-end;
+        width: 100vw;
+    }
+
+    .popup-small {
+        height: 40vh;
+    }
+}
+
 .content {
     height: 100%;
     overflow-y: auto;

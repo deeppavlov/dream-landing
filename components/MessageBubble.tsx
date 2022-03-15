@@ -27,10 +27,9 @@ const MessageBubble: FC<{
         {msg.content}
         {msg.utteranceId && !disableRating && (
           <MessageReaction
+            uttId={msg.utteranceId}
             reaction={msg.reaction}
-            onReact={(reaction) =>
-              onReact && onReact(msg.utteranceId as string, reaction)
-            }
+            onReact={onReact}
             readOnly={!isNew}
           />
         )}

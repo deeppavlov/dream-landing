@@ -100,6 +100,7 @@ const useChat = (): UseChatReturn => {
       }
       setMessages((msgs) => {
         const idx = msgs.findIndex(({ utteranceId }) => utteranceId === uttId);
+        if (idx === -1) throw `"${uttId}" utterance id not found!`
         return [
           ...msgs.slice(0, idx),
           { ...msgs[idx], reaction },
