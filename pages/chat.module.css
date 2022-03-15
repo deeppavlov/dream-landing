@@ -26,6 +26,7 @@
   bottom: 0;
   left: 450px;
   right: 0;
+  max-width: 1200px;
 }
 
 @media screen and (max-width: 1000px) {
