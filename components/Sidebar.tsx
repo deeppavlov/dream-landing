@@ -32,7 +32,7 @@ const Sidebar: FC<{
           isOpen ? styles["sidebar-open"] : ""
         }`}
       >
-        <div className={styles["back-arrow"]}>
+        <div className={styles["back-arrow"]} onClick={() => setOpen(false)}>
           <FontAwesomeIcon icon={faArrowLeft} />
         </div>
 
