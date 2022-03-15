@@ -5,6 +5,7 @@ import {
   faDownload,
   faRefresh,
   faBars,
+  faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { faTelegram } from "@fortawesome/free-brands-svg-icons";
 
@@ -30,6 +31,10 @@ const Sidebar: FC<{
       />
 
       <div className={styles["sidebar"]}>
+        <label htmlFor="menu-toggle" className={styles["back-arrow"]}>
+          <FontAwesomeIcon icon={faArrowLeft} />
+        </label>
+
         <div className={styles["avatar"]} />
         <div className={styles["scroll-cont"]}>
           <div className={styles["title"]}>Dream Socialbot</div>
@@ -61,6 +66,8 @@ const Sidebar: FC<{
           <a className={styles["disclaimer"]}>Disclaimer of responsibility</a>
         </div>
       </div>
+
+      <label htmlFor="menu-toggle" className={styles["fog"]} />
     </>
   );
 };
