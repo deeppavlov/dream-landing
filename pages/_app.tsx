@@ -1,8 +1,13 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import "../styles/globals.css";
+import type { AppProps } from "next/app";
 
-function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+if (process.env.NODE_ENV === "development") {
+  const { worker } = require("../mocks/browser");
+  worker?.start && worker.start();
 }
 
-export default App
+function App({ Component, pageProps }: AppProps) {
+  return <Component {...pageProps} />;
+}
+
+export default App;
