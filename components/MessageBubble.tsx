@@ -2,13 +2,14 @@ import React, { FC, useEffect, useRef, useState } from "react";
 
 import styles from "./messagebubble.module.css";
 import { Message } from "../hooks/useChat";
-import MessageRating from "./MessageRating";
+import MessageReaction from "./MessageReaction";
 
 const MessageBubble: FC<{
   msg: Message;
   isNew: boolean;
-  disableRating?: boolean;
-}> = ({ msg, isNew, disableRating = false }) => {
+  onReact?: (uttId: string, reaction: number) => void;
+  disableReaction?: boolean;
+}> = ({ msg, isNew, onReact, disableReaction: disableRating = false }) => {
   const isRight = msg.sender === "user";
   const divRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -17,14 +18,22 @@ const MessageBubble: FC<{
     }
   }, [isNew]);
   return (
-    <div
-      ref={divRef}
-      className={
-        styles["bubble-wrap"] + ` ${isRight ? styles["bubble-wrap-right"] : ""}`
-      }
-    >
-      <div className={styles["bubble"]}>
-        {msg.content} {!disableRating && !isRight && isNew && <MessageRating />}{" "}
+    <div ref={divRef} className={styles["bubble-wrap"]}>
+      <div
+        className={
+          styles["bubble"] + ` ${isRight ? styles["bubble-right"] : ""}`
+        }
+      >
+        {msg.content}
+        {msg.utteranceId && !disableRating && (
+          <MessageReaction
+            reaction={msg.reaction}
+            onReact={(reaction) =>
+              onReact && onReact(msg.utteranceId as string, reaction)
+            }
+            readOnly={!isNew}
+          />
+        )}
       </div>
     </div>
   );
@@ -49,7 +58,7 @@ export const ThinkingBubble: FC = () => {
         content: msg,
       }}
       isNew
-      disableRating
+      disableReaction
     />
   );
 };

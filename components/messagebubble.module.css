@@ -1,12 +1,5 @@
 .bubble-wrap {
-  width: 100%;
   padding: 0.5em 10px;
-  display: flex;
-  flex-direction: row;
-}
-
-.bubble-wrap-right {
-  flex-direction: row-reverse;
 }
 
 .bubble {
@@ -15,13 +8,15 @@
   padding: 16px;
   border-radius: 4px;
   border-bottom-left-radius: 0;
-  background-color: #F2F2F2;
+  background-color: #f2f2f2;
+  word-break: break-all;
+  hyphens: auto;
 }
 
-.bubble-wrap-right .bubble {
+.bubble-right {
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 0;
   background-color: #0069b3;
   color: white;
+  margin-left: auto;
 }
-

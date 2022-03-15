@@ -25,7 +25,7 @@ const StarsRating: FC<{ rating: number; setRating: (r: number) => void }> = ({
               icon={faStar}
               size="2x"
               style={color(idx)}
-              onClick={() => setRating(idx)}
+              onClick={() => console.log("Clicked", idx)}
             />
           ))}
       </div>

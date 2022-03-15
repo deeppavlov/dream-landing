@@ -9,8 +9,16 @@ import MessageBubble, { ThinkingBubble } from "../components/MessageBubble";
 import StarsRating from "../components/StarsRating";
 
 const Chat: NextPage = () => {
-  const { messages, loading, error, sendMsg, reset, setRating, rating } =
-    useChat();
+  const {
+    messages,
+    loading,
+    error,
+    sendMsg,
+    reset,
+    setRating,
+    rating,
+    setMsgReaction,
+  } = useChat();
 
   const chatRef = useRef<HTMLDivElement>(null);
   const getChatPic = () => {
@@ -26,44 +34,47 @@ const Chat: NextPage = () => {
 
   const [msgDraft, setMsgDraft] = useState("");
   const onClickSend = useCallback(
-    () => msgDraft !== "" && (sendMsg(msgDraft), setMsgDraft("")),
-    [msgDraft, sendMsg]
+    () => !loading && msgDraft !== "" && (sendMsg(msgDraft), setMsgDraft("")),
+    [loading, msgDraft, sendMsg]
   );
 
   return (
     <div className={`page ${styles["chat-page"]}`}>
       <div className={styles["top-bar"]}>
-      <StarsRating rating={rating} setRating={setRating}/>  
+        <StarsRating rating={rating} setRating={setRating} />
       </div>
 
-      <Sidebar
-        onScreenshot={getChatPic}
-        onReset={reset}
-        setRating={setRating}
-        rating={rating}
-      ></Sidebar>
+      <Sidebar onScreenshot={getChatPic} onReset={reset}></Sidebar>
 
-      <div className={styles["chat-cont"]}>
-        {error && <div style={{ color: "red" }}>{error}</div>}
-        <div ref={chatRef} className={styles["messages-cont"]}>
-          {messages.map((msg, i) => (
-            <MessageBubble
-              key={i}
-              msg={msg}
-              isNew={i === messages.length - 1 && !loading}
+      <div className={styles["content"]}>
+        <div className={styles["chat-cont"]}>
+          {error && <div style={{ color: "red" }}>{error}</div>}
+          <div ref={chatRef} className={styles["messages-cont"]}>
+            {messages.map((msg, i) => (
+              <MessageBubble
+                key={i}
+                msg={msg}
+                isNew={i === messages.length - 1 && !loading}
+                onReact={setMsgReaction}
+              />
+            ))}
+            {loading && <ThinkingBubble />}
+          </div>
+          <div className={styles["input-cont"]}>
+            <input
+              type="text"
+              placeholder="Type your message here..."
+              value={msgDraft}
+              onInput={(ev) =>
+                setMsgDraft((ev.target as HTMLInputElement).value)
+              }
+              onKeyDown={(ev) => ev.key === "Enter" && onClickSend()}
+              disabled={!!error}
             />
-          ))}
-          {loading && <ThinkingBubble />}
-        </div>
-        <div className={styles["input-cont"]}>
-          <input
-            type="text"
-            placeholder="Type your message here..."
-            value={msgDraft}
-            onInput={(ev) => setMsgDraft((ev.target as HTMLInputElement).value)}
-            onKeyDown={(ev) => ev.key === "Enter" && onClickSend()}
-          />
-          <button onClick={onClickSend}>Send</button>
+            <button onClick={onClickSend} disabled={!!error}>
+              Send
+            </button>
+          </div>
         </div>
       </div>
     </div>
