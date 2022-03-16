@@ -22,11 +22,6 @@ interface UseChatReturn {
   loading: boolean;
 }
 
-interface MsgRequest {
-  user_id: string;
-  payload: string;
-}
-
 interface MsgResponse {
   dialog_id: string;
   utt_id: string;
@@ -75,7 +70,7 @@ const useChat = (): UseChatReturn => {
         payload: msgText,
       })
         .then((res?: MsgResponse) => {
-          if (!res) return
+          if (!res) return;
           dialogIdRef.current = res.dialog_id;
           addMsg({
             sender: "bot",
@@ -100,7 +95,7 @@ const useChat = (): UseChatReturn => {
       }
       setMessages((msgs) => {
         const idx = msgs.findIndex(({ utteranceId }) => utteranceId === uttId);
-        if (idx === -1) throw `"${uttId}" utterance id not found!`
+        if (idx === -1) throw `"${uttId}" utterance id not found!`;
         return [
           ...msgs.slice(0, idx),
           { ...msgs[idx], reaction },

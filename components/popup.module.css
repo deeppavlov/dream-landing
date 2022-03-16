@@ -20,19 +20,19 @@
 }
 
 @media screen and (max-width: 500px) {
-    .popup {
-        align-self: flex-end;
-        width: 100vw;
-    }
+  .popup {
+    align-self: flex-end;
+    width: 100vw;
+  }
 
-    .popup-small {
-        height: 40vh;
-    }
+  .popup-small {
+    height: 40vh;
+  }
 }
 
 .content {
-    height: 100%;
-    overflow-y: auto;
+  height: 100%;
+  overflow-y: auto;
 }
 
 .close-btn {
@@ -45,15 +45,15 @@
 }
 
 .popup button {
-    border: none;
-    background-color: #0069b4;
-    font-family: inherit;
-    color: white;
-    padding: 16px 18px;
-    border-radius: 4px;
-    cursor: pointer;
+  border: none;
+  background-color: #0069b4;
+  font-family: inherit;
+  color: white;
+  padding: 16px 18px;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .popup button:hover {
-    background-color: #03538d;
+  background-color: #03538d;
 }
