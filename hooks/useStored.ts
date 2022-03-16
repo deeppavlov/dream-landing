@@ -1,11 +1,27 @@
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import {
+  useState,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+  useCallback,
+} from "react";
+
+type Value = string | object | number;
+type DefaultValue<T extends Value, P extends Array<any> = []> =
+  | T
+  | ((...args: P) => T);
 
 const hasLocalStorage = () =>
   typeof window !== "undefined" && window.localStorage && true;
 
-const useStored = <T extends string | object | number>(
+const getVal = <T extends Value, P extends Array<any> = []>(
+  value: DefaultValue<T, P>,
+  ...args: P
+): T => (typeof value === "function" ? value(...args) : value);
+
+const useStored = <T extends Value>(
   id: string,
-  defaultValue: T | (() => T),
+  defaultValue: DefaultValue<T>,
   {
     serialize = JSON.stringify,
     deserialize = JSON.parse,
@@ -16,21 +32,31 @@ const useStored = <T extends string | object | number>(
     saveToApi?: (value: T) => void;
   } = {}
 ): [T, Dispatch<SetStateAction<T>>] => {
-  const [value, setValue] = useState<T>(() => {
-    if (hasLocalStorage()) {
-      const stored = localStorage.getItem(id);
-      if (stored) return deserialize(stored);
-    }
-    if (typeof defaultValue === "function") return defaultValue();
-    return defaultValue;
-  });
+  const [value, setStateValue] = useState<T>(() => getVal(defaultValue));
 
+  // To avoid hydration errors, we get the value from the store after an initial
+  // render.
   useEffect(() => {
     if (hasLocalStorage()) {
-      localStorage.setItem(id, serialize(value));
+      const stored = localStorage.getItem(id);
+      if (stored) setStateValue(deserialize(stored));
     }
-    if (saveToApi) saveToApi(value);
-  }, [id, value, serialize, saveToApi]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const setValue = useCallback(
+    (val: SetStateAction<T>) =>
+      setStateValue((prevValue) => {
+        const newValue = getVal(val, prevValue);
+        if (hasLocalStorage()) {
+          localStorage.setItem(id, serialize(newValue));
+        }
+        if (saveToApi) saveToApi(newValue);
+        return newValue;
+      }),
+    [id, serialize, saveToApi]
+  );
+
+  useEffect(() => {}, [id, value, serialize, saveToApi]);
 
   return [value, setValue];
 };
