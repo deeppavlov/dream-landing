@@ -5,15 +5,11 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import styles from "./starsrating.module.css";
 import { usePopup } from "./Popup";
 
-const StarsRating: FC<{ rating: number; setRating: (r: number) => void; showFeedbackLink?: boolean }> = ({
-  rating,
-  setRating,
-  showFeedbackLink = false
-}) => {
-  const color = useCallback(
-    (idx: number) => ({ color: idx <= rating ? "#ffd93a" : "gray" }),
-    [rating]
-  );
+const StarsRating: FC<{
+  rating: number;
+  setRating: (r: number) => void;
+  showFeedbackLink?: boolean;
+}> = ({ rating, setRating, showFeedbackLink = false }) => {
   const { show } = usePopup();
 
   return (
@@ -27,12 +23,16 @@ const StarsRating: FC<{ rating: number; setRating: (r: number) => void; showFeed
               key={idx}
               icon={faStar}
               size="2x"
-              style={color(idx)}
+              color={idx <= rating ? "#ffd93a" : "gray"}
               onClick={() => setRating(idx)}
             />
           ))}
       </div>
-      {showFeedbackLink && (<>or <a onClick={() => show("feedback")}>leave feedback</a></> )}
+      {showFeedbackLink && (
+        <>
+          or <a onClick={() => show("feedback")}>leave feedback</a>
+        </>
+      )}
     </div>
   );
 };
