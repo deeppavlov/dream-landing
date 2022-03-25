@@ -81,9 +81,9 @@
 .input-cont > button {
   align-self: flex-end;
   flex-grow: 0;
-  padding: 8px 16px;
+  padding: 6px 26px;
   height: calc(4em + 4px);
-  background-color: #828282;
+  background-color: #0069b3;
   color: white;
   margin-left: 10px;
   border-radius: 5px;
@@ -91,6 +91,10 @@
   box-shadow: none;
   font-family: inherit;
   text-transform: uppercase;
+}
+
+.input-cont > button:disabled {
+  background-color: #828282;
 }
 
 .input-cont > button:enabled:hover {

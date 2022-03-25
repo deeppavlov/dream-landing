@@ -88,7 +88,7 @@ const Chat: NextPage = () => {
           <div className={styles["sidebar-holder"]}>
             <Sidebar onScreenshot={getChatPic} onReset={reset}></Sidebar>
           </div>
-          
+
           <div className={styles["chat-cont"]}>
             {error && <div style={{ color: "red" }}>{error}</div>}
             <div ref={chatRef} className={styles["messages-cont"]}>
@@ -120,7 +120,12 @@ const Chat: NextPage = () => {
                 }
                 disabled={!!error}
               />
-              <button onClick={() => onClickSend()}>Send</button>
+              <button
+                onClick={() => onClickSend()}
+                disabled={msgDraft.replace(/\W/gi, "") === ""}
+              >
+                Send
+              </button>
             </div>
           </div>
         </div>
