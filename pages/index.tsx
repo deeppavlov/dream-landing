@@ -67,7 +67,7 @@ const Chat: NextPage = () => {
             setRating={setRating}
             animate={
               rating === -1 &&
-              messages.length % 5 === 0 &&
+              messages.length % 10 === 0 &&
               messages.length !== 0
             }
             canRate={!!dialogId}
