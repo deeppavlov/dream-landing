@@ -37,23 +37,22 @@ const DREAM_API_URL = "https://7019.lnsigo.mipt.ru/";
 const useChat = (): UseChatReturn => {
   const { error, post } = usePost(DREAM_API_URL);
   const [loading, setLoading] = useState(false);
-  const dialogIdRef = useRef<string | null>(null);
-
+  const [dialogId, setDialogId] = useStored<null | string>("dialog-id", null);
   const [userId, setUserId] = useStored("user-id", nanoid);
 
   const [rating, setStoredRating] = useStored<number>("dialog_rating", -1);
   const setRating = useCallback(
     (newRating: number) => {
-      if (dialogIdRef.current && rating === -1) {
+      if (dialogId && rating === -1) {
         post("rating/dialog", {
           user_id: userId,
           rating: newRating + 1, // It has to be 1-5
-          dialog_id: dialogIdRef.current,
+          dialog_id: dialogId,
         });
         setStoredRating(newRating);
       }
     },
-    [rating, userId, setStoredRating, post]
+    [dialogId, rating, post, userId, setStoredRating]
   );
 
   const [messages, setMessages] = useStored<Message[]>("messages", []);
@@ -75,7 +74,7 @@ const useChat = (): UseChatReturn => {
       })
         .then((res?: MsgResponse) => {
           if (!res) return;
-          dialogIdRef.current = res.dialog_id;
+          setDialogId(res.dialog_id);
           addMsg({
             sender: "bot",
             type: "text",
@@ -85,7 +84,7 @@ const useChat = (): UseChatReturn => {
         })
         .finally(() => setLoading(false));
     },
-    [userId, setMessages, post]
+    [post, userId, setMessages, setDialogId]
   );
 
   const setMsgReaction = useCallback(
@@ -114,7 +113,7 @@ const useChat = (): UseChatReturn => {
     setUserId(nanoid());
     setMessages([]);
     setStoredRating(-1);
-    dialogIdRef.current = null;
+    setDialogId(null);
   };
 
   return {
@@ -127,7 +126,7 @@ const useChat = (): UseChatReturn => {
     loading,
     reset,
     userId,
-    dialogId: dialogIdRef.current
+    dialogId,
   };
 };
 
