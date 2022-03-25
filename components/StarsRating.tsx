@@ -41,7 +41,7 @@ const StarsRating: FC<{
               key={idx}
               icon={faStar}
               size="2x"
-              color={idx <= rating ? "#ffd93a" : "gray"}
+              color={idx <= rating ? "#ffd93a" : "#4c96cb"}
               onClick={() => (canRate ? setRating(idx) : setShowTooltip(true))}
               className={animate ? stylesAnim["star-jump"] : ""}
               style={{
