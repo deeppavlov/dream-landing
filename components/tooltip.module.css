@@ -1,0 +1,56 @@
+@keyframes tooltipfade {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.tooltip {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.815);
+  color: black;
+  font-weight: bold;
+  padding: 5px 10px;
+  font-size: 13px;
+  border-radius: 4px;
+  animation: tooltipfade linear;
+  animation-duration: 0.2s;
+  animation-delay: 0.8s;
+}
+
+
+.arrow,
+.arrow::before {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: inherit;
+}
+
+.arrow {
+  visibility: hidden;
+}
+
+.arrow::before {
+  visibility: visible;
+  content: "";
+  transform: rotate(45deg);
+}
+
+.tooltip[data-popper-placement^='top'] > .arrow {
+  bottom: -4px;
+}
+
+.tooltip[data-popper-placement^='bottom'] > .arrow {
+  top: -4px;
+}
+
+.tooltip[data-popper-placement^='left'] > .arrow {
+  right: -4px;
+}
+
+.tooltip[data-popper-placement^='right'] > .arrow {
+  left: -4px;
+}
