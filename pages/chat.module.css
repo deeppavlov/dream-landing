@@ -60,7 +60,8 @@
   background-color: white;
 }
 
-.input-cont > input {
+.input-area {
+  resize: none;
   flex-grow: 1;
   padding: 16px;
   border-radius: 4px;
@@ -71,8 +72,10 @@
 
 /* Send button */
 .input-cont > button {
+  align-self: flex-end;
   flex-grow: 0;
-  padding: 8px 20px;
+  padding: 8px 16px;
+  height: calc(4em + 4px);
   background-color: #828282;
   color: white;
   margin-left: 10px;
