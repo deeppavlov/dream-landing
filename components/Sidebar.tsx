@@ -40,10 +40,12 @@ const Sidebar: FC<{
         <div className={styles["scroll-cont"]}>
           <div className={styles["title"]}>Dream Socialbot</div>
           <div className={styles["desc"]}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
+            Hi! Name&apos;s Dream, I&apos;m a socialbot born during the Alexa
+            Prize 3 & 4 competitions. I was built using the DeepPavlov Dream
+            platform, and you can discuss various societal topics with me. Let
+            my devs know how good I am by providing feedback, and share the best
+            dialogs with your friends! - feel free to use this text for the
+            description of the socialbot for the time being
           </div>
 
           <div className={styles["small-title"]}>Actions</div>
