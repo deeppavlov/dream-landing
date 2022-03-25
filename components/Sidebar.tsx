@@ -77,8 +77,8 @@ const Sidebar: FC<{
             Disclaimer of responsibility
           </a>
         </div>
-        <div className={styles["overlay"]} onClick={() => setOpen(false)} />
       </div>
+      <div className={styles["overlay"]} onClick={() => setOpen(false)} />
     </>
   );
 };
