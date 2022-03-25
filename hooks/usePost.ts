@@ -1,13 +1,11 @@
 import { useCallback, useState } from "react";
 
-const API_URL = "https://7019.lnsigo.mipt.ru/";
-
-const usePost = () => {
+const usePost = (apiUrl: string) => {
   const [error, setError] = useState<null | string>(null);
   const post = useCallback(
     (endpoint: string, body: object) => {
       if (error) setError(null);
-      return fetch(API_URL + endpoint, {
+      return fetch(apiUrl + endpoint, {
         method: "POST",
         headers: {
           Accept: "application/json",

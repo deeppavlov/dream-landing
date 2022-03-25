@@ -20,6 +20,8 @@ interface UseChatReturn {
   messages: Message[];
   error: string | null;
   loading: boolean;
+  userId: string;
+  dialogId: string | null;
 }
 
 interface MsgResponse {
@@ -30,8 +32,10 @@ interface MsgResponse {
   active_skill: string;
 }
 
+const DREAM_API_URL = "https://7019.lnsigo.mipt.ru/";
+
 const useChat = (): UseChatReturn => {
-  const { error, post } = usePost();
+  const { error, post } = usePost(DREAM_API_URL);
   const [loading, setLoading] = useState(false);
   const dialogIdRef = useRef<string | null>(null);
 
@@ -122,6 +126,8 @@ const useChat = (): UseChatReturn => {
     error,
     loading,
     reset,
+    userId,
+    dialogId: dialogIdRef.current
   };
 };
 

@@ -22,6 +22,8 @@ const Chat: NextPage = () => {
     reset,
     setRating,
     rating,
+    userId,
+    dialogId,
     setMsgReaction,
   } = useChat();
 
@@ -60,10 +62,24 @@ const Chat: NextPage = () => {
     <PopupProvider>
       <div className={`page ${styles["chat-page"]}`}>
         <div className={styles["top-bar"]}>
-          <StarsRating rating={rating} setRating={setRating} showFeedbackLink />
+          <StarsRating
+            rating={rating}
+            setRating={setRating}
+            animate={
+              rating === -1 &&
+              messages.length % 5 === 0 &&
+              messages.length !== 0
+            }
+            showFeedbackLink
+          />
         </div>
 
-        <FeedbackPopup rating={rating} setRating={setRating} />
+        <FeedbackPopup
+          userId={userId}
+          dialogId={dialogId}
+          rating={rating}
+          setRating={setRating}
+        />
         <DisclaimerPopup />
         <ReactionsPopup onReact={setMsgReaction} />
 
@@ -95,7 +111,9 @@ const Chat: NextPage = () => {
                   setMsgDraft((ev.target as HTMLTextAreaElement).value), true
                 )}
                 onKeyDown={(ev) =>
-                  ev.key === "Enter" && !ev.shiftKey && (onClickSend(), ev.preventDefault())
+                  ev.key === "Enter" &&
+                  !ev.shiftKey &&
+                  (onClickSend(), ev.preventDefault())
                 }
                 disabled={!!error}
               />
