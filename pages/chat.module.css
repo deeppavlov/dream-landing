@@ -43,6 +43,7 @@
 .messages-cont {
   width: 100%;
   height: 100%;
+  position: relative;
   flex-grow: 1;
   flex-shrink: 1;
   display: flex;
@@ -85,4 +86,14 @@
 .input-cont > button:enabled:hover {
   background-color: #4a85af;
   cursor: pointer;
+}
+
+.watermark {
+  opacity: .3;
+  position: sticky;
+  align-self: flex-end;
+  bottom: 0;
+  right: 0;
+  font-size: 2em;
+  color: black;
 }

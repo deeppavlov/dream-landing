@@ -27,7 +27,12 @@ const Chat: NextPage = () => {
   const chatRef = useRef<HTMLDivElement>(null);
   const getChatPic = () => {
     if (!chatRef.current) return;
-    html2canvas(chatRef.current).then((canvas) => {
+    const watermark = document.createElement("div");
+    watermark.innerHTML = "dream.deeppavlov.ai";
+    watermark.classList.add(styles["watermark"]);
+    html2canvas(chatRef.current, {
+      onclone: (_, el) => el.appendChild(watermark),
+    }).then((canvas) => {
       const imgDataUrl = canvas.toDataURL();
       const a = document.createElement("a");
       a.download = "canvas_image.png";
