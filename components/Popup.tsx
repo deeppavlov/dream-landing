@@ -62,7 +62,7 @@ export const Popup: FC<{
           className={`${styles["popup"]} ${
             transparent ? styles["popup-transparent"] : ""
           }`}
-          style={{ width }}
+          style={{ maxWidth: width }}
           onClick={(ev) => ev.stopPropagation()}
         >
           {showCross && (

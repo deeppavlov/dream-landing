@@ -23,6 +23,7 @@
   .popup {
     align-self: flex-end;
     width: 100vw;
+    padding: 15px;
   }
 
   .popup-transparent {
