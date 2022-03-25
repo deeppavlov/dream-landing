@@ -2,7 +2,7 @@
   width: 350px;
   max-width: 100vw;
   position: absolute;
-  top: -60px;
+  top: -5em;
   bottom: 0;
   left: 0;
   right: 0;
@@ -10,7 +10,7 @@
   background: white;
   display: flex;
   flex-direction: column;
-  padding: 64px 30px 10px 30px;
+  padding: 64px 30px 20px 30px;
   border-radius: 15px 15px 0 0;
   transition: left linear 0.2s;
 }
@@ -46,7 +46,6 @@
 
 @media screen and (max-height: 800px) {
   .sidebar {
-    top: -80px;
     padding: 44px 20px 10px 20px;
   }
 }
