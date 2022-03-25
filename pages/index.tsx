@@ -84,9 +84,11 @@ const Chat: NextPage = () => {
         <DisclaimerPopup />
         <ReactionsPopup onReact={setMsgReaction} />
 
-        <Sidebar onScreenshot={getChatPic} onReset={reset}></Sidebar>
-
         <div className={styles["content"]}>
+          <div className={styles["sidebar-holder"]}>
+            <Sidebar onScreenshot={getChatPic} onReset={reset}></Sidebar>
+          </div>
+          
           <div className={styles["chat-cont"]}>
             {error && <div style={{ color: "red" }}>{error}</div>}
             <div ref={chatRef} className={styles["messages-cont"]}>

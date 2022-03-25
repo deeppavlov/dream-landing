@@ -1,4 +1,5 @@
-import React, { FC, useCallback, useState } from "react";
+import React, { FC, useCallback, useEffect, useState } from "react";
+import ReactDom from "react-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCamera,
@@ -21,7 +22,15 @@ const Sidebar: FC<{
   const [isOpen, setOpen] = useState(false);
   const { show } = usePopup();
 
-  return (
+  const [renderFloating, setFloating] = useState(false);
+  useEffect(() => {
+    const measure = () => setFloating(window.innerWidth <= 1000);
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
+
+  const elem = (
     <>
       <div className={styles["hamburger"]} onClick={() => setOpen(true)}>
         <FontAwesomeIcon icon={faBars} onClick={() => setOpen(false)} />
@@ -83,6 +92,8 @@ const Sidebar: FC<{
       <div className={styles["overlay"]} onClick={() => setOpen(false)} />
     </>
   );
+
+  return renderFloating ? ReactDom.createPortal(elem, document.body) : elem;
 };
 
 export default Sidebar;
