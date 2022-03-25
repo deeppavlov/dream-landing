@@ -44,6 +44,13 @@
   z-index: 1;
 }
 
+@media screen and (max-height: 800px) {
+  .sidebar {
+    top: -80px;
+    padding: 44px 20px 10px 20px;
+  }
+}
+
 @media screen and (max-width: 1000px) {
   .sidebar {
     top: 0;
@@ -91,8 +98,8 @@
 
 .avatar {
   background: url("/logo.png");
-  width: 200px;
-  min-height: 200px;
+  width: 180px;
+  min-height: 180px;
   margin: 0 auto;
   background-size: contain;
   background-repeat: no-repeat;
