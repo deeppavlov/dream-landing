@@ -5,7 +5,7 @@ import {
   faDownload,
   faRefresh,
   faBars,
-  faArrowLeft,
+  faClose,
 } from "@fortawesome/free-solid-svg-icons";
 import { faTelegram } from "@fortawesome/free-brands-svg-icons";
 
@@ -33,7 +33,7 @@ const Sidebar: FC<{
         }`}
       >
         <div className={styles["back-arrow"]} onClick={() => setOpen(false)}>
-          <FontAwesomeIcon icon={faArrowLeft} />
+          <FontAwesomeIcon icon={faClose} />
         </div>
 
         <div className={styles["avatar"]} />
@@ -60,7 +60,13 @@ const Sidebar: FC<{
           <div className={styles["small-title"]}>Messengers</div>
           <div className={styles["messengers-cont"]}>
             <div className={styles["messenger-btn"]}>
-              <FontAwesomeIcon size="2x" icon={faTelegram} />
+              <a
+                href="https://t.me/dream_second_bot"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <FontAwesomeIcon size="2x" icon={faTelegram} />
+              </a>
             </div>
           </div>
 

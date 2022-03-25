@@ -25,8 +25,19 @@
     width: 100vw;
   }
 
-  .popup-small {
-    height: 40vh;
+  .popup-transparent {
+    height: 100vh;
+    align-self: center;
+    background: transparent;
+  }
+
+  .popup-transparent .content {
+    display: flex;
+  }
+
+  .popup-transparent .close-btn {
+    color: white;
+    font-size: 4em;
   }
 }
 

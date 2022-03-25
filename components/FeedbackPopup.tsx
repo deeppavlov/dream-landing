@@ -9,7 +9,7 @@ const FeedbackPopup: FC<Parameters<typeof StarsRating>[0]> = ({
   ...starProps
 }) => {
   return (
-    <Popup id="feedback">
+    <Popup id="feedback" width="30vw">
       <div className={styles["content"]}>
         <h1>How was your experience?</h1>
         <StarsRating {...starProps} showFeedbackLink={false} />

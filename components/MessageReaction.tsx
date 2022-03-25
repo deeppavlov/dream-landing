@@ -1,4 +1,4 @@
-import React, { useState, FC } from "react";
+import React, { useState, FC, useCallback, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 
@@ -11,7 +11,7 @@ export const ReactionsPopup: FC<{
   onReact: (uttId: string, reaction: number) => void;
 }> = ({ onReact }) => {
   return (
-    <Popup id="reaction" small>
+    <Popup id="reaction" transparent width="100vw">
       {({ data, hide }) => (
         <div className={styles["popup-emoji-cont"]}>
           {ratingEmojis.map((em, idx) => (
@@ -35,12 +35,21 @@ const MessageReaction: FC<{
   onReact?: (uttId: string, reaction: number) => void;
   readOnly?: boolean;
 }> = ({ uttId, reaction = -1, readOnly = true, onReact }) => {
-  const [isExpanded, setExpanded] = useState(false);
   const { show } = usePopup();
+
+  const [isExpanded, setExpanded] = useState(false);
   const expand = () => {
     if (window.innerWidth <= 500) show("reaction", uttId);
     else setExpanded(true);
   };
+
+  const [isCompact, setCompact] = useState(false);
+  useEffect(() => {
+    const handler = () => setCompact(window.innerWidth <= 500);
+    window.addEventListener("resize", handler);
+    handler();
+    return () => window.removeEventListener("resize", handler);
+  }, []);
 
   return (
     <>
@@ -54,15 +63,17 @@ const MessageReaction: FC<{
           className={styles["bubble-rating"]}
           onMouseLeave={() => setExpanded(false)}
         >
-          {ratingEmojis.slice(0, isExpanded ? undefined : 2).map((em, idx) => (
-            <div
-              key={em}
-              className={styles["rating-emoji"]}
-              onClick={() => onReact && onReact(uttId, idx)}
-            >
-              {em}
-            </div>
-          ))}
+          {ratingEmojis
+            .slice(0, isExpanded ? undefined : (isCompact ? 0 : 2))
+            .map((em, idx) => (
+              <div
+                key={em}
+                className={styles["rating-emoji"]}
+                onClick={() => onReact && onReact(uttId, idx)}
+              >
+                {em}
+              </div>
+            ))}
           {!isExpanded && (
             <FontAwesomeIcon
               className={styles["rating-expand"]}
