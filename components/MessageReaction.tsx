@@ -15,13 +15,18 @@ export const ReactionsPopup: FC<{
       {({ data, hide }) => (
         <div className={styles["popup-emoji-cont"]}>
           {ratingEmojis.map((em, idx) => (
-            <div
-              onClick={() => (hide(), onReact(data as string, idx))}
-              key={idx}
-              className={styles["popup-emoji"]}
-            >
-              {em}
-            </div>
+            <>
+              <div
+                onClick={() => (hide(), onReact(data as string, idx))}
+                key={idx}
+                className={styles["popup-emoji"]}
+              >
+                {em}
+              </div>
+              {idx === Math.floor(ratingEmojis.length / 2) - 1 && (
+                <div className={styles["break"]} />
+              )}
+            </>
           ))}
         </div>
       )}
@@ -64,15 +69,17 @@ const MessageReaction: FC<{
           onMouseLeave={() => setExpanded(false)}
         >
           {ratingEmojis
-            .slice(0, isExpanded ? undefined : (isCompact ? 0 : 2))
+            .slice(0, isExpanded ? undefined : isCompact ? 0 : 2)
             .map((em, idx) => (
-              <div
-                key={em}
-                className={styles["rating-emoji"]}
-                onClick={() => onReact && onReact(uttId, idx)}
-              >
-                {em}
-              </div>
+              <>
+                <div
+                  key={em}
+                  className={styles["rating-emoji"]}
+                  onClick={() => onReact && onReact(uttId, idx)}
+                >
+                  {em}
+                </div>
+              </>
             ))}
           {!isExpanded && (
             <FontAwesomeIcon
