@@ -3,6 +3,7 @@
   right: 15px;
   left: 15px;
   border-radius: 4px;
+  transition: bottom linear 0.3s;
 }
 
 .hover-big {
@@ -12,7 +13,8 @@
 }
 
 .hover-small {
-  top: 15px;
+  bottom: 100%;
+  transform: translateY(calc(100% + 15px));
   padding: 8px 16px;
   background-color: rgb(248, 226, 84);
 }
