@@ -47,13 +47,18 @@ const FeedbackPopup: FC<
   ]);
 
   return (
-    <Popup id="feedback" width="600px">
+    <Popup id="feedback" width="650px" height="550px">
       {submitted.has(dialogId as string) ? (
         "Thank you for your feedback"
       ) : (
         <div className={styles["content"]}>
           <h1>How was your experience?</h1>
-          <StarsRating {...starProps} showFeedbackLink={false} inactiveStarColor="gray"/>
+          <StarsRating
+            {...starProps}
+            showFeedbackLink={false}
+            inactiveStarColor="gray"
+            starsMargin="0.7em"
+          />
           <div className={styles["small-title"]}>Share your thoughts:</div>
           <textarea
             className={styles["feedback-box"]}

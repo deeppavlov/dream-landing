@@ -14,13 +14,15 @@ const StarsRating: FC<{
   canRate?: boolean;
   animate?: boolean;
   inactiveStarColor?: string;
+  starsMargin?: string;
 }> = ({
   rating,
   setRating,
   animate = false,
   canRate = true,
   showFeedbackLink = false,
-  inactiveStarColor = "#fbfbfb4f"
+  inactiveStarColor = "#fbfbfb4f",
+  starsMargin = "5px",
 }) => {
   const { setAnchor, ...tooltipProps } = useTooltip();
   const { show } = usePopup();
@@ -35,7 +37,11 @@ const StarsRating: FC<{
   return (
     <div className={styles["stars-cont"]}>
       Rate your dialog
-      <div ref={setAnchor} className={styles["stars"]}>
+      <div
+        ref={setAnchor}
+        className={styles["stars"]}
+        style={{ margin: `${starsMargin} 0` }}
+      >
         {Array(5)
           .fill(0)
           .map((_, idx) => (

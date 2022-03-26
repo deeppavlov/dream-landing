@@ -23,6 +23,7 @@ export const Popup: FC<{
   allowIgnore?: boolean;
   transparent?: boolean;
   width?: string;
+  height?: string;
   children:
     | ReactNode
     | undefined
@@ -33,6 +34,7 @@ export const Popup: FC<{
   allowIgnore = true,
   transparent = false,
   width,
+  height,
   children,
 }) => {
   const [open, setOpen] = useState(false);
@@ -62,7 +64,7 @@ export const Popup: FC<{
           className={`${styles["popup"]} ${
             transparent ? styles["popup-transparent"] : ""
           }`}
-          style={{ maxWidth: width }}
+          style={{ maxWidth: width, maxHeight: height }}
           onClick={(ev) => ev.stopPropagation()}
         >
           {showCross && (
