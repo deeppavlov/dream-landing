@@ -13,12 +13,14 @@ const StarsRating: FC<{
   showFeedbackLink?: boolean;
   canRate?: boolean;
   animate?: boolean;
+  inactiveStarColor?: string;
 }> = ({
   rating,
   setRating,
   animate = false,
   canRate = true,
   showFeedbackLink = false,
+  inactiveStarColor = "#fbfbfb4f"
 }) => {
   const { setAnchor, ...tooltipProps } = useTooltip();
   const { show } = usePopup();
@@ -41,7 +43,7 @@ const StarsRating: FC<{
               key={idx}
               icon={faStar}
               size="2x"
-              color={idx <= rating ? "#ffd93a" : "#4c96cb"}
+              color={idx <= rating ? "#ffd93a" : inactiveStarColor}
               onClick={() => (canRate ? setRating(idx) : setShowTooltip(true))}
               className={animate ? stylesAnim["star-jump"] : ""}
               style={{

@@ -53,7 +53,7 @@ const FeedbackPopup: FC<
       ) : (
         <div className={styles["content"]}>
           <h1>How was your experience?</h1>
-          <StarsRating {...starProps} showFeedbackLink={false} />
+          <StarsRating {...starProps} showFeedbackLink={false} inactiveStarColor="gray"/>
           <div className={styles["small-title"]}>Share your thoughts:</div>
           <textarea
             className={styles["feedback-box"]}
