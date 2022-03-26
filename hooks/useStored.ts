@@ -6,7 +6,7 @@ import {
   useCallback,
 } from "react";
 
-type Value = string | object | number | null;
+type Value = string | object | number | boolean | null;
 type DefaultValue<T extends Value, P extends Array<any> = []> =
   | T
   | ((...args: P) => T);

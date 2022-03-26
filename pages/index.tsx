@@ -12,6 +12,8 @@ import FeedbackPopup from "../components/FeedbackPopup";
 import DisclaimerPopup from "../components/DisclaimerPopup";
 import { PopupProvider } from "../components/Popup";
 import { ReactionsPopup } from "../components/MessageReaction";
+import DisclaimerHover from "../components/DisclaimerHover";
+import useStored from "../hooks/useStored";
 
 const Chat: NextPage = () => {
   const {
@@ -44,6 +46,11 @@ const Chat: NextPage = () => {
       a.click();
     });
   };
+
+  const [showBigDisclaimer, setBigDisclaimer] = useStored<boolean>(
+    "bigdisc",
+    true
+  );
 
   const [msgDraft, setMsgDraft] = useState("");
   const onClickSend = useCallback(
@@ -92,15 +99,22 @@ const Chat: NextPage = () => {
           <div className={styles["chat-cont"]}>
             {error && <div style={{ color: "red" }}>{error}</div>}
             <div ref={chatRef} className={styles["messages-cont"]}>
-              {messages.map((msg, i) => (
-                <MessageBubble
-                  key={i}
-                  msg={msg}
-                  isNew={i === messages.length - 1 && !loading}
-                  onReact={setMsgReaction}
-                />
-              ))}
-              {loading && <ThinkingBubble />}
+              <div className={styles["messages-scroll"]}>
+                {messages.map((msg, i) => (
+                  <MessageBubble
+                    key={i}
+                    msg={msg}
+                    isNew={i === messages.length - 1 && !loading}
+                    onReact={setMsgReaction}
+                  />
+                ))}
+                {loading && <ThinkingBubble />}
+              </div>
+
+              <DisclaimerHover
+                showBig={showBigDisclaimer}
+                onOk={() => setBigDisclaimer(false)}
+              />
             </div>
             <div className={styles["input-cont"]}>
               <TextareaAutosize
@@ -118,11 +132,13 @@ const Chat: NextPage = () => {
                   !ev.shiftKey &&
                   (onClickSend(), ev.preventDefault())
                 }
-                disabled={!!error}
+                disabled={!!error || showBigDisclaimer}
               />
               <button
                 onClick={() => onClickSend()}
-                disabled={msgDraft.replace(/\W/gi, "") === ""}
+                disabled={
+                  msgDraft.replace(/\W/gi, "") === "" || showBigDisclaimer
+                }
               >
                 Send
               </button>
