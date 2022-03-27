@@ -3,7 +3,9 @@ import { Popup, usePopup } from "./Popup";
 
 import styles from "./disclaimerpopup.module.css";
 
-const DisclaimerPopup: FC = () => {
+const DisclaimerPopup: FC<{ setDisagree: (val: boolean) => void }> = ({
+  setDisagree,
+}) => {
   const { hide } = usePopup();
   const [read, setRead] = useState(false);
 
@@ -11,6 +13,21 @@ const DisclaimerPopup: FC = () => {
     const el = ev.currentTarget;
     const bottomScroll = el.scrollHeight - el.clientHeight - 20;
     if (el.scrollTop >= bottomScroll) setRead(true);
+  };
+
+  const handleDisagree = () => {
+    const sure = window.confirm(
+      "You cannot use the bot unless you agree to the conditions. Are you sure?"
+    );
+    if (sure) {
+      setDisagree(true);
+      hide();
+    }
+  };
+
+  const handleAgree = () => {
+    setDisagree(false);
+    hide();
   };
 
   return (
@@ -121,10 +138,14 @@ const DisclaimerPopup: FC = () => {
       </div>
 
       <div className={styles["btn-cont"]}>
-        <button className={styles["red-btn"]} onClick={hide} disabled={!read}>
+        <button
+          className={styles["red-btn"]}
+          onClick={handleDisagree}
+          disabled={!read}
+        >
           Disagree
         </button>
-        <button onClick={hide} disabled={!read}>
+        <button onClick={handleAgree} disabled={!read}>
           Agree
         </button>
       </div>
