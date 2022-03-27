@@ -54,7 +54,7 @@ const Chat: NextPage = () => {
   const [disagreed, setDisagreed] = useStored<boolean>("disagreed", false);
   useEffect(() => {
     if (disagreed && messages.length > 0) reset();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [disagreed, messages.length]);
 
   const [msgDraft, setMsgDraft] = useState("");
@@ -109,8 +109,8 @@ const Chat: NextPage = () => {
               </div>
             )}
 
-            <div ref={chatRef} className={styles["messages-cont"]}>
-              <div className={styles["messages-scroll"]}>
+            <div className={styles["messages-cont"]}>
+              <div ref={chatRef} className={styles["messages-scroll"]}>
                 {messages.map((msg, i) => (
                   <MessageBubble
                     key={i}
