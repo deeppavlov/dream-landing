@@ -109,12 +109,12 @@ const useChat = (): UseChatReturn => {
     [userId, setMessages, post]
   );
 
-  const reset = () => {
+  const reset = useCallback(() => {
     setUserId(nanoid());
     setMessages([]);
     setStoredRating(-1);
     setDialogId(null);
-  };
+  }, [setDialogId, setMessages, setStoredRating, setUserId]);
 
   return {
     messages,
