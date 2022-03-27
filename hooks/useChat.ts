@@ -32,7 +32,7 @@ interface MsgResponse {
   active_skill: string;
 }
 
-const DREAM_API_URL = "https://7019.lnsigo.mipt.ru/";
+const DREAM_API_URL = "https://7019.deeppavlov.ai/";
 
 const useChat = (): UseChatReturn => {
   const { error, post } = usePost(DREAM_API_URL);
