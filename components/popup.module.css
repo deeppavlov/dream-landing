@@ -16,7 +16,7 @@
   height: 80vh;
   background-color: #fff;
   position: relative;
-  padding: 50px;
+  padding: 40px;
 }
 
 @media screen and (max-width: 500px) {
@@ -45,6 +45,7 @@
 .content {
   height: 100%;
   overflow-y: auto;
+  font-weight: 300;
 }
 
 .close-btn {
