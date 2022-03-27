@@ -22,6 +22,7 @@ export const Popup: FC<{
   showCross?: boolean;
   allowIgnore?: boolean;
   transparent?: boolean;
+  contentClass?: string;
   width?: string;
   height?: string;
   children:
@@ -33,6 +34,7 @@ export const Popup: FC<{
   showCross = true,
   allowIgnore = true,
   transparent = false,
+  contentClass = "",
   width,
   height,
   children,
@@ -73,7 +75,7 @@ export const Popup: FC<{
             </div>
           )}
 
-          <div className={styles["content"]}>
+          <div className={`${styles["content"]} ${contentClass}`}>
             {typeof children === "function"
               ? children({ data, hide: () => setOpen(false) })
               : children}

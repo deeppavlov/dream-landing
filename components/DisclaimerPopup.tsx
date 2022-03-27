@@ -1,62 +1,133 @@
-import React, { FC } from "react";
+import React, { FC, UIEventHandler, useState } from "react";
 import { Popup, usePopup } from "./Popup";
+
+import styles from "./disclaimerpopup.module.css";
 
 const DisclaimerPopup: FC = () => {
   const { hide } = usePopup();
+  const [read, setRead] = useState(false);
+
+  const handleScroll: UIEventHandler<HTMLDivElement> = (ev) => {
+    const el = ev.currentTarget;
+    const bottomScroll = el.scrollHeight - el.clientHeight - 20;
+    if (el.scrollTop >= bottomScroll) setRead(true);
+  };
+
   return (
-    <Popup id="disclaimer" showCross={false} allowIgnore={false}>
-      <h1>Before we start chatting...</h1>
-      <h2>Disclaimer of responsibility</h2>
+    <Popup
+      id="disclaimer"
+      showCross={false}
+      allowIgnore={false}
+      contentClass={styles["content"]}
+    >
+      <div className={styles["headline"]}>Before we start chatting...</div>
 
-      <p>
-        Bot responses are generated automatically. MIPT (TIN 5008006211) shall
-        bear no responsibility for accuracy, relevance, and correctness of the
-        information received by the User through the chat bot.
-      </p>
+      <div
+        className={styles["scroll"]}
+        onScroll={read ? undefined : handleScroll}
+      >
+        <h2>Disclaimer of responsibility</h2>
 
-      <p>
-        MIPT (TIN 5008006211) shall bear no responsibility for the information
-        received by the User through the chatbot, including if this information
-        hurts the user&apos;s feelings related to ethics and standards of
-        living. Information received by the User through the bot does not appeal
-        for any actions, including ethnic and religious hatred; does not promote
-        anything, including non-traditional sexual orientation, violence, drug
-        use, alcohol and smoking; it&apos;s not intended to offend anyone&apos;s
-        feelings on religious, gender, political or any other grounds, including
-        insulting government officials and state symbols of any country.
-      </p>
+        <p>
+          By using the bot, you explicitly give permission for your conversation
+          data to be released publicly in any sources and by any ways.
+        </p>
 
-      <p>
-        MIPT (TIN 5008006211) shall bear no responsibility for the information
-        received by the User through the bot, including, but not limited to, if
-        this information violates the rights of the third parties to
-        intellectual property and equivalent means of identification; the right
-        to information constituting a trade secret; the rights of minors;
-        contains negative and critical statements regarding religion, politics,
-        racial, ethnic, gender, personal qualities and abilities, sexual
-        orientation and appearance of the third parties; contains insults to
-        specific individuals or organizations; violates generally accepted moral
-        standards and ethical norms, promotes hatred and / or discrimination.
-      </p>
+        <p className={styles["red"]}>
+          MIPT (TIN 5008006211) has the right to store and publicly share your
+          conversation data without compliance to special requirements.
+        </p>
 
-      <p>
-        By using the bot, you explicitly give permission for your conversation
-        data to be released publicly in any sources and by any ways.
-      </p>
+        <div className={`${styles["small-title"]} ${styles["emoji-title"]}`}>
+          🙅 Do not mention
+        </div>
 
-      <p style={{ fontWeight: "bold" }}>
-        MIPT (TIN 5008006211) has the right to store and publicly share your
-        conversation data without compliance to special requirements.
-      </p>
+        <ul className={styles["list"]}>
+          <li>your address</li>
+          <li>phone number</li>
+          <li>family member&apos;s names</li>
+          <li>car information</li>
+          <li>passwords</li>
+          <li>driver license numbers</li>
+          <li>insurance policy numbers</li>
+          <li>loan numbers</li>
+          <li>credit/debit card numbers</li>
+          <li>PIN numbers</li>
+          <li>banking information</li>
+          <li>etc.</li>
+        </ul>
 
-      <p>
-        If you consider this unacceptable, we kindly ask you not to use the bot.
-        By using the chat bot, you explicitly give your permission to receive
-        any information; all claims and complaints on bot functioning shall not
-        be considered by MIPT (TIN 5008006211).
-      </p>
+        <div className={`${styles["small-title"]} ${styles["emoji-title"]}`}>
+          🔒 We won&apos;t publish
+        </div>
 
-      <button onClick={hide}>I Accept</button>
+        <ul className={styles["list"]}>
+          <li>your IP-address</li>
+          <li>information about devices</li>
+          <li>location</li>
+        </ul>
+
+        <div className={styles["small-title"]}>Full disclaimer</div>
+
+        <p>
+          Bot responses are generated automatically. MIPT (TIN 5008006211) shall
+          bear no responsibility for accuracy, relevance, and correctness of the
+          information received by the User through the chat bot.
+        </p>
+
+        <p>
+          MIPT (TIN 5008006211) shall bear no responsibility for the information
+          received by the User through the chatbot, including if this
+          information hurts the user&apos;s feelings related to ethics and
+          standards of living. Information received by the User through the bot
+          does not appeal for any actions, including ethnic and religious
+          hatred; does not promote anything, including non-traditional sexual
+          orientation, violence, drug use, alcohol and smoking; it&apos;s not
+          intended to offend anyone&apos;s feelings on religious, gender,
+          political or any other grounds, including insulting government
+          officials and state symbols of any country.
+        </p>
+
+        <p>
+          MIPT (TIN 5008006211) shall bear no responsibility for the information
+          received by the User through the bot, including, but not limited to,
+          if this information violates the rights of the third parties to
+          intellectual property and equivalent means of identification; the
+          right to information constituting a trade secret; the rights of
+          minors; contains negative and critical statements regarding religion,
+          politics, racial, ethnic, gender, personal qualities and abilities,
+          sexual orientation and appearance of the third parties; contains
+          insults to specific individuals or organizations; violates generally
+          accepted moral standards and ethical norms, promotes hatred and / or
+          discrimination.
+        </p>
+
+        <p>
+          By using the bot, you explicitly give permission for your conversation
+          data to be released publicly in any sources and by any ways.
+        </p>
+
+        <p style={{ fontWeight: "bold" }}>
+          MIPT (TIN 5008006211) has the right to store and publicly share your
+          conversation data without compliance to special requirements.
+        </p>
+
+        <p>
+          If you consider this unacceptable, we kindly ask you not to use the
+          bot. By using the chat bot, you explicitly give your permission to
+          receive any information; all claims and complaints on bot functioning
+          shall not be considered by MIPT (TIN 5008006211).
+        </p>
+      </div>
+
+      <div className={styles["btn-cont"]}>
+        <button className={styles["red-btn"]} onClick={hide} disabled={!read}>
+          Disagree
+        </button>
+        <button onClick={hide} disabled={!read}>
+          Agree
+        </button>
+      </div>
     </Popup>
   );
 };
