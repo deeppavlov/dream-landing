@@ -15,10 +15,9 @@ export const ReactionsPopup: FC<{
       {({ data, hide }) => (
         <div className={styles["popup-emoji-cont"]}>
           {ratingEmojis.map((em, idx) => (
-            <>
+            <React.Fragment key={em}>
               <div
                 onClick={() => (hide(), onReact(data as string, idx))}
-                key={idx}
                 className={styles["popup-emoji"]}
               >
                 {em}
@@ -26,7 +25,7 @@ export const ReactionsPopup: FC<{
               {idx === Math.floor(ratingEmojis.length / 2) - 1 && (
                 <div className={styles["break"]} />
               )}
-            </>
+            </React.Fragment>
           ))}
         </div>
       )}
@@ -71,15 +70,13 @@ const MessageReaction: FC<{
           {ratingEmojis
             .slice(0, isExpanded ? undefined : isCompact ? 0 : 2)
             .map((em, idx) => (
-              <>
-                <div
-                  key={em}
-                  className={styles["rating-emoji"]}
-                  onClick={() => onReact && onReact(uttId, idx)}
-                >
-                  {em}
-                </div>
-              </>
+              <div
+                key={em}
+                className={styles["rating-emoji"]}
+                onClick={() => onReact && onReact(uttId, idx)}
+              >
+                {em}
+              </div>
             ))}
           {!isExpanded && (
             <FontAwesomeIcon
