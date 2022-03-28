@@ -57,6 +57,8 @@ const Sidebar: FC<{
             description of the socialbot for the time being
           </div>
 
+          <hr />
+
           <div className={styles["small-title"]}>Actions</div>
           <div className={styles["actions-cont"]}>
             <ActionBtn icon={faCamera} onClick={onScreenshot}>
@@ -67,6 +69,8 @@ const Sidebar: FC<{
               Start a new dialog
             </ActionBtn>
           </div>
+
+          <hr />
 
           <div className={styles["small-title"]}>Messengers</div>
           <div className={styles["messengers-cont"]}>
