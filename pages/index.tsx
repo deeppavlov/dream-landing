@@ -62,7 +62,8 @@ const Chat: NextPage = () => {
   );
 
   useEffect(() => {
-    inputRef.current?.focus();
+    const handle = setTimeout(() => inputRef.current?.focus(), 10);
+    return () => clearTimeout(handle);
   }, []);
 
   return (
