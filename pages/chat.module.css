@@ -79,6 +79,7 @@
   border-radius: 4px;
   border: none;
   background-color: rgba(242, 242, 242, 0.7);
+  font-size: inherit;
   font-family: inherit;
 }
 
@@ -87,13 +88,14 @@
   align-self: flex-end;
   flex-grow: 0;
   padding: 6px 26px;
-  height: calc(4em + 4px);
   background-color: #0069b3;
   color: white;
   margin-left: 10px;
   border-radius: 5px;
   border: none;
   box-shadow: none;
+  height: 100%;
+  font-size: inherit;
   font-family: inherit;
   text-transform: uppercase;
 }

@@ -1,6 +1,14 @@
-import React, { useState, useCallback, useRef, useEffect } from "react";
+import React, {
+  useState,
+  useCallback,
+  useRef,
+  useEffect,
+  useLayoutEffect,
+} from "react";
 import type { NextPage } from "next";
-import TextareaAutosize from "react-textarea-autosize";
+import ReactTextareaAutosize, {
+  TextareaAutosizeProps,
+} from "react-textarea-autosize";
 import html2canvas from "html2canvas";
 
 import useChat from "../hooks/useChat";
@@ -14,6 +22,24 @@ import { PopupProvider } from "../components/Popup";
 import { ReactionsPopup } from "../components/MessageReaction";
 import DisclaimerHover from "../components/DisclaimerHover";
 import useStored from "../hooks/useStored";
+
+export const TextareaAutosize = React.forwardRef<
+  HTMLTextAreaElement,
+  TextareaAutosizeProps & { onRerenderProperly?: () => void }
+>(function TexareaAutosize({ onRerenderProperly, ...props }, ref) {
+  const [isRerendered, setIsRerendered] = useState(false);
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setIsRerendered(true);
+    }, 50);
+    return () => clearTimeout(handler);
+  }, []);
+
+  useLayoutEffect(() => {
+    if (isRerendered && onRerenderProperly) onRerenderProperly();
+  }, [isRerendered, onRerenderProperly]);
+  return <ReactTextareaAutosize {...props} ref={ref} />;
+});
 
 const Chat: NextPage = () => {
   const {
@@ -61,9 +87,12 @@ const Chat: NextPage = () => {
     [loading, msgDraft, sendMsg]
   );
 
-  useEffect(() => {
-    const handle = setTimeout(() => inputRef.current?.focus(), 10);
-    return () => clearTimeout(handle);
+  // Fix the send button's height to the input's first value
+  const [btnHeight, setBtnHeight] = useState<undefined | number>();
+  const onInputRenderedProperly = useCallback(() => {
+    if (!inputRef.current) return;
+    setBtnHeight(inputRef.current.offsetHeight);
+    inputRef.current?.focus();
   }, []);
 
   return (
@@ -120,8 +149,9 @@ const Chat: NextPage = () => {
             </div>
             <div className={styles["input-cont"]}>
               <TextareaAutosize
-                autoFocus
+                onRerenderProperly={onInputRenderedProperly}
                 ref={inputRef}
+                minRows={1}
                 maxRows={5}
                 className={styles["input-area"]}
                 placeholder="Type your message here..."
@@ -138,6 +168,7 @@ const Chat: NextPage = () => {
               />
               <button
                 onClick={() => onClickSend()}
+                style={btnHeight ? { height: `${btnHeight}px` } : undefined}
                 disabled={
                   msgDraft.replace(/\W/gi, "") === "" || showBigDisclaimer
                 }
