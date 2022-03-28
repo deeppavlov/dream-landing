@@ -88,15 +88,21 @@ export const Popup: FC<{
 
 export const usePopup = () => {
   const popups = useContext(popupsContext);
-  const hide = () =>
-    popups && Object.values(popups).forEach((show) => show(false));
-  return {
-    hide,
-    show(id: string, data: any = null) {
+  const hide = useCallback(
+    () => popups && Object.values(popups).forEach((show) => show(false)),
+    [popups]
+  );
+  const show = useCallback(
+    (id: string, data: any = null) => {
       if (!popups) return;
       hide();
       popups[id](true, data);
     },
+    [hide, popups]
+  );
+  return {
+    hide,
+    show,
   };
 };
 
