@@ -1,13 +1,19 @@
-import React, { FC, UIEventHandler, useState } from "react";
+import React, { FC, UIEventHandler, useEffect, useState } from "react";
 import { Popup, usePopup } from "./Popup";
 
 import styles from "./disclaimerpopup.module.css";
+import useStored from "../hooks/useStored";
 
-const DisclaimerPopup: FC<{ setDisagree: (val: boolean) => void }> = ({
-  setDisagree,
-}) => {
-  const { hide } = usePopup();
+const DisclaimerPopup: FC = () => {
+  const { hide, show } = usePopup();
   const [read, setRead] = useState(false);
+
+  const [agreed, setAgree] = useStored<boolean | null>("agreed", false, {
+    initialRender: null,
+  });
+  useEffect(() => {
+    if (agreed === false) show("disclaimer");
+  }, [agreed, setAgree, show]);
 
   const handleScroll: UIEventHandler<HTMLDivElement> = (ev) => {
     const el = ev.currentTarget;
@@ -19,14 +25,11 @@ const DisclaimerPopup: FC<{ setDisagree: (val: boolean) => void }> = ({
     const sure = window.confirm(
       "You cannot use the bot unless you agree to the conditions. Are you sure?"
     );
-    if (sure) {
-      setDisagree(true);
-      hide();
-    }
+    if (sure) window.location.href = "https://deeppavlov.ai/dream";
   };
 
   const handleAgree = () => {
-    setDisagree(false);
+    setAgree(true);
     hide();
   };
 

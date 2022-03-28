@@ -51,11 +51,6 @@ const Chat: NextPage = () => {
     "bigdisc",
     true
   );
-  const [disagreed, setDisagreed] = useStored<boolean>("disagreed", false);
-  useEffect(() => {
-    if (disagreed && messages.length > 0) reset();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [disagreed, messages.length]);
 
   const [msgDraft, setMsgDraft] = useState("");
   const onClickSend = useCallback(
@@ -93,7 +88,7 @@ const Chat: NextPage = () => {
           rating={rating}
           setRating={setRating}
         />
-        <DisclaimerPopup setDisagree={setDisagreed} />
+        <DisclaimerPopup />
         <ReactionsPopup onReact={setMsgReaction} />
 
         <div className={styles["content"]}>
@@ -103,11 +98,6 @@ const Chat: NextPage = () => {
 
           <div className={styles["chat-cont"]}>
             {error && <div style={{ color: "red" }}>{error}</div>}
-            {disagreed && (
-              <div style={{ color: "red" }}>
-                You cannot use the bot unless you agree to the conditions!
-              </div>
-            )}
 
             <div className={styles["messages-cont"]}>
               <div ref={chatRef} className={styles["messages-scroll"]}>
@@ -143,14 +133,12 @@ const Chat: NextPage = () => {
                   !ev.shiftKey &&
                   (onClickSend(), ev.preventDefault())
                 }
-                disabled={!!error || showBigDisclaimer || disagreed}
+                disabled={!!error || showBigDisclaimer}
               />
               <button
                 onClick={() => onClickSend()}
                 disabled={
-                  msgDraft.replace(/\W/gi, "") === "" ||
-                  showBigDisclaimer ||
-                  disagreed
+                  msgDraft.replace(/\W/gi, "") === "" || showBigDisclaimer
                 }
               >
                 Send
