@@ -23,16 +23,22 @@ const useStored = <T extends Value>(
   id: string,
   defaultValue: DefaultValue<T>,
   {
+    initialRender,
     serialize = JSON.stringify,
     deserialize = JSON.parse,
     saveToApi,
   }: {
+    initialRender?: DefaultValue<T>;
     serialize?: (value: T) => string;
     deserialize?: (stored: string) => T;
     saveToApi?: (value: T) => void;
   } = {}
 ): [T, Dispatch<SetStateAction<T>>] => {
-  const [value, setStateValue] = useState<T>(() => getVal(defaultValue));
+  const [value, setStateValue] = useState<T>(() =>
+    typeof initialRender === "undefined"
+      ? getVal(defaultValue)
+      : getVal(initialRender)
+  );
 
   // To avoid hydration errors, we get the value from the store after an initial
   // render.
@@ -40,6 +46,8 @@ const useStored = <T extends Value>(
     if (hasLocalStorage()) {
       const stored = localStorage.getItem(id);
       if (stored) setStateValue(deserialize(stored));
+      else if (typeof initialRender !== "undefined")
+        setStateValue(defaultValue);
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -55,8 +63,6 @@ const useStored = <T extends Value>(
       }),
     [id, serialize, saveToApi]
   );
-
-  useEffect(() => {}, [id, value, serialize, saveToApi]);
 
   return [value, setValue];
 };
