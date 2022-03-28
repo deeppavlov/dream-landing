@@ -41,6 +41,7 @@
   padding-left: 1em;
   list-style-type: "- ";
   max-height: 9em;
+  max-width: 32em;
 }
 
 @media screen and (max-width: 800px) {
