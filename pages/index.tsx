@@ -14,13 +14,16 @@ import html2canvas from "html2canvas";
 import useChat from "../hooks/useChat";
 import styles from "./chat.module.css";
 import Sidebar from "../components/Sidebar";
-import MessageBubble, { ThinkingBubble } from "../components/MessageBubble";
+import MessageBubble, {
+  DisclaimerBubble,
+  ThinkingBubble,
+} from "../components/MessageBubble";
 import StarsRating from "../components/StarsRating";
 import FeedbackPopup from "../components/FeedbackPopup";
 import DisclaimerPopup from "../components/DisclaimerPopup";
 import { PopupProvider } from "../components/Popup";
 import { ReactionsPopup } from "../components/MessageReaction";
-import DisclaimerHover from "../components/DisclaimerHover";
+// import DisclaimerHover from "../components/DisclaimerHover";
 import useStored from "../hooks/useStored";
 
 export const TextareaAutosize = React.forwardRef<
@@ -131,6 +134,7 @@ const Chat: NextPage = () => {
 
             <div className={styles["messages-cont"]}>
               <div ref={chatRef} className={styles["messages-scroll"]}>
+                <DisclaimerBubble />
                 {messages.map((msg, i) => (
                   <MessageBubble
                     key={i}
@@ -142,10 +146,10 @@ const Chat: NextPage = () => {
                 {loading && <ThinkingBubble />}
               </div>
 
-              <DisclaimerHover
+              {/* <DisclaimerHover
                 showBig={showBigDisclaimer}
                 onOk={() => setBigDisclaimer(false)}
-              />
+              /> */}
             </div>
             <div className={styles["input-cont"]}>
               <TextareaAutosize

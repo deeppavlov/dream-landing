@@ -27,3 +27,13 @@
   color: white;
   margin-left: auto;
 }
+
+.disclaimer {
+  background-color: rgb(248, 226, 84);
+  color: black;
+}
+
+.disclaimer a {
+  color: #0069b3;
+  text-decoration: underline;
+}
