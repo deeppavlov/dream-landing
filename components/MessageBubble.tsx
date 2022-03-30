@@ -2,7 +2,7 @@ import React, { FC, useEffect, useRef, useState } from "react";
 
 import styles from "./messagebubble.module.css";
 import { Message } from "../hooks/useChat";
-import MessageReaction from "./MessageReaction";
+// import MessageReaction from "./MessageReaction";
 import { usePopup } from "./Popup";
 
 const MessageBubble: FC<{
@@ -36,14 +36,14 @@ const MessageBubble: FC<{
         }
       >
         {children || msg.content}
-        {msg.utteranceId && !disableRating && (
+        {/* {msg.utteranceId && !disableRating && (
           <MessageReaction
             uttId={msg.utteranceId}
             reaction={msg.reaction}
             onReact={onReact}
             readOnly={!isNew}
           />
-        )}
+        )} */}
       </div>
     </div>
   );
@@ -75,7 +75,7 @@ export const ThinkingBubble: FC = () => {
 
 export const DisclaimerBubble: FC = () => {
   const { show } = usePopup();
-  
+
   return (
     <MessageBubble
       msg={{
