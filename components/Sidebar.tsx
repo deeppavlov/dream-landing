@@ -15,11 +15,12 @@ import ActionBtn from "./ActionBtn";
 import { usePopup } from "./Popup";
 
 const Sidebar: FC<{
+  open: boolean;
+  onClose: () => void;
   onScreenshot?: () => void;
   onReset?: () => void;
   onDownload?: () => void;
-}> = ({ onScreenshot, onReset }) => {
-  const [isOpen, setOpen] = useState(false);
+}> = ({ open, onClose, onScreenshot, onReset }) => {
   const { show } = usePopup();
 
   const [renderFloating, setFloating] = useState(false);
@@ -32,16 +33,12 @@ const Sidebar: FC<{
 
   const elem = (
     <>
-      <div className={styles["hamburger"]} onClick={() => setOpen(true)}>
-        <FontAwesomeIcon icon={faBars} onClick={() => setOpen(false)} />
-      </div>
-
       <div
         className={`${styles["sidebar"]} ${
-          isOpen ? styles["sidebar-open"] : ""
+          open ? styles["sidebar-open"] : ""
         }`}
       >
-        <div className={styles["back-arrow"]} onClick={() => setOpen(false)}>
+        <div className={styles["back-arrow"]} onClick={() => onClose()}>
           <FontAwesomeIcon icon={faClose} />
         </div>
 
@@ -93,7 +90,7 @@ const Sidebar: FC<{
           </a>
         </div>
       </div>
-      <div className={styles["overlay"]} onClick={() => setOpen(false)} />
+      <div className={styles["overlay"]} onClick={() => onClose()} />
     </>
   );
 

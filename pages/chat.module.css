@@ -6,10 +6,27 @@
 .top-bar {
   background-color: #0069b3;
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
+  align-items: center;
   text-align: right;
   padding: 10px 20px;
   color: white;
+}
+
+.top-bar > *:last-child {
+  margin-left: auto;
+}
+
+.hamburger {
+  display: none;
+  color: white;
+  font-size: 2.3em;
+}
+
+@media screen and (max-width: 800px) {
+  .hamburger {
+    display: block;
+  }
 }
 
 .content {

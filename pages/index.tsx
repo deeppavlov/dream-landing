@@ -25,6 +25,8 @@ import { PopupProvider } from "../components/Popup";
 import { ReactionsPopup } from "../components/MessageReaction";
 // import DisclaimerHover from "../components/DisclaimerHover";
 import useStored from "../hooks/useStored";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 export const TextareaAutosize = React.forwardRef<
   HTMLTextAreaElement,
@@ -98,10 +100,19 @@ const Chat: NextPage = () => {
     inputRef.current?.focus();
   }, []);
 
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
     <PopupProvider>
       <div className={`page ${styles["chat-page"]}`}>
         <div className={styles["top-bar"]}>
+          <div
+            className={styles["hamburger"]}
+            onClick={() => setSidebarOpen((open) => !open)}
+          >
+            <FontAwesomeIcon icon={faBars} />
+          </div>
+
           <StarsRating
             rating={rating}
             setRating={setRating}
@@ -112,6 +123,7 @@ const Chat: NextPage = () => {
             }
             canRate={!!dialogId}
             showFeedbackLink
+            compactOnMobile
           />
         </div>
 
@@ -126,7 +138,12 @@ const Chat: NextPage = () => {
 
         <div className={styles["content"]}>
           <div className={styles["sidebar-holder"]}>
-            <Sidebar onScreenshot={getChatPic} onReset={reset}></Sidebar>
+            <Sidebar
+              open={sidebarOpen}
+              onClose={() => setSidebarOpen(false)}
+              onScreenshot={getChatPic}
+              onReset={reset}
+            ></Sidebar>
           </div>
 
           <div className={styles["chat-cont"]}>

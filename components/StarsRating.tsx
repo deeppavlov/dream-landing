@@ -15,6 +15,7 @@ const StarsRating: FC<{
   animate?: boolean;
   inactiveStarColor?: string;
   starsMargin?: string;
+  compactOnMobile?: boolean;
 }> = ({
   rating,
   setRating,
@@ -23,6 +24,7 @@ const StarsRating: FC<{
   showFeedbackLink = false,
   inactiveStarColor = "#fbfbfb4f",
   starsMargin = "5px",
+  compactOnMobile = false,
 }) => {
   const { setAnchor, ...tooltipProps } = useTooltip();
   const { show } = usePopup();
@@ -36,7 +38,9 @@ const StarsRating: FC<{
 
   return (
     <div className={styles["stars-cont"]}>
-      Rate your dialog
+      <span className={compactOnMobile ? styles["only-desktop"] : ""}>
+        Rate your dialog
+      </span>
       <div
         ref={setAnchor}
         className={styles["stars"]}
@@ -58,11 +62,13 @@ const StarsRating: FC<{
             />
           ))}
       </div>
-      {showFeedbackLink && (
-        <span style={{ visibility: canRate ? "visible" : "hidden" }}>
-          or <a onClick={() => show("feedback")}>leave feedback</a>
-        </span>
-      )}
+      <span className={compactOnMobile ? styles["only-desktop"] : ""}>
+        {showFeedbackLink && (
+          <span style={{ visibility: canRate ? "visible" : "hidden" }}>
+            or <a onClick={() => show("feedback")}>leave feedback</a>
+          </span>
+        )}
+      </span>
       {showTooltip && (
         <Tooltip {...tooltipProps}>Start a dialog before rating</Tooltip>
       )}

@@ -15,15 +15,6 @@
   transition: left linear 0.2s;
 }
 
-.hamburger {
-  display: none;
-  color: white;
-  position: absolute;
-  top: 25px;
-  left: 20px;
-  font-size: 2.3em;
-}
-
 .back-arrow {
   display: none;
   position: absolute;
@@ -64,10 +55,6 @@
     left: -100%;
   }
 
-  .hamburger {
-    display: block;
-  }
-
   .sidebar-open {
     left: 0;
   }
@@ -97,7 +84,7 @@
 
 .sidebar hr {
   width: 100%;
-  border-top: 1px solid #F2F2F2;
+  border-top: 1px solid #f2f2f2;
   border-bottom: none;
 }
 
