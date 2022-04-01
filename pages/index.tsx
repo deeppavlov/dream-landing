@@ -23,8 +23,6 @@ import FeedbackPopup from "../components/FeedbackPopup";
 import DisclaimerPopup from "../components/DisclaimerPopup";
 import { PopupProvider } from "../components/Popup";
 import { ReactionsPopup } from "../components/MessageReaction";
-// import DisclaimerHover from "../components/DisclaimerHover";
-import useStored from "../hooks/useStored";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 
@@ -77,11 +75,6 @@ const Chat: NextPage = () => {
       a.click();
     });
   };
-
-  const [showBigDisclaimer, setBigDisclaimer] = useStored<boolean>(
-    "bigdisc",
-    true
-  );
 
   const [msgDraft, setMsgDraft] = useState("");
   const onClickSend = useCallback(
@@ -185,14 +178,12 @@ const Chat: NextPage = () => {
                   !ev.shiftKey &&
                   (onClickSend(), ev.preventDefault())
                 }
-                disabled={!!error || showBigDisclaimer}
+                disabled={!!error}
               />
               <button
                 onClick={() => onClickSend()}
                 style={btnHeight ? { height: `${btnHeight}px` } : undefined}
-                disabled={
-                  msgDraft.replace(/\W/gi, "") === "" || showBigDisclaimer
-                }
+                disabled={msgDraft.replace(/\W/gi, "") === ""}
               >
                 Send
               </button>
