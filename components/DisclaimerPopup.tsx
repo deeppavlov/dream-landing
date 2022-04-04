@@ -65,7 +65,7 @@ const DisclaimerPopup: FC = () => {
         <ul className={styles["list"]}>
           <li>your address</li>
           <li>phone number</li>
-          <li>family member&apos;s names</li>
+          <li>full names</li>
           <li>car information</li>
           <li>passwords</li>
           <li>driver license numbers</li>
