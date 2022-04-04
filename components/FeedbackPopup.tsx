@@ -48,9 +48,7 @@ const FeedbackPopup: FC<
 
   return (
     <Popup id="feedback" width="650px" height="550px">
-      {submitted.has(dialogId as string) ? (
-        "Thank you for your feedback"
-      ) : (
+      {
         <div className={styles["content"]}>
           <h1>How was your experience?</h1>
           <StarsRating
@@ -70,7 +68,7 @@ const FeedbackPopup: FC<
           />
           <button onClick={submit}>Submit Feedback</button>
         </div>
-      )}
+      }
     </Popup>
   );
 };
