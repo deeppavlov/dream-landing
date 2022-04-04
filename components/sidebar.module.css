@@ -7,7 +7,7 @@
   left: 0;
   right: 0;
   z-index: 2;
-  background: white;
+  background: #fcfcfc;
   display: flex;
   flex-direction: column;
   padding: 64px 20px 20px 20px;
@@ -22,6 +22,21 @@
   right: 20px;
   font-size: 2em;
   color: #0069b4;
+}
+
+.back {
+  color: #0069b4;
+  font-size: 1.4em;
+  position: relative;
+  top: -30px;
+  left: 20px;
+  border: 1px solid #0069b4;
+  width: 1.3em;
+  /* height: 1em; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
 }
 
 .overlay {
@@ -72,11 +87,6 @@
   overflow-y: auto;
 }
 
-.sidebar > * + *,
-.scroll-cont > * + * {
-  margin-top: 25px;
-}
-
 .title + *,
 .small-title + * {
   margin-top: 0.8em;
@@ -86,6 +96,7 @@
   width: 100%;
   border-top: 1px solid #f2f2f2;
   border-bottom: none;
+  margin: 25px 0;
 }
 
 .avatar {

@@ -7,6 +7,7 @@ import {
   faRefresh,
   faBars,
   faClose,
+  faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { faTelegram } from "@fortawesome/free-brands-svg-icons";
 
@@ -40,6 +41,10 @@ const Sidebar: FC<{
       >
         <div className={styles["back-arrow"]} onClick={() => onClose()}>
           <FontAwesomeIcon icon={faClose} />
+        </div>
+
+        <div className={styles["back"]} onClick={() => onClose()}>
+          <a href="https://deeppavlov.ai/dream"><FontAwesomeIcon icon={faArrowLeft} /></a>
         </div>
 
         <div className={styles["avatar"]} />

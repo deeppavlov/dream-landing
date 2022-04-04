@@ -78,7 +78,7 @@ const DisclaimerPopup: FC = () => {
         </ul>
 
         <div className={`${styles["small-title"]} ${styles["emoji-title"]}`}>
-          🔒 We won&apos;t publish
+          🔒 We would not publish
         </div>
 
         <ul className={styles["list"]}>
