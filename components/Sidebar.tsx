@@ -35,16 +35,16 @@ const Sidebar: FC<{
   const elem = (
     <>
       <div
-        className={`${styles["sidebar"]} ${
-          open ? styles["sidebar-open"] : ""
-        }`}
+        className={`${styles["sidebar"]} ${open ? styles["sidebar-open"] : ""}`}
       >
         <div className={styles["back-arrow"]} onClick={() => onClose()}>
           <FontAwesomeIcon icon={faClose} />
         </div>
 
         <div className={styles["back"]} onClick={() => onClose()}>
-          <a href="https://deeppavlov.ai/dream"><FontAwesomeIcon icon={faArrowLeft} /></a>
+          <a href="https://deeppavlov.ai/dream">
+            <FontAwesomeIcon icon={faArrowLeft} />
+          </a>
         </div>
 
         <div className={styles["avatar"]} />
@@ -55,8 +55,7 @@ const Sidebar: FC<{
             Prize 3 & 4 competitions. I was built using the DeepPavlov Dream
             platform, and you can discuss various societal topics with me. Let
             my devs know how good I am by providing feedback, and share the best
-            dialogs with your friends! - feel free to use this text for the
-            description of the socialbot for the time being
+            dialogs with your friends!{" "}
           </div>
 
           <hr />
