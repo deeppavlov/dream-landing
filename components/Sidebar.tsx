@@ -43,12 +43,12 @@ const Sidebar: FC<{
 
         <a className={styles["back"]} href="https://deeppavlov.ai/dream">
           <div className={styles["back-icon-cont"]}>
-            <FontAwesomeIcon  icon={faArrowLeft} />
+            <FontAwesomeIcon icon={faArrowLeft} />
           </div>{" "}
           Back
         </a>
 
-        <div className={styles["avatar"]} id="avatar"/>
+        <div className={styles["avatar"]} id="avatar" />
         <div className={styles["scroll-cont"]}>
           <div className={styles["title"]}>Dream Socialbot</div>
           <div className={styles["desc"]}>
@@ -66,7 +66,14 @@ const Sidebar: FC<{
             <ActionBtn icon={faCamera} onClick={onScreenshot}>
               Take screenshot
             </ActionBtn>
-            <ActionBtn icon={faDownload}>Download other dialogs</ActionBtn>
+            <ActionBtn
+              icon={faDownload}
+              onClick={() =>
+                (document.location.href = "http://deeppavlov.ai/dream/datasets")
+              }
+            >
+              Download other dialogs
+            </ActionBtn>
             <ActionBtn icon={faRefresh} onClick={onReset}>
               Start a new dialog
             </ActionBtn>

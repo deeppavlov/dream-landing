@@ -35,7 +35,7 @@ const MessageBubble: FC<{
           ` ${className}`
         }
       >
-        {children || msg.content}
+        {children || msg.content.replace(/ #\+#.*/, "")}
         {/* {msg.utteranceId && !disableRating && (
           <MessageReaction
             uttId={msg.utteranceId}
