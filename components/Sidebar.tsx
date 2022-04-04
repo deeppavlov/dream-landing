@@ -48,7 +48,7 @@ const Sidebar: FC<{
           Back
         </a>
 
-        <div className={styles["avatar"]} />
+        <div className={styles["avatar"]} id="avatar"/>
         <div className={styles["scroll-cont"]}>
           <div className={styles["title"]}>Dream Socialbot</div>
           <div className={styles["desc"]}>
