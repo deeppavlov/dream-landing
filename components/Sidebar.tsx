@@ -5,13 +5,14 @@ import {
   faCamera,
   faDownload,
   faRefresh,
-  faBars,
   faClose,
   faArrowLeft,
+  faStar,
 } from "@fortawesome/free-solid-svg-icons";
 import { faTelegram } from "@fortawesome/free-brands-svg-icons";
 
 import styles from "./sidebar.module.css";
+import useOnSmallerScreen from "../hooks/useOnSmallerScreen";
 import ActionBtn from "./ActionBtn";
 import { usePopup } from "./Popup";
 
@@ -24,13 +25,8 @@ const Sidebar: FC<{
 }> = ({ open, onClose, onScreenshot, onReset }) => {
   const { show } = usePopup();
 
-  const [renderFloating, setFloating] = useState(false);
-  useEffect(() => {
-    const measure = () => setFloating(window.innerWidth <= 1000);
-    measure();
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
-  }, []);
+  const renderFloating = useOnSmallerScreen({ width: 1000 });
+  const isMobile = useOnSmallerScreen({ width: 800 });
 
   const elem = (
     <>
@@ -77,6 +73,11 @@ const Sidebar: FC<{
             <ActionBtn icon={faRefresh} onClick={onReset}>
               Start a new dialog
             </ActionBtn>
+            {isMobile && (
+              <ActionBtn icon={faStar} onClick={() => show("feedback")}>
+                Give feedback
+              </ActionBtn>
+            )}
           </div>
 
           <hr />
