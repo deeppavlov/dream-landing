@@ -10,12 +10,12 @@
   background: #fcfcfc;
   display: flex;
   flex-direction: column;
-  padding: 64px 20px 20px 20px;
+  padding: 28px 20px 20px 20px;
   border-radius: 15px 15px 0 0;
   transition: left linear 0.2s;
 }
 
-.back-arrow {
+.close-btn {
   display: none;
   position: absolute;
   top: 20px;
@@ -25,18 +25,24 @@
 }
 
 .back {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   color: #0069b4;
-  font-size: 1.4em;
-  position: relative;
-  top: -30px;
-  left: 20px;
-  border: 1px solid #0069b4;
-  width: 1.3em;
-  /* height: 1em; */
+  margin-bottom: 21px;
+  border-radius: 4px;
+}
+
+.back-icon-cont {
+  height: 20px;
+  width: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 4px;
+  margin-right: 5px;
+  font-size: 14px;
+  border: 1px solid #0069b4;
+  border-radius: 2px;
 }
 
 .overlay {
@@ -88,7 +94,8 @@
 }
 
 .title + *,
-.small-title + * {
+.small-title + *,
+.avatar + * {
   margin-top: 0.8em;
 }
 

@@ -37,15 +37,16 @@ const Sidebar: FC<{
       <div
         className={`${styles["sidebar"]} ${open ? styles["sidebar-open"] : ""}`}
       >
-        <div className={styles["back-arrow"]} onClick={() => onClose()}>
+        <div className={styles["close-btn"]} onClick={() => onClose()}>
           <FontAwesomeIcon icon={faClose} />
         </div>
 
-        <div className={styles["back"]} onClick={() => onClose()}>
-          <a href="https://deeppavlov.ai/dream">
-            <FontAwesomeIcon icon={faArrowLeft} />
-          </a>
-        </div>
+        <a className={styles["back"]} href="https://deeppavlov.ai/dream">
+          <div className={styles["back-icon-cont"]}>
+            <FontAwesomeIcon  icon={faArrowLeft} />
+          </div>{" "}
+          Back
+        </a>
 
         <div className={styles["avatar"]} />
         <div className={styles["scroll-cont"]}>
