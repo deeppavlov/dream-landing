@@ -11,11 +11,11 @@
 }
 
 .content > * + * {
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 .content > h1 + * {
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 .small-title + * {
