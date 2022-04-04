@@ -43,7 +43,7 @@ const useChat = (): UseChatReturn => {
   const [rating, setStoredRating] = useStored<number>("dialog_rating", -1);
   const setRating = useCallback(
     (newRating: number) => {
-      if (dialogId && rating === -1) {
+      if (dialogId) {
         post("rating/dialog", {
           user_id: userId,
           rating: newRating + 1, // It has to be 1-5
@@ -52,7 +52,7 @@ const useChat = (): UseChatReturn => {
         setStoredRating(newRating);
       }
     },
-    [dialogId, rating, post, userId, setStoredRating]
+    [dialogId, post, userId, setStoredRating]
   );
 
   const [messages, setMessages] = useStored<Message[]>("messages", []);
