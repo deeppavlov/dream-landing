@@ -1,4 +1,5 @@
 import "../styles/globals.css";
+import "react-custom-scroll/dist/customScroll.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 
