@@ -74,11 +74,11 @@ const Chat: NextPage = () => {
       a.href = imgDataUrl;
       a.click();
       // Hack
-      const avatar = document.getElementById("avatar")
-      if (!avatar) return
-      avatar.style.background = "url(/logo.png)"
-      avatar.style.backgroundSize = "contain"
-      avatar.style.backgroundRepeat = "no-repeat"
+      const avatar = document.getElementById("avatar");
+      if (!avatar) return;
+      avatar.style.background = "url(/logo.png)";
+      avatar.style.backgroundSize = "contain";
+      avatar.style.backgroundRepeat = "no-repeat";
     });
   };
 
