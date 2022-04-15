@@ -12,4 +12,12 @@ npm run dev
 
 then open [http://localhost:3000](http://localhost:3000).
 
+You can use the command
+
+```bash
+npm run dev:msw
+```
+
+to mock dream endpoints in development. You can edit the mock handlers in `mocks/browser.ts`
+
 This project uses [Next.JS](https://nextjs.org/docs).
