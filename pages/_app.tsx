@@ -3,7 +3,7 @@ import "react-custom-scroll/dist/customScroll.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 
-if (process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV === "development" && process.env.MSW) {
   const { worker } = require("../mocks/browser");
   worker?.start && worker.start();
 }

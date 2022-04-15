@@ -10,6 +10,7 @@ specifiers:
   '@types/react': 17.0.39
   '@types/react-custom-scroll': ^4.3.2
   '@types/react-dom': ^17.0.13
+  cross-env: ^7.0.3
   eslint: 8.9.0
   eslint-config-next: 12.0.10
   html2canvas: ^1.4.1
@@ -46,6 +47,7 @@ devDependencies:
   '@types/node': 17.0.18
   '@types/react': 17.0.39
   '@types/react-custom-scroll': 4.3.2
+  cross-env: 7.0.3
   eslint: 8.9.0
   eslint-config-next: 12.0.10_35a155a0419191e24fe9142c38074933
   msw: 0.39.1
@@ -678,6 +680,14 @@ packages:
   /core-js-pure/3.21.0:
     resolution: {integrity: sha512-VaJUunCZLnxuDbo1rNOzwbet9E1K9joiXS5+DQMPtgxd24wfsZbJZMMfQLGYMlCUvSxLfsRUUhoOR2x28mFfeg==}
     requiresBuild: true
+    dev: true
+
+  /cross-env/7.0.3:
+    resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
+    engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
+    hasBin: true
+    dependencies:
+      cross-spawn: 7.0.3
     dev: true
 
   /cross-spawn/7.0.3:
