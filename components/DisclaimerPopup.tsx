@@ -3,6 +3,7 @@ import { Popup, usePopup } from "./Popup";
 
 import styles from "./disclaimerpopup.module.css";
 import useStored from "../hooks/useStored";
+import Tooltip, { useTooltip } from "./Tooltip";
 
 const DisclaimerPopup: FC = () => {
   const { hide, show } = usePopup();
@@ -32,6 +33,14 @@ const DisclaimerPopup: FC = () => {
     setAgree(true);
     hide();
   };
+
+  const { setAnchor, ...tooltipProps } = useTooltip();
+  const [showTooltip, setShowTooltip] = useState(false);
+  // useEffect(() => {
+  //   if (!showTooltip) return;
+  //   const handle = setTimeout(() => setShowTooltip(false), 1000);
+  //   return () => clearTimeout(handle);
+  // }, [showTooltip]);
 
   return (
     <Popup
@@ -148,17 +157,29 @@ const DisclaimerPopup: FC = () => {
       </div>
 
       <div className={styles["btn-cont"]}>
-        <button
-          className={styles["red-btn"]}
-          onClick={handleDisagree}
-          disabled={!read}
+        <div
+          ref={setAnchor}
+          onMouseEnter={() => !read && setShowTooltip(true)}
+          onMouseLeave={() => showTooltip && setShowTooltip(false)}
         >
-          Disagree
-        </button>
-        <button onClick={handleAgree} disabled={!read}>
-          Agree
-        </button>
+          <button
+            className={styles["red-btn"]}
+            onClick={handleDisagree}
+            disabled={!read}
+          >
+            Disagree
+          </button>
+          <button onClick={handleAgree} disabled={!read}>
+            Agree
+          </button>
+        </div>
       </div>
+
+      {!read && showTooltip && (
+        <Tooltip {...tooltipProps}>
+          Scroll down and read the disclaimer first!
+        </Tooltip>
+      )}
     </Popup>
   );
 };

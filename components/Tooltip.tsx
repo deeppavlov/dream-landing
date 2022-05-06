@@ -9,7 +9,7 @@ export const useTooltip = () => {
   const [arrowElement, setArrowElement] = useState<HTMLElement | null>(null);
   const { styles, attributes } = usePopper(anchor, popperElement, {
     modifiers: [
-      { name: "arrow", options: { element: arrowElement } },
+      // { name: "arrow", options: { element: arrowElement } },
       { name: "offset", options: { offset: [0, 5] } },
     ],
   });
@@ -23,26 +23,29 @@ export const useTooltip = () => {
   };
 };
 
-const Tooltip: FC<Omit<ReturnType<typeof useTooltip>, "setAnchor">> = ({
+const Tooltip: FC<
+  Omit<ReturnType<typeof useTooltip>, "setAnchor"> & { fade?: boolean }
+> = ({
   attributes,
   setArrowElement,
   setPopperElement,
   styles: popperStyles,
+  fade = false,
   children,
 }) => {
   return (
     <div
       ref={setPopperElement}
-      className={styles["tooltip"]}
+      className={`${styles["tooltip"]} ${fade ? styles["tooltip-fade"] : ""}`}
       style={popperStyles.popper}
       {...attributes.popper}
     >
       {children}
-      <div
+      {/* <div
         ref={setArrowElement}
         className={styles["arrow"]}
         style={popperStyles.arrow}
-      />
+      /> */}
     </div>
   );
 };

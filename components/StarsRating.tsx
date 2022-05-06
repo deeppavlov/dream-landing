@@ -70,7 +70,9 @@ const StarsRating: FC<{
         )}
       </span>
       {showTooltip && (
-        <Tooltip {...tooltipProps}>Start a dialog before rating</Tooltip>
+        <Tooltip fade {...tooltipProps}>
+          Start a dialog before rating
+        </Tooltip>
       )}
     </div>
   );

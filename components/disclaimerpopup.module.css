@@ -63,8 +63,12 @@
   text-transform: uppercase;
 }
 
+.btn-cont .red-btn:hover {
+  background-color: #cc4a4a;
+}
+
 .btn-cont button:disabled {
-  background-color: #828282;
+  background-color: #828282 !important;
   cursor: default;
 }
 
@@ -72,10 +76,6 @@
   background-color: #eb5757;
 }
 
-.btn-cont .red-btn:hover {
-  background-color: #cc4a4a;
-}
-
-.btn-cont > button + button {
+.btn-cont > div > button + button {
   margin-left: 30px;
 }
