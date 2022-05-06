@@ -1,4 +1,4 @@
-import React, { FC, UIEventHandler, useEffect, useState } from "react";
+import { FC, UIEventHandler, useEffect, useRef, useState } from "react";
 import { Popup, usePopup } from "./Popup";
 
 import styles from "./disclaimerpopup.module.css";
@@ -43,6 +43,13 @@ const DisclaimerPopup: FC = () => {
       <div className={styles["headline"]}>Before we start chatting...</div>
 
       <div
+        ref={(scrollRef) => {
+          if (scrollRef) {
+            const bottomScroll =
+              scrollRef.scrollHeight - scrollRef.clientHeight - 20;
+            if (scrollRef.scrollTop >= bottomScroll) setRead(true);
+          }
+        }}
         className={styles["scroll"]}
         onScroll={read ? undefined : handleScroll}
       >
