@@ -73,11 +73,12 @@
 }
 
 .messages-scroll {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  flex: 1;
+  flex-basis: 0;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 }
 
 /* Message input */

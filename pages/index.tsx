@@ -9,7 +9,6 @@ import type { NextPage } from "next";
 import ReactTextareaAutosize, {
   TextareaAutosizeProps,
 } from "react-textarea-autosize";
-import CustomScroll from "react-custom-scroll";
 import html2canvas from "html2canvas";
 
 import useChat from "../hooks/useChat";
@@ -151,18 +150,16 @@ const Chat: NextPage = () => {
 
             <div className={styles["messages-cont"]}>
               <div ref={chatRef} className={styles["messages-scroll"]}>
-                <CustomScroll heightRelativeToParent="100%" keepAtBottom>
-                  <DisclaimerBubble />
-                  {messages.map((msg, i) => (
-                    <MessageBubble
-                      key={i}
-                      msg={msg}
-                      isNew={i === messages.length - 1 && !loading}
-                      onReact={setMsgReaction}
-                    />
-                  ))}
-                  {loading && <ThinkingBubble />}
-                </CustomScroll>
+                <DisclaimerBubble />
+                {messages.map((msg, i) => (
+                  <MessageBubble
+                    key={i}
+                    msg={msg}
+                    isNew={i === messages.length - 1 && !loading}
+                    onReact={setMsgReaction}
+                  />
+                ))}
+                {loading && <ThinkingBubble />}
               </div>
 
               {/* <DisclaimerHover
