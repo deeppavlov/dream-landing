@@ -179,7 +179,7 @@ const Chat: NextPage = () => {
                 minRows={1}
                 maxRows={5}
                 className={styles["input-area"]}
-                // placeholder="Type your message here..."
+                placeholder="Type your message here..."
                 value={msgDraft}
                 onInput={(ev) => (
                   setMsgDraft((ev.target as HTMLTextAreaElement).value), true
