@@ -25,6 +25,7 @@ export const Popup: FC<{
   contentClass?: string;
   width?: string;
   height?: string;
+  onClose?: () => void;
   children:
     | ReactNode
     | undefined
@@ -35,6 +36,7 @@ export const Popup: FC<{
   allowIgnore = true,
   transparent = false,
   contentClass = "",
+  onClose = () => {},
   width,
   height,
   children,
@@ -70,7 +72,10 @@ export const Popup: FC<{
           onClick={(ev) => ev.stopPropagation()}
         >
           {showCross && (
-            <div className={styles["close-btn"]} onClick={() => setOpen(false)}>
+            <div
+              className={styles["close-btn"]}
+              onClick={() => (setOpen(false), onClose())}
+            >
               <FontAwesomeIcon icon={faClose} />
             </div>
           )}

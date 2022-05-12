@@ -4,6 +4,7 @@ import { Popup, usePopup } from "./Popup";
 import styles from "./feedbackpopup.module.css";
 import StarsRating from "./StarsRating";
 import usePost from "../hooks/usePost";
+import { withGa } from "../utils/analytics";
 
 const SPREADSHEET_API_URL =
   "https://sheet.best/api/sheets/6f128cc2-4aca-45f2-b1ac-da77a6540949";
@@ -27,6 +28,8 @@ const FeedbackPopup: FC<
       feedbackDraft.replace(/\W/gi, "") === ""
     )
       return;
+
+    ga("send", "event", "Feedback", "wrote and sent comments");
     post("", {
       user_id: userId,
       dialog_id: dialogId,
@@ -47,12 +50,18 @@ const FeedbackPopup: FC<
   ]);
 
   return (
-    <Popup id="feedback" width="650px" height="550px">
+    <Popup
+      id="feedback"
+      width="650px"
+      height="550px"
+      onClose={() => ga("send", "event", "Feedback", "closed without submit")}
+    >
       {
         <div className={styles["content"]}>
           <h1>How was your experience?</h1>
           <StarsRating
             {...starProps}
+            setRating={withGa("Feedback", "pressed star", starProps.setRating)}
             showFeedbackLink={false}
             inactiveStarColor="gray"
             starsMargin="0.7em"

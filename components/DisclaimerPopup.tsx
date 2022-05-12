@@ -4,6 +4,7 @@ import { Popup, usePopup } from "./Popup";
 import styles from "./disclaimerpopup.module.css";
 import useStored from "../hooks/useStored";
 import Tooltip, { useTooltip } from "./Tooltip";
+import { gaSync, withGa, withGaThenNavigate } from "../utils/analytics";
 
 const DisclaimerPopup: FC = () => {
   const { hide, show } = usePopup();
@@ -13,20 +14,29 @@ const DisclaimerPopup: FC = () => {
     initialRender: null,
   });
   useEffect(() => {
-    if (agreed === false) show("disclaimer");
+    if (agreed === false) {
+      ga("send", "event", "Disclaimer", "first open");
+      show("disclaimer");
+    }
   }, [agreed, setAgree, show]);
 
   const handleScroll: UIEventHandler<HTMLDivElement> = (ev) => {
     const el = ev.currentTarget;
     const bottomScroll = el.scrollHeight - el.clientHeight - 20;
-    if (el.scrollTop >= bottomScroll) setRead(true);
+    if (el.scrollTop >= bottomScroll) {
+      ga("send", "event", "Disclaimer", "read");
+      setRead(true);
+    }
   };
 
-  const handleDisagree = () => {
+  const handleDisagree = async () => {
     const sure = window.confirm(
       "You cannot use the bot unless you agree to the conditions. Are you sure?"
     );
-    if (sure) window.location.href = "https://deeppavlov.ai/dream";
+    if (sure) {
+      await gaSync("Disclaimer", "confirmed disagree");
+      window.location.href = "https://deeppavlov.ai/dream";
+    }
   };
 
   const handleAgree = () => {
@@ -164,12 +174,15 @@ const DisclaimerPopup: FC = () => {
         >
           <button
             className={styles["red-btn"]}
-            onClick={handleDisagree}
+            onClick={withGa("Disclaimer", "pressed disagree", handleDisagree)}
             disabled={!read}
           >
             Disagree
           </button>
-          <button onClick={handleAgree} disabled={!read}>
+          <button
+            onClick={withGa("Disclaimer", "pressed agree", handleAgree)}
+            disabled={!read}
+          >
             Agree
           </button>
         </div>

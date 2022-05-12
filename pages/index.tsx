@@ -25,6 +25,7 @@ import { PopupProvider } from "../components/Popup";
 import { ReactionsPopup } from "../components/MessageReaction";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { withGa } from "../utils/analytics";
 
 export const TextareaAutosize = React.forwardRef<
   HTMLTextAreaElement,
@@ -58,6 +59,16 @@ const Chat: NextPage = () => {
     setMsgReaction,
   } = useChat();
 
+  // When it becomes available, set the userId on the tracker
+  useEffect(() => {
+    ga((tracker) => {
+      if (!tracker.get("userId")) {
+        ga("set", "userId", userId);
+        ga("send", "event", "authentication", "user-id available");
+      }
+    });
+  }, [userId]);
+
   const chatRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const getChatPic = () => {
@@ -83,13 +94,12 @@ const Chat: NextPage = () => {
   };
 
   const [msgDraft, setMsgDraft] = useState("");
-  const onClickSend = useCallback(
-    () =>
-      !loading &&
+  const onClickSend = useCallback(() => {
+    ga("send", "event", "Messages", "sent message");
+    !loading &&
       msgDraft.replace(/\W/gi, "") !== "" &&
-      (sendMsg(msgDraft), setMsgDraft(""), inputRef.current?.focus()),
-    [loading, msgDraft, sendMsg]
-  );
+      (sendMsg(msgDraft), setMsgDraft(""), inputRef.current?.focus());
+  }, [loading, msgDraft, sendMsg]);
 
   // Fix the send button's height to the input's first value
   const [btnHeight, setBtnHeight] = useState<undefined | number>();
@@ -107,14 +117,16 @@ const Chat: NextPage = () => {
         <div className={styles["top-bar"]}>
           <div
             className={styles["hamburger"]}
-            onClick={() => setSidebarOpen((open) => !open)}
+            onClick={withGa("Panel", "pressed hamburger", () =>
+              setSidebarOpen((open) => !open)
+            )}
           >
             <FontAwesomeIcon icon={faBars} />
           </div>
 
           <StarsRating
             rating={rating}
-            setRating={setRating}
+            setRating={withGa("Topbar", "pressed star", setRating)}
             animate={
               rating === -1 &&
               messages.length % 10 === 0 &&
@@ -140,7 +152,12 @@ const Chat: NextPage = () => {
             <Sidebar
               open={sidebarOpen}
               onClose={() => setSidebarOpen(false)}
-              onScreenshot={getChatPic}
+              onScreenshot={withGa(
+                "Panel",
+                "pressed screenshot",
+                `${messages.slice(-1)?.[0]?.utteranceId ?? ""}`,
+                getChatPic
+              )}
               onReset={reset}
             ></Sidebar>
           </div>

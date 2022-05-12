@@ -6,6 +6,7 @@ import styles from "./starsrating.module.css";
 import stylesAnim from "./starsanimation.module.css";
 import { usePopup } from "./Popup";
 import Tooltip, { useTooltip } from "./Tooltip";
+import { withGa } from "../utils/analytics";
 
 const StarsRating: FC<{
   rating: number;
@@ -65,7 +66,14 @@ const StarsRating: FC<{
       <span className={compactOnMobile ? styles["only-desktop"] : ""}>
         {showFeedbackLink && (
           <span style={{ visibility: canRate ? "visible" : "hidden" }}>
-            or <a onClick={() => show("feedback")}>leave feedback</a>
+            or{" "}
+            <a
+              onClick={withGa("Topbar", "pressed feedback", () =>
+                show("feedback")
+              )}
+            >
+              leave feedback
+            </a>
           </span>
         )}
       </span>

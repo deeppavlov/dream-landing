@@ -15,6 +15,7 @@ import styles from "./sidebar.module.css";
 import useOnSmallerScreen from "../hooks/useOnSmallerScreen";
 import ActionBtn from "./ActionBtn";
 import { usePopup } from "./Popup";
+import { withGa, withGaThenNavigate } from "../utils/analytics";
 
 const Sidebar: FC<{
   open: boolean;
@@ -37,7 +38,15 @@ const Sidebar: FC<{
           <FontAwesomeIcon icon={faClose} />
         </div>
 
-        <a className={styles["back"]} href="https://deeppavlov.ai/dream">
+        <a
+          className={styles["back"]}
+          href="https://deeppavlov.ai/dream"
+          onClick={withGaThenNavigate(
+            "Panel",
+            "pressed back to homepage",
+            "https://deeppavlov.ai/dream"
+          )}
+        >
           <div className={styles["back-icon-cont"]}>
             <FontAwesomeIcon icon={faArrowLeft} />
           </div>{" "}
@@ -64,13 +73,18 @@ const Sidebar: FC<{
             </ActionBtn>
             <ActionBtn
               icon={faDownload}
-              onClick={() =>
-                (document.location.href = "http://deeppavlov.ai/dream/datasets")
-              }
+              onClick={withGaThenNavigate(
+                "Panel",
+                "pressed download other dialogs",
+                "http://deeppavlov.ai/dream/datasets"
+              )}
             >
               Download other dialogs
             </ActionBtn>
-            <ActionBtn icon={faRefresh} onClick={onReset}>
+            <ActionBtn
+              icon={faRefresh}
+              onClick={withGa("Panel", "pressed reset", onReset)}
+            >
               Start a new dialog
             </ActionBtn>
             {isMobile && (
@@ -97,7 +111,9 @@ const Sidebar: FC<{
 
           <a
             className={styles["disclaimer"]}
-            onClick={() => show("disclaimer")}
+            onClick={withGa("Disclaimer", "opened again", () =>
+              show("disclaimer")
+            )}
           >
             Disclaimer of responsibility
           </a>
