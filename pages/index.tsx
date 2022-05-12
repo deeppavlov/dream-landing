@@ -27,24 +27,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { withGa } from "../utils/analytics";
 
-export const TextareaAutosize = React.forwardRef<
-  HTMLTextAreaElement,
-  TextareaAutosizeProps & { onRerenderProperly?: () => void }
->(function TexareaAutosize({ onRerenderProperly, ...props }, ref) {
-  const [isRerendered, setIsRerendered] = useState(false);
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setIsRerendered(true);
-    }, 50);
-    return () => clearTimeout(handler);
-  }, []);
-
-  useLayoutEffect(() => {
-    if (isRerendered && onRerenderProperly) onRerenderProperly();
-  }, [isRerendered, onRerenderProperly]);
-  return <ReactTextareaAutosize {...props} ref={ref} />;
-});
-
 const Chat: NextPage = () => {
   const {
     messages,
@@ -69,8 +51,22 @@ const Chat: NextPage = () => {
     });
   }, [userId]);
 
-  const chatRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const [btnHeight, setBtnHeight] = useState<undefined | number>();
+  const onInputHeightChange: TextareaAutosizeProps["onHeightChange"] = (
+    height,
+    meta
+  ) => {
+    console.log("change", height, meta);
+    if (btnHeight === undefined) {
+      // Fix the send button's height to the input's first height
+      setBtnHeight(inputRef.current?.offsetHeight);
+      // Force focus hack
+      inputRef.current?.focus();
+    }
+  };
+
+  const chatRef = useRef<HTMLDivElement>(null);
   const getChatPic = () => {
     if (!chatRef.current) return;
     const watermark = document.createElement("div");
@@ -100,14 +96,6 @@ const Chat: NextPage = () => {
       msgDraft.replace(/\W/gi, "") !== "" &&
       (sendMsg(msgDraft), setMsgDraft(""), inputRef.current?.focus());
   }, [loading, msgDraft, sendMsg]);
-
-  // Fix the send button's height to the input's first value
-  const [btnHeight, setBtnHeight] = useState<undefined | number>();
-  const onInputRenderedProperly = useCallback(() => {
-    if (!inputRef.current) return;
-    setBtnHeight(inputRef.current.offsetHeight);
-    inputRef.current?.focus();
-  }, []);
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -185,13 +173,13 @@ const Chat: NextPage = () => {
               /> */}
             </div>
             <div className={styles["input-cont"]}>
-              <TextareaAutosize
-                onRerenderProperly={onInputRenderedProperly}
+              <ReactTextareaAutosize
                 ref={inputRef}
+                onHeightChange={onInputHeightChange}
                 minRows={1}
                 maxRows={5}
                 className={styles["input-area"]}
-                placeholder="Type your message here..."
+                // placeholder="Type your message here..."
                 value={msgDraft}
                 onInput={(ev) => (
                   setMsgDraft((ev.target as HTMLTextAreaElement).value), true

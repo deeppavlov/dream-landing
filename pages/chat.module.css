@@ -98,6 +98,11 @@
   background-color: rgba(242, 242, 242, 0.7);
   font-size: inherit;
   font-family: inherit;
+
+  /* Need to set this explicitly, otherwise 
+  react-textarea-autosize breaks on Chrome.
+  See: https://github.com/Andarist/react-textarea-autosize/issues/337*/
+  line-height: 1.3;
 }
 
 /* Send button */
