@@ -20,6 +20,12 @@
   }
 }
 
+@media screen and (max-width: 500px) {
+  .bubble {
+    max-width: 95%;
+  }
+}
+
 .bubble-right {
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 0;
