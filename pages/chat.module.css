@@ -140,3 +140,25 @@
   font-size: 2em;
   color: black;
 }
+
+@keyframes enter {
+  from {
+    bottom: -150px;
+  }
+  to {
+    bottom: 10px;
+  }
+}
+
+.floating-btn {
+  position: absolute;
+  animation: enter 0.1s linear forwards;
+  bottom: 10px;
+  left: 10px;
+  width: 200px;
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: 0 0 3px 4px rgba(128, 128, 128, 0.205);
+  z-index: 2;
+  background-color: white;
+}
