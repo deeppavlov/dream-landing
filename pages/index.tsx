@@ -57,7 +57,6 @@ const Chat: NextPage = () => {
     height,
     meta
   ) => {
-    console.log("change", height, meta);
     if (btnHeight === undefined) {
       // Fix the send button's height to the input's first height
       setBtnHeight(inputRef.current?.offsetHeight);
