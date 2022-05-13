@@ -111,10 +111,18 @@ function _withGa<T extends (...args: any) => any>(
     eventAction,
   };
   if (typeof eventLabel === "string") args.eventLabel = eventLabel;
-  if (!sync) args.hitCallback = func;
+
+  let called = false;
+  const wrapped = (...fargs: Parameters<T>) => {
+    if (called) return;
+    called = true;
+    func(...fargs);
+  };
+  if (sync) args.hitCallback = wrapped;
+
   return (...fargs: Parameters<T>) => {
-    if (!sync) setTimeout(() => func(...fargs), 150);
+    if (sync) setTimeout(() => wrapped(...fargs), 150);
     ga("send", args);
-    if (sync) func(...fargs);
+    if (!sync) func(...fargs);
   };
 }
