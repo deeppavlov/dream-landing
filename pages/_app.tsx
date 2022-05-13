@@ -17,7 +17,7 @@ function App({ Component, pageProps }: AppProps) {
           content="device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"
         />
       </Head>
-      {process.env.NODE_ENV !== "development" && (
+      {process.env.NODE_ENV !== "development" ? (
         <>
           <Script id="google-analytics" strategy="afterInteractive">
             {`
@@ -31,6 +31,12 @@ function App({ Component, pageProps }: AppProps) {
             strategy="afterInteractive"
           />
         </>
+      ) : (
+        <Script id="google-analytics-shim" strategy="afterInteractive">
+          {`
+            window.ga=(...args) => console.info("GA", ...args)
+          `}
+        </Script>
       )}
 
       <Component {...pageProps} />
