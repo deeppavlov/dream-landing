@@ -17,22 +17,20 @@ function App({ Component, pageProps }: AppProps) {
           content="device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"
         />
       </Head>
-      <Script id="google-analytics" strategy="afterInteractive">
-        {`
-          if (document.location.hostname.search("dream.deeppavlov.ai") !== -1) {
-            window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-            ga('create', 'GOOGLE_ANALYTICS_ID', 'auto');
-            ga('send', 'pageview');
-          } else {
-            window.ga=(...args)=>console.log("GA", ...args)
-          }
-        `}
-      </Script>
       {process.env.NODE_ENV !== "development" && (
-        <Script
-          src="https://www.google-analytics.com/analytics.js"
-          strategy="afterInteractive"
-        />
+        <>
+          <Script id="google-analytics" strategy="afterInteractive">
+            {`
+              window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+              ga('create', 'G-21TGJ1M308', 'auto');
+              ga('send', 'pageview');
+            `}
+          </Script>
+          <Script
+            src="https://www.google-analytics.com/analytics.js"
+            strategy="afterInteractive"
+          />
+        </>
       )}
 
       <Component {...pageProps} />
