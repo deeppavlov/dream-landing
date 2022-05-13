@@ -4,6 +4,7 @@ import React, {
   useRef,
   useEffect,
   useLayoutEffect,
+  FC,
 } from "react";
 import type { NextPage } from "next";
 import ReactTextareaAutosize, {
@@ -24,8 +25,27 @@ import DisclaimerPopup from "../components/DisclaimerPopup";
 import { PopupProvider } from "../components/Popup";
 import { ReactionsPopup } from "../components/MessageReaction";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faPlay } from "@fortawesome/free-solid-svg-icons";
 import { withGa } from "../utils/analytics";
+import useOnSmallerScreen from "../hooks/useOnSmallerScreen";
+
+const SendBtn: FC<{
+  onClick?: () => void;
+  btnHeight?: number | null;
+  disabled?: boolean;
+}> = ({ onClick, btnHeight, disabled }) => {
+  const isMobile = useOnSmallerScreen({ width: 500 });
+
+  return (
+    <button
+      onClick={onClick}
+      style={btnHeight ? { height: `${btnHeight}px` } : undefined}
+      disabled={disabled}
+    >
+      {isMobile ? <FontAwesomeIcon icon={faPlay} /> : "Send"}
+    </button>
+  );
+};
 
 const Chat: NextPage = () => {
   const {
@@ -190,13 +210,12 @@ const Chat: NextPage = () => {
                 }
                 disabled={!!error}
               />
-              <button
-                onClick={() => onClickSend()}
-                style={btnHeight ? { height: `${btnHeight}px` } : undefined}
+
+              <SendBtn
+                onClick={onClickSend}
+                btnHeight={btnHeight}
                 disabled={msgDraft.replace(/\W/gi, "") === ""}
-              >
-                Send
-              </button>
+              />
             </div>
           </div>
         </div>

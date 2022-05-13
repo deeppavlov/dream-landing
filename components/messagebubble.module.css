@@ -23,6 +23,7 @@
 @media screen and (max-width: 500px) {
   .bubble {
     max-width: 95%;
+    padding: 8px 14px;
   }
 }
 

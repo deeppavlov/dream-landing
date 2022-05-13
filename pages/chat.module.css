@@ -13,6 +13,12 @@
   color: white;
 }
 
+@media screen and (max-width: 500px) {
+  .top-bar {
+    padding: 5px 20px;
+  }
+}
+
 .top-bar > *:last-child {
   margin-left: auto;
 }
@@ -26,6 +32,12 @@
 @media screen and (max-width: 800px) {
   .hamburger {
     display: block;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .hamburger {
+    font-size: 1.9em;
   }
 }
 
@@ -89,6 +101,12 @@
   background-color: white;
 }
 
+@media screen and (max-width: 500px) {
+  .input-cont {
+    padding: 4px;
+  }
+}
+
 .input-area {
   resize: none;
   flex-grow: 1;
@@ -129,6 +147,13 @@
 .input-cont > button:enabled:hover {
   background-color: #4a85af;
   cursor: pointer;
+}
+
+@media screen and (max-width: 500px) {
+  .input-cont > button {
+    padding: 0 12px;
+    font-size: 1.3em;
+  }
 }
 
 .watermark {
