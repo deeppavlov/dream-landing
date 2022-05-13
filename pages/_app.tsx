@@ -20,15 +20,21 @@ function App({ Component, pageProps }: AppProps) {
       </Head>
       <Script id="google-analytics" strategy="afterInteractive">
         {`
-          window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-          ga('create', 'GOOGLE_ANALYTICS_ID', 'auto');
-          ga('send', 'pageview');
+          if (document.location.hostname.search("dream.deeppavlov.ai") !== -1) {
+            window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+            ga('create', 'GOOGLE_ANALYTICS_ID', 'auto');
+            ga('send', 'pageview');
+          } else {
+            window.ga=(...args)=>console.log("GA", ...args)
+          }
         `}
       </Script>
-      <Script
-        src="https://www.google-analytics.com/analytics.js"
-        strategy="afterInteractive"
-      />
+      {process.env.NODE_ENV !== "development" && (
+        <Script
+          src="https://www.google-analytics.com/analytics.js"
+          strategy="afterInteractive"
+        />
+      )}
 
       <PopupProvider>
         <Component {...pageProps} />
