@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useRef, useState } from "react";
+import cn from "classnames";
 
 import styles from "./messagebubble.module.css";
 import { Message } from "../hooks/useChat";
@@ -9,14 +10,18 @@ const MessageBubble: FC<{
   msg: Message;
   isNew: boolean;
   onReact?: (uttId: string, reaction: number) => void;
+  onClick?: (ev: React.MouseEvent) => void;
   disableReaction?: boolean;
   className?: string;
+  selected?: boolean;
 }> = ({
   msg,
   isNew,
   onReact,
   disableReaction: disableRating = false,
   className = "",
+  selected = false,
+  onClick = () => {},
   children,
 }) => {
   const isRight = msg.sender === "user";
@@ -27,13 +32,18 @@ const MessageBubble: FC<{
     }
   }, [isNew]);
   return (
-    <div ref={divRef} className={styles["bubble-wrap"]}>
+    <div
+      ref={divRef}
+      className={cn(styles["bubble-wrap"], selected && styles["selected"])}
+      onClick={onClick}
+    >
       <div
-        className={
-          styles["bubble"] +
-          ` ${isRight ? styles["bubble-right"] : ""}` +
-          ` ${className}`
-        }
+        className={cn(
+          styles["bubble"],
+          isRight && styles["bubble-right"],
+          selected && styles["selected"],
+          className
+        )}
       >
         {children || msg.content.replace(/ #\+#.*/, "")}
         {/* {msg.utteranceId && !disableRating && (
