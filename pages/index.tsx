@@ -131,7 +131,7 @@ const Chat: NextPage = () => {
           rating={rating}
           setRating={setRating}
         />
-        <DisclaimerPopup />
+        <DisclaimerPopup onDisagree={reset} />
         <ReactionsPopup onReact={setMsgReaction} />
 
         <div className={styles["content"]}>
