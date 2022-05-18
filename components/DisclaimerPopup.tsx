@@ -6,7 +6,7 @@ import useStored from "../hooks/useStored";
 import Tooltip, { useTooltip } from "./Tooltip";
 import { gaSync, withGa, withGaThenNavigate } from "../utils/analytics";
 
-const DisclaimerPopup: FC = () => {
+const DisclaimerPopup: FC<{ onDisagree: () => void }> = ({ onDisagree }) => {
   const { hide, show } = usePopup();
   const [read, setRead] = useState(false);
 
@@ -34,6 +34,8 @@ const DisclaimerPopup: FC = () => {
       "You cannot use the bot unless you agree to the conditions. Are you sure?"
     );
     if (sure) {
+      setAgree(false);
+      onDisagree();
       await gaSync("Disclaimer", "confirmed disagree");
       window.location.href = "https://deeppavlov.ai/dream";
     }
