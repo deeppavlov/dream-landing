@@ -165,7 +165,7 @@ const Chat: NextPage = () => {
                 `${messages.slice(-1)?.[0]?.utteranceId ?? ""}`,
                 getChatPic
               )}
-              onReset={reset}
+              onReset={() => (setSidebarOpen(false), reset())}
             ></Sidebar>
           </div>
 
