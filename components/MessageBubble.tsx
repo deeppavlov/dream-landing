@@ -5,12 +5,15 @@ import styles from "./messagebubble.module.css";
 import { Message } from "../hooks/useChat";
 // import MessageReaction from "./MessageReaction";
 import { usePopup } from "./Popup";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 const MessageBubble: FC<{
   msg: Message;
   isNew: boolean;
+  canSelect: boolean;
   onReact?: (uttId: string, reaction: number) => void;
-  onClick?: (ev: React.MouseEvent) => void;
+  onSelect?: (ev: React.MouseEvent) => void;
   disableReaction?: boolean;
   className?: string;
   selected?: boolean;
@@ -20,10 +23,12 @@ const MessageBubble: FC<{
   onReact,
   disableReaction: disableRating = false,
   className = "",
+  canSelect,
   selected = false,
-  onClick = () => {},
+  onSelect = () => {},
   children,
 }) => {
+  selected = canSelect && selected;
   const isRight = msg.sender === "user";
   const divRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -31,12 +36,28 @@ const MessageBubble: FC<{
       divRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [isNew]);
+
   return (
     <div
       ref={divRef}
       className={cn(styles["bubble-wrap"], selected && styles["selected"])}
-      onClick={onClick}
+      onClick={canSelect ? onSelect : undefined}
     >
+      <div
+        className={cn(
+          styles["gutter"],
+          canSelect && styles["gutter-selecting"]
+        )}
+      >
+        <div
+          className={cn(
+            styles["checkbox"],
+            canSelect && selected && styles["checked"]
+          )}
+        >
+          <FontAwesomeIcon icon={faCheck} />
+        </div>
+      </div>
       <div
         className={cn(
           styles["bubble"],
@@ -72,6 +93,7 @@ export const ThinkingBubble: FC = () => {
 
   return (
     <MessageBubble
+      canSelect={false}
       msg={{
         sender: "bot",
         type: "text",
@@ -88,6 +110,7 @@ export const DisclaimerBubble: FC = () => {
 
   return (
     <MessageBubble
+      canSelect={false}
       msg={{
         sender: "bot",
         type: "text",

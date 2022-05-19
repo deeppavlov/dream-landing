@@ -24,11 +24,12 @@ import DisclaimerPopup from "../components/DisclaimerPopup";
 import { PopupProvider, usePopup } from "../components/Popup";
 import { ReactionsPopup } from "../components/MessageReaction";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faCamera } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faCamera, faCancel } from "@fortawesome/free-solid-svg-icons";
 import { withGa } from "../utils/analytics";
 import ActionBtn from "../components/ActionBtn";
 import { getShareUrl } from "../utils/shareUrl";
 import SharePopup from "../components/SharePopup";
+import MessageHistory from "../components/MessageHistory";
 
 const Chat: NextPage = () => {
   const {
@@ -68,29 +69,6 @@ const Chat: NextPage = () => {
     }
   };
 
-  const chatRef = useRef<HTMLDivElement>(null);
-  // const getChatPic = () => {
-  //   if (!chatRef.current) return;
-  //   const watermark = document.createElement("div");
-  //   watermark.innerHTML = "dream.deeppavlov.ai";
-  //   watermark.classList.add(styles["watermark"]);
-  //   html2canvas(chatRef.current, {
-  //     onclone: (_, el) => el.appendChild(watermark),
-  //   }).then((canvas) => {
-  //     const imgDataUrl = canvas.toDataURL();
-  //     const a = document.createElement("a");
-  //     a.download = "canvas_image.png";
-  //     a.href = imgDataUrl;
-  //     a.click();
-  //     // Hack
-  //     const avatar = document.getElementById("avatar");
-  //     if (!avatar) return;
-  //     avatar.style.background = "url(/logo.png)";
-  //     avatar.style.backgroundSize = "contain";
-  //     avatar.style.backgroundRepeat = "no-repeat";
-  //   });
-  // };
-
   const [msgDraft, setMsgDraft] = useState("");
   const onClickSend = useCallback(() => {
     ga("send", "event", "Messages", "sent message");
@@ -112,19 +90,27 @@ const Chat: NextPage = () => {
       setSelectedMsgs([]);
     }
   }, [selectingMode]);
+  const onSelectMessage = (msg: number) => {
+    if (!selectingMode) return;
+    setSelectedMsgs((selected) => {
+      const idx = selected.indexOf(msg);
+      if (idx === -1) return [...selected, msg];
+      return [...selected.slice(0, idx), ...selected.slice(idx + 1)];
+    });
+  };
 
   const { show } = usePopup();
   const shareDialog = (shared: number[]) => {
-    if (shared.length === 0) return;
-    const url = getShareUrl(messages, shared);
+    if (!dialogId || shared.length === 0) return;
+    const url = getShareUrl(
+      dialogId,
+      shared.map((idx) => ({ idx }))
+    );
     show("share", url);
   };
 
   return (
-    <div
-      className={`page ${styles["chat-page"]}`}
-      onClick={() => selectingMode && setSelectingMode(false)}
-    >
+    <div className={`page ${styles["chat-page"]}`}>
       <div className={styles["top-bar"]}>
         <div
           className={styles["hamburger"]}
@@ -161,7 +147,7 @@ const Chat: NextPage = () => {
         <div className={styles["sidebar-holder"]}>
           <Sidebar
             open={sidebarOpen}
-            disableShare={selectingMode}
+            disableShare={!dialogId || selectingMode}
             onClose={() => setSidebarOpen(false)}
             // onShareVisible={withGa(
             //   "Panel",
@@ -191,29 +177,26 @@ const Chat: NextPage = () => {
                 >
                   Share selected
                 </ActionBtn>
+
+                <ActionBtn
+                  icon={faCancel}
+                  onClick={() => setSelectingMode(false)}
+                >
+                  Cancel selection
+                </ActionBtn>
               </div>
             )}
 
-            <div ref={chatRef} className={styles["messages-scroll"]}>
-              <DisclaimerBubble />
-              {messages.map((msg, i) => (
-                <MessageBubble
-                  key={i}
-                  msg={msg}
-                  isNew={i === messages.length - 1 && !loading}
-                  selected={selectingMode && selectedMessages.includes(i)}
-                  onReact={setMsgReaction}
-                  onClick={(ev) => (
-                    selectingMode &&
-                      setSelectedMsgs((current) =>
-                        !current.includes(i) ? [...current, i] : current
-                      ),
-                    ev.stopPropagation()
-                  )}
-                />
-              ))}
-              {loading && <ThinkingBubble />}
-            </div>
+            <MessageHistory
+              {...{
+                loading,
+                messages,
+                onSelectMessage,
+                selectedMessages,
+                selectingMode,
+                setMsgReaction,
+              }}
+            />
 
             {/* <DisclaimerHover
                 showBig={showBigDisclaimer}

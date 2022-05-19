@@ -1,5 +1,9 @@
 .bubble-wrap {
+  display: flex;
+  flex-direction: row;
   padding: 0.5em 10px;
+  background-color: transparent;
+  transition: background-color 0.1s linear;
 }
 
 .bubble-wrap.selected {
@@ -30,6 +34,45 @@
   background-color: #0069b3;
   color: white;
   margin-left: auto;
+}
+
+.gutter {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 0;
+  overflow: hidden;
+  transition: max-width 0.1s linear;
+}
+
+.gutter-selecting {
+  max-width: 60px;
+}
+
+.checkbox {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid #cecece;
+  border-radius: 4px;
+}
+
+.checkbox > svg {
+  transform: scale(0);
+  color: #0069b3;
+  transition: all 0.1s linear;
+}
+
+.checkbox.checked {
+  border-color: #0069b3;
+}
+
+.checkbox.checked > svg {
+  transform: scale(1);
 }
 
 .disclaimer {

@@ -16,7 +16,7 @@ export interface SharedMessage {
   blur?: [number, number][];
 }
 
-interface ShareParams extends Record<string, string> {
+export interface ShareParams extends Record<string, string> {
   /**
    * Dialog ID
    */
@@ -56,6 +56,14 @@ const extractRanges = (indices: number[] | [number, number][]) => {
   return ranges;
 };
 
+const expandRange = (range: string) => {
+  const [startStr, endStr = null] = range.split("-");
+  const start = parseInt(startStr);
+  if (endStr === null) return start;
+  const end = parseInt(endStr);
+  return Array.from({ length: end - start + 1 }).map((_, idx) => idx + start);
+};
+
 /**
  * Get the permalink for sharing the selected messages from a dialog.
  * All ranges are **inclusive on both sides**.
@@ -76,4 +84,26 @@ export const getShareUrl = (
   };
 
   return SHARE_URL + "?" + new URLSearchParams(params).toString();
+};
+
+/**
+ * Parse URL params created with {@link getShareUrl}.
+ * @returns params Object with parsed parameters.
+ * @returns params.dialogId The dialog ID
+ * @returns params.messageIdxs
+ * List of message indices to show. `null`s are inserted where messages are skipped.
+ */
+export const parseShareUrl = (params: ShareParams) => {
+  const idxsWithEllipsis: (number | null)[] = [];
+  const idxs = params.m.split(".").flatMap(expandRange).sort();
+  let prevIdx = idxs[0];
+  idxs.forEach((idx) => {
+    if (idx > prevIdx + 1) idxsWithEllipsis.push(null);
+    prevIdx = idx;
+    idxsWithEllipsis.push(idx);
+  });
+  return {
+    dialogId: params.d,
+    messageIdxs: idxsWithEllipsis,
+  };
 };
