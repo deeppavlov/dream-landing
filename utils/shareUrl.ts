@@ -28,6 +28,18 @@ export interface ShareParams extends Record<string, string> {
   m: string;
 }
 
+interface ApiResponse {
+  utterances: {
+    utt_id: string;
+    text: string;
+    user: {
+      user_type: "human" | "bot";
+    };
+  }[];
+}
+
+const API_URL = "https://7019.deeppavlov.ai/api/dialogs/";
+
 /**
  * Takes a list of indices or index ranges, extracts the longest possible
  * consecutive ranges and returns them as strings in the format "start-end".
@@ -106,4 +118,24 @@ export const parseShareUrl = (params: ShareParams) => {
     dialogId: params.d,
     messageIdxs: idxsWithEllipsis,
   };
+};
+
+/**
+ * Parse and fetch the shared message history from the URL parameters.
+ */
+export const fetchSharedMessages = async (
+  params: ShareParams
+): Promise<Message[]> => {
+  const { dialogId, messageIdxs } = parseShareUrl(params);
+  const resp = await fetch(API_URL + dialogId);
+  const { utterances }: ApiResponse = await resp.json();
+  const messages: Message[] = utterances
+    .map(({ text, user, utt_id }) => ({
+      type: "text" as "text",
+      sender: (user.user_type === "human" ? "user" : "bot") as "user" | "bot",
+      content: text,
+      utteranceId: utt_id,
+    }))
+    .filter((_, idx) => messageIdxs.includes(idx));
+  return messages;
 };
