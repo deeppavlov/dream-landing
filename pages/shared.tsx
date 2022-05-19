@@ -11,21 +11,43 @@ import styles from "./shared.module.css";
 import Link from "next/link";
 import SharePopup from "../components/SharePopup";
 import { usePopup } from "../components/Popup";
+import Head from "next/head";
 
-export async function getServerSideProps({ query }: GetServerSidePropsContext) {
+export async function getServerSideProps({
+  query,
+  req,
+  resolvedUrl,
+}: GetServerSidePropsContext) {
   return {
     props: {
       messages: await fetchSharedMessages(query as ShareParams),
+      params: resolvedUrl.split("?")[1],
+      host: req.headers.host,
     },
   };
 }
 
 const Shared: NextPage<
   InferGetServerSidePropsType<typeof getServerSideProps>
-> = ({ messages }) => {
+> = ({ messages, params, host }) => {
   const { show } = usePopup();
   return (
     <div className={cn("page", styles["share-page"])}>
+      <Head>
+        <title>DeepPavlov Dream Shared Dialog</title>
+
+        <meta property="og:url" content={`https://${host}/shared?${params}`} />
+        <meta property="og:title" content="DeepPavlov Dream Shared Dialog" />
+        <meta
+          property="og:description"
+          content="Hi, I'm Dream! I was built using the DeepPavlov Dream platform, and you can discuss various societal topics with me."
+        />
+        <meta
+          property="og:image"
+          content={`https://${host}/shared?${params}`}
+        />
+      </Head>
+
       <SharePopup />
 
       <div className={styles["top-bar"]}>

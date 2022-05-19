@@ -133,7 +133,7 @@ export const fetchSharedMessages = async (
     .map(({ text, user, utt_id }) => ({
       type: "text" as "text",
       sender: (user.user_type === "human" ? "user" : "bot") as "user" | "bot",
-      content: text,
+      content: text.replace(/ #\+#.*/, ""),
       utteranceId: utt_id,
     }))
     .filter((_, idx) => messageIdxs.includes(idx));
