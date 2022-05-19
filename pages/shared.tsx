@@ -44,7 +44,7 @@ const Shared: NextPage<
         />
         <meta
           property="og:image"
-          content={`https://${host}/shared?${params}`}
+          content={`https://${host}/api/preview?${params}`}
         />
       </Head>
 
