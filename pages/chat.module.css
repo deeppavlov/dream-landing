@@ -160,6 +160,11 @@
   margin-left: 10px;
 }
 
+.floating-right {
+  right: 10px;
+  left: unset;
+}
+
 @media screen and (max-width: 600px) {
   .floating-btn {
     flex-direction: column;

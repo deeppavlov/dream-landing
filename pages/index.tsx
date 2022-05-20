@@ -1,27 +1,17 @@
-import React, {
-  useState,
-  useCallback,
-  useRef,
-  useEffect,
-  useLayoutEffect,
-} from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import type { NextPage } from "next";
 import ReactTextareaAutosize, {
   TextareaAutosizeProps,
 } from "react-textarea-autosize";
-import html2canvas from "html2canvas";
+import cn from "classnames";
 
 import useChat from "../hooks/useChat";
 import styles from "./chat.module.css";
 import Sidebar from "../components/Sidebar";
-import MessageBubble, {
-  DisclaimerBubble,
-  ThinkingBubble,
-} from "../components/MessageBubble";
 import StarsRating from "../components/StarsRating";
 import FeedbackPopup from "../components/FeedbackPopup";
 import DisclaimerPopup from "../components/DisclaimerPopup";
-import { PopupProvider, usePopup } from "../components/Popup";
+import { usePopup } from "../components/Popup";
 import { ReactionsPopup } from "../components/MessageReaction";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faCamera, faCancel } from "@fortawesome/free-solid-svg-icons";
@@ -168,7 +158,13 @@ const Chat: NextPage = () => {
             style={{ userSelect: selectingMode ? "none" : "initial" }}
           >
             {selectingMode && (
-              <div className={styles["floating-btn"]}>
+              <div
+                className={cn(
+                  styles["floating-btn"],
+                  messages[messages.length - 1].sender === "bot" &&
+                    styles["floating-right"]
+                )}
+              >
                 <ActionBtn
                   icon={faCamera}
                   onClick={() => (
