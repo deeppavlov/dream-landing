@@ -94,7 +94,8 @@ const Chat: NextPage = () => {
     if (!dialogId || shared.length === 0) return;
     const url = getShareUrl(
       dialogId,
-      shared.map((idx) => ({ idx }))
+      shared.map((idx) => ({ idx })),
+      window.location.hostname
     );
     show("share", url);
   };

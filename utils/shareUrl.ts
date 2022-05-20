@@ -1,7 +1,5 @@
 import { Message } from "../hooks/useChat";
 
-const SHARE_URL = "https://dream.deeppavlov.ai/shared";
-
 export interface SharedMessage {
   /**
    * Not utternace IDs, but the index indicating the message's place in the
@@ -88,14 +86,17 @@ const expandRange = (range: string) => {
  */
 export const getShareUrl = (
   dialogId: string,
-  shareMessages: SharedMessage[]
+  shareMessages: SharedMessage[],
+  hostname: string = "dream.deeppavlov.ai"
 ) => {
   const params: ShareParams = {
     d: dialogId,
     m: extractRanges(shareMessages.map((m) => m.idx)).join("."),
   };
 
-  return SHARE_URL + "?" + new URLSearchParams(params).toString();
+  return (
+    `https://${hostname}/shared` + "?" + new URLSearchParams(params).toString()
+  );
 };
 
 /**
