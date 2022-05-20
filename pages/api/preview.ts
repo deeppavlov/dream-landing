@@ -14,7 +14,7 @@ const handler: NextApiHandler = async (req, res) => {
 
   res.setHeader("Content-Type", "image/png");
   res.status(200);
-  res.write(await renderChat(messages, width, height));
+  res.write(await renderChat(messages, width, height, 2));
   res.end();
 };
 

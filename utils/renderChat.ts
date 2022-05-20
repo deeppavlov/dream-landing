@@ -90,9 +90,10 @@ export default function renderChat(
   const ctx = canvas.getContext("2d");
   const lineHeightPx = lineHeight * s(fontSize);
   ctx.font = `${s(fontSize)}px Blender Pro`;
-  ctx.textBaseline = "top";
+  // ctx.textBaseline = "top";
   const innerWidth = width - 2 * s(padding);
   const maxWidth = innerWidth <= 500 ? 0.75 * innerWidth : 0.5 * innerWidth;
+  const fontAscent = ctx.measureText("Test").fontBoundingBoxAscent;
 
   ctx.fillStyle = "white";
   ctx.fillRect(0, 0, width, height);
@@ -120,7 +121,7 @@ export default function renderChat(
       ctx.fillText(
         line,
         x + s(bubblePaddingHor),
-        nextBubbleY + s(bubblePaddingVer) + idx * lineHeightPx
+        nextBubbleY + s(bubblePaddingVer) + fontAscent + idx * lineHeightPx
       )
     );
 
