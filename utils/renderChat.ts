@@ -114,7 +114,6 @@ export default function renderChat(
       [isRight ? "br" : "bl"]: 0,
     });
     ctx.fill();
-    // ctx.fillRect(x, nextBubbleY, bubbleOuterW, bubbleOuterH);
 
     ctx.fillStyle = isRight ? "white" : "black";
     lines.forEach((line, idx) =>
