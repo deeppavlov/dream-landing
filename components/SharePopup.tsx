@@ -12,6 +12,7 @@ import {
   faTelegram,
   faTwitch,
   faTwitter,
+  faVk,
 } from "@fortawesome/free-brands-svg-icons";
 import Tooltip, { useTooltip } from "./Tooltip";
 
@@ -60,14 +61,16 @@ const SharePopup: FC = ({ children }) => {
               icon={faClipboard}
               onClick={() => copyToClipboard(shareUrl)}
             />
-            <ShareBtn
-              ref={tooltipTarget === 1 ? setAnchor : undefined}
-              icon={faFacebook}
-            />
-            <ShareBtn
-              ref={tooltipTarget === 2 ? setAnchor : undefined}
-              icon={faTwitter}
-            />
+            <a
+              href={`http://vk.com/share.php?url=${encodeURIComponent(
+                shareUrl
+              )}`}
+            >
+              <ShareBtn
+                ref={tooltipTarget === 1 ? setAnchor : undefined}
+                icon={faVk}
+              />
+            </a>
             <a
               href={`https://t.me/share/url?url=${encodeURIComponent(
                 shareUrl

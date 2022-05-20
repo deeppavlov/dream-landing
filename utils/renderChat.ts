@@ -90,7 +90,6 @@ export default function renderChat(
   const ctx = canvas.getContext("2d");
   const lineHeightPx = lineHeight * s(fontSize);
   ctx.font = `${s(fontSize)}px Blender Pro`;
-  // ctx.textBaseline = "top";
   const innerWidth = width - 2 * s(padding);
   const maxWidth = innerWidth <= 500 ? 0.75 * innerWidth : 0.5 * innerWidth;
   const fontAscent = ctx.measureText("Test").fontBoundingBoxAscent;
