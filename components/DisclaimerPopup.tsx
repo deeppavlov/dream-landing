@@ -15,7 +15,7 @@ const DisclaimerPopup: FC<{ onDisagree: () => void }> = ({ onDisagree }) => {
   });
   useEffect(() => {
     if (agreed === false) {
-      ga("send", "event", "Disclaimer", "first open");
+      gtag("event", "first open", { event_category: "Disclaimer" });
       show("disclaimer");
     }
   }, [agreed, setAgree, show]);
@@ -24,7 +24,7 @@ const DisclaimerPopup: FC<{ onDisagree: () => void }> = ({ onDisagree }) => {
     const el = ev.currentTarget;
     const bottomScroll = el.scrollHeight - el.clientHeight - 20;
     if (el.scrollTop >= bottomScroll) {
-      ga("send", "event", "Disclaimer", "read");
+      gtag("event", "read", { event_category: "Disclaimer" });
       setRead(true);
     }
   };

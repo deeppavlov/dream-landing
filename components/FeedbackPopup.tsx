@@ -29,7 +29,7 @@ const FeedbackPopup: FC<
     )
       return;
 
-    ga("send", "event", "Feedback", "wrote and sent comments");
+    gtag("event", "wrote and sent comments", { event_category: "Feedback" });
     post("", {
       user_id: userId,
       dialog_id: dialogId,
@@ -54,7 +54,9 @@ const FeedbackPopup: FC<
       id="feedback"
       width="650px"
       height="550px"
-      onClose={() => ga("send", "event", "Feedback", "closed without submit")}
+      onClose={() =>
+        gtag("event", "closed without submit", { event_category: "Feedback" })
+      }
     >
       {
         <div className={styles["content"]}>

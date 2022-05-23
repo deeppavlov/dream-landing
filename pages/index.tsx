@@ -43,12 +43,9 @@ const Chat: NextPage = () => {
 
   // When it becomes available, set the userId on the tracker
   useEffect(() => {
-    ga((tracker) => {
-      if (!tracker.get("userId")) {
-        ga("set", "userId", userId);
-        ga("send", "event", "authentication", "user-id available");
-      }
-    });
+    if (!userId) return;
+    gtag("set", { user_id: userId });
+    gtag("event", "login");
   }, [userId]);
 
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -90,7 +87,7 @@ const Chat: NextPage = () => {
 
   const [msgDraft, setMsgDraft] = useState("");
   const onClickSend = useCallback(() => {
-    ga("send", "event", "Messages", "sent message");
+    gtag("event", "sent message", { event_category: "Messages" });
     !loading &&
       msgDraft.replace(/\W/gi, "") !== "" &&
       (sendMsg(msgDraft), setMsgDraft(""), inputRef.current?.focus());
