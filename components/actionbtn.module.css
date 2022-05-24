@@ -32,6 +32,7 @@
 
 .slide-wrapper {
   position: relative;
+  height: 40px;
   width: 100%;
   overflow: hidden;
 }
