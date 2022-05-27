@@ -6,8 +6,15 @@
 } */
 
 .content > h1 {
-    font-size: 1.4rem;
-    margin-bottom: 30px;
+  font-size: 1.4rem;
+  margin-bottom: 30px;
+}
+
+.preview {
+  width: 100%;
+  aspect-ratio: 1;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .btn-cont {

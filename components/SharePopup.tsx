@@ -50,44 +50,55 @@ const SharePopup: FC = ({ children }) => {
   };
 
   return (
-    <Popup id="share" width="550px" height="200px">
-      {({ data: shareUrl }) => (
-        <div className={styles["content"]}>
-          <h1>Select a platform to share</h1>
-
-          <div className={styles["btn-cont"]}>
-            <ShareBtn
-              ref={tooltipTarget === 0 ? setAnchor : undefined}
-              icon={faClipboard}
-              onClick={() => copyToClipboard(shareUrl)}
+    <Popup id="share" width="550px" height="670px">
+      {({ data: shareUrl }) => {
+        const params = new URL(shareUrl).searchParams;
+        params.set("w", "500");
+        params.set("h", "500");
+        params.set("s", "0.8");
+        const previewUrl = "/api/preview/?" + params.toString();
+        return (
+          <div className={styles["content"]}>
+            <div
+              className={styles["preview"]}
+              style={{ backgroundImage: `url(${previewUrl})` }}
             />
-            <a
-              href={`http://vk.com/share.php?url=${encodeURIComponent(
-                shareUrl
-              )}`}
-            >
-              <ShareBtn
-                ref={tooltipTarget === 1 ? setAnchor : undefined}
-                icon={faVk}
-              />
-            </a>
-            <a
-              href={`https://t.me/share/url?url=${encodeURIComponent(
-                shareUrl
-              )}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <ShareBtn
-                ref={tooltipTarget === 3 ? setAnchor : undefined}
-                icon={faTelegram}
-              />
-            </a>
-          </div>
 
-          {tooltipMsg && <Tooltip {...tooltipProps}>{tooltipMsg}</Tooltip>}
-        </div>
-      )}
+            <h1>Select a platform to share</h1>
+            <div className={styles["btn-cont"]}>
+              <ShareBtn
+                ref={tooltipTarget === 0 ? setAnchor : undefined}
+                icon={faClipboard}
+                onClick={() => copyToClipboard(shareUrl)}
+              />
+              <a
+                href={`http://vk.com/share.php?url=${encodeURIComponent(
+                  shareUrl
+                )}`}
+              >
+                <ShareBtn
+                  ref={tooltipTarget === 1 ? setAnchor : undefined}
+                  icon={faVk}
+                />
+              </a>
+              <a
+                href={`https://t.me/share/url?url=${encodeURIComponent(
+                  shareUrl
+                )}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <ShareBtn
+                  ref={tooltipTarget === 3 ? setAnchor : undefined}
+                  icon={faTelegram}
+                />
+              </a>
+            </div>
+
+            {tooltipMsg && <Tooltip {...tooltipProps}>{tooltipMsg}</Tooltip>}
+          </div>
+        );
+      }}
     </Popup>
   );
 };
