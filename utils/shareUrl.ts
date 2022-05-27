@@ -46,7 +46,7 @@ const API_URL = "https://7019.deeppavlov.ai/api/dialogs/";
 const extractRanges = (indices: number[] | [number, number][]) => {
   const sortedIdxs = Array.isArray(indices[0])
     ? [...(indices as [number, number][])].sort(([a, _], [b, __]) => a - b)
-    : [...indices].sort();
+    : [...(indices as number[])].sort((a, b) => a - b);
   let rangeStart = Array.isArray(sortedIdxs[0])
       ? sortedIdxs[0][0]
       : sortedIdxs[0],

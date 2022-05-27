@@ -23,6 +23,11 @@ describe("getShareUrl", () => {
     expect(url).toMatch(/.*m=0\-2.*/);
   });
 
+  it("shortend long ranges", () => {
+    const url = getShareUrl("dialogId", msgs(6, 8));
+    expect(url).toMatch(/.*m=6\-13.*/);
+  });
+
   it("handles multiple ranges", () => {
     const url = getShareUrl("dialogId", [...msgs(0, 3), msg(5), ...msgs(7, 3)]);
     expect(url).toMatch(/.*m=0\-2.5.7\-9.*/);
