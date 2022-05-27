@@ -67,9 +67,9 @@
   background-color: #cc4a4a;
 }
 
-.btn-cont button:disabled {
+.disabled {
   background-color: #828282 !important;
-  cursor: default;
+  cursor: default !important;
 }
 
 .btn-cont .red-btn {
