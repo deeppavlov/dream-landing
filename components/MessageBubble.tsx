@@ -17,6 +17,7 @@ const MessageBubble: FC<{
   disableReaction?: boolean;
   className?: string;
   selected?: boolean;
+  idxData?: number;
 }> = ({
   msg,
   isNew,
@@ -26,6 +27,7 @@ const MessageBubble: FC<{
   canSelect,
   selected = false,
   onSelect = () => {},
+  idxData,
   children,
 }) => {
   selected = canSelect && selected;
@@ -59,6 +61,9 @@ const MessageBubble: FC<{
         </div>
       </div>
       <div
+        // We save the message index in the DOM, so that when finding
+        // which messages are visible, we can get back the idx.
+        data-idx={`${idxData}`}
         className={cn(
           styles["bubble"],
           isRight && styles["bubble-right"],

@@ -21,6 +21,26 @@ import { getShareUrl } from "../utils/shareUrl";
 import SharePopup from "../components/SharePopup";
 import MessageHistory from "../components/MessageHistory";
 
+const BubbleClass = "chatbubble";
+const MsgScrollContClass = "chatscroll";
+const getVisibleBubbles = () => {
+  const cont = document.querySelector<HTMLDivElement>(
+    "." + MsgScrollContClass
+  )!;
+  const bubbles = document.querySelectorAll<HTMLDivElement>("." + BubbleClass);
+  const { offsetHeight, scrollTop } = cont;
+  const scrollBottom = scrollTop + offsetHeight;
+  const visible: number[] = [];
+  bubbles.forEach((bubble) => {
+    const midY = bubble.offsetTop + bubble.offsetHeight / 2;
+    if (midY > scrollTop && midY < scrollBottom) {
+      const idx = parseInt(bubble.dataset.idx!);
+      visible.push(idx);
+    }
+  });
+  return visible;
+};
+
 const Chat: NextPage = () => {
   const {
     messages,
@@ -97,6 +117,7 @@ const Chat: NextPage = () => {
       shared.map((idx) => ({ idx })),
       window.location.hostname
     );
+    ga("send", "event", "Panel", "shared dialog", url);
     show("share", url);
   };
 
@@ -140,12 +161,7 @@ const Chat: NextPage = () => {
             open={sidebarOpen}
             disableShare={!dialogId || selectingMode}
             onClose={() => setSidebarOpen(false)}
-            // onShareVisible={withGa(
-            //   "Panel",
-            //   "pressed screenshot",
-            //   `${messages.slice(-1)?.[0]?.utteranceId ?? ""}`,
-            //   getChatPic
-            // )}
+            onShareVisible={() => shareDialog(getVisibleBubbles())}
             onStartSelect={() => setSelectingMode(true)}
             onReset={reset}
           />
@@ -185,6 +201,8 @@ const Chat: NextPage = () => {
             )}
 
             <MessageHistory
+              bubbleClassname={BubbleClass}
+              wrapperClassname={MsgScrollContClass}
               {...{
                 loading,
                 messages,
