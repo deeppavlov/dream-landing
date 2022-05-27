@@ -161,9 +161,11 @@ const Chat: NextPage = () => {
             open={sidebarOpen}
             disableShare={!dialogId || selectingMode}
             onClose={() => setSidebarOpen(false)}
-            onShareVisible={() => shareDialog(getVisibleBubbles())}
+            onShareVisible={() => (
+              setSidebarOpen(false), shareDialog(getVisibleBubbles())
+            )}
             onStartSelect={() => setSelectingMode(true)}
-            onReset={reset}
+            onReset={() => (setSidebarOpen(false), reset())}
           />
         </div>
 
