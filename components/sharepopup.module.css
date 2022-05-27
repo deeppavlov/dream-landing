@@ -12,6 +12,7 @@
 
 .preview {
   width: 100%;
+  margin-top: 30px;
   aspect-ratio: 1;
   background-repeat: no-repeat;
   background-size: cover;
