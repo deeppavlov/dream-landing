@@ -180,18 +180,21 @@ const DisclaimerPopup: FC<{ onDisagree: () => void }> = ({ onDisagree }) => {
         >
           <button
             className={cn(styles["red-btn"], !read && styles["disabled"])}
-            onClick={() => {
-              if (read)
-                withGa("Disclaimer", "pressed disagree", handleDisagree);
-            }}
+            onClick={
+              read
+                ? withGa("Disclaimer", "pressed disagree", handleDisagree)
+                : undefined
+            }
           >
             Disagree
           </button>
           <button
             className={cn(!read && styles["disabled"])}
-            onClick={() => {
-              if (read) withGa("Disclaimer", "pressed agree", handleAgree);
-            }}
+            onClick={
+              read
+                ? withGa("Disclaimer", "pressed agree", handleAgree)
+                : undefined
+            }
           >
             Agree
           </button>
