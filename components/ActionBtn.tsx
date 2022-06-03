@@ -5,13 +5,16 @@ import cn from "classnames";
 
 import styles from "./actionbtn.module.css";
 
-const ActionBtn: FC<{ onClick?: () => void; icon: IconDefinition }> = ({
-  onClick,
-  icon,
-  children,
-}) => {
+const ActionBtn: FC<{
+  onClick?: () => void;
+  icon: IconDefinition;
+  disabled?: boolean;
+}> = ({ onClick, icon, disabled = false, children }) => {
   return (
-    <button className={styles["action-btn"]} onClick={onClick}>
+    <button
+      className={cn(styles["action-btn"], disabled && styles["disabled"])}
+      onClick={onClick}
+    >
       <div className={styles["icon-cont"]}>
         <FontAwesomeIcon icon={icon} />
       </div>
@@ -45,10 +48,7 @@ export const ActionBtnSlide: FC<{
 
   return (
     <div
-      className={cn(
-        styles["slide-wrapper"],
-        disabled && styles["slide-disabled"]
-      )}
+      className={cn(styles["slide-wrapper"], disabled && styles["disabled"])}
       onClick={onClick}
     >
       <div

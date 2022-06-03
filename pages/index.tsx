@@ -14,7 +14,13 @@ import DisclaimerPopup from "../components/DisclaimerPopup";
 import { usePopup } from "../components/Popup";
 import { ReactionsPopup } from "../components/MessageReaction";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faCamera, faCancel } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBars,
+  faCamera,
+  faCancel,
+  faSquare,
+  faSquareCheck,
+} from "@fortawesome/free-solid-svg-icons";
 import { withGa } from "../utils/analytics";
 import ActionBtn from "../components/ActionBtn";
 import { getShareUrl } from "../utils/shareUrl";
@@ -165,7 +171,9 @@ const Chat: NextPage = () => {
               setSidebarOpen(false), shareDialog(getVisibleBubbles())
             )}
             onStartSelect={() => setSelectingMode(true)}
-            onReset={() => (setSidebarOpen(false), reset())}
+            onReset={() => (
+              setSidebarOpen(false), setSelectingMode(false), reset()
+            )}
           />
         </div>
 
@@ -186,6 +194,7 @@ const Chat: NextPage = () => {
               >
                 <ActionBtn
                   icon={faCamera}
+                  disabled={selectedMessages.length === 0}
                   onClick={() => (
                     setSelectingMode(false), shareDialog(selectedMessages)
                   )}
@@ -193,11 +202,26 @@ const Chat: NextPage = () => {
                   Share selected
                 </ActionBtn>
 
+                {selectedMessages.length === 0 ? (
+                  <ActionBtn
+                    icon={faSquareCheck}
+                    onClick={() => setSelectedMsgs(messages.map((_, i) => i))}
+                  >
+                    Select all
+                  </ActionBtn>
+                ) : (
+                  <ActionBtn
+                    icon={faSquare}
+                    onClick={() => setSelectedMsgs([])}
+                  >
+                    Deselect all
+                  </ActionBtn>
+                )}
                 <ActionBtn
                   icon={faCancel}
                   onClick={() => setSelectingMode(false)}
                 >
-                  Cancel selection
+                  Cancel
                 </ActionBtn>
               </div>
             )}

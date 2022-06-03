@@ -48,7 +48,7 @@
   flex: 1;
 }
 
-.slide-disabled {
+.disabled {
   filter: brightness(30%);
   pointer-events: none;
 }
