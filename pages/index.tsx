@@ -117,7 +117,10 @@ const Chat: NextPage = () => {
       shared.map((idx) => ({ idx })),
       window.location.hostname
     );
-    ga("send", "event", "Panel", "shared dialog", url);
+    gtag("event", "shared dialog", {
+      event_category: "Panel",
+      event_label: url,
+    });
     show("share", url);
   };
 
