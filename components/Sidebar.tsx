@@ -10,6 +10,7 @@ import {
   faStar,
   faShareNodes,
   faObjectGroup,
+  faHome,
 } from "@fortawesome/free-solid-svg-icons";
 import { faTelegram } from "@fortawesome/free-brands-svg-icons";
 
@@ -44,27 +45,34 @@ const Sidebar: FC<{
       <div
         className={`${styles["sidebar"]} ${open ? styles["sidebar-open"] : ""}`}
       >
-        <div className={styles["close-btn"]} onClick={() => onClose()}>
-          <FontAwesomeIcon icon={faClose} />
-        </div>
+        {isMobile ? (
+          <div className={styles["back"]} onClick={onClose}>
+            <div className={styles["close-icon-cont"]}>
+              <FontAwesomeIcon icon={faClose} />
+            </div>
+          </div>
+        ) : (
+          <a
+            className={styles["back"]}
+            href="https://deeppavlov.ai/dream"
+            onClick={withGaThenNavigate(
+              "Panel",
+              "pressed back to homepage",
+              "https://deeppavlov.ai/dream"
+            )}
+          >
+            <div className={styles["back-icon-cont"]}>
+              <FontAwesomeIcon icon={faArrowLeft} />
+            </div>{" "}
+            Back to Dream
+          </a>
+        )}
 
-        <a
-          className={styles["back"]}
-          href="https://deeppavlov.ai/dream"
-          onClick={withGaThenNavigate(
-            "Panel",
-            "pressed back to homepage",
-            "https://deeppavlov.ai/dream"
-          )}
-        >
-          <div className={styles["back-icon-cont"]}>
-            <FontAwesomeIcon icon={faArrowLeft} />
-          </div>{" "}
-          Back
-        </a>
-
-        <div className={styles["avatar"]} id="avatar" />
+        {!isMobile && <div className={styles["avatar"]} id="avatar" />}
         <div className={styles["scroll-cont"]}>
+          {/* On mobile, place the avatar in the scollcontainer to free up space */}
+          {isMobile && <div className={styles["avatar"]} id="avatar" />}
+
           <div className={styles["title"]}>Dream Socialbot</div>
           <div className={styles["desc"]}>
             Hi! Name&apos;s Dream, I&apos;m a socialbot born during the Alexa
@@ -108,9 +116,22 @@ const Sidebar: FC<{
               Start a new dialog
             </ActionBtn>
             {isMobile && (
-              <ActionBtn icon={faStar} onClick={() => show("feedback")}>
-                Give feedback
-              </ActionBtn>
+              <>
+                <ActionBtn icon={faStar} onClick={() => show("feedback")}>
+                  Give feedback
+                </ActionBtn>
+                <a
+                  style={{ display: "block" }} // To get margins to work
+                  href="https://deeppavlov.ai/dream"
+                  onClick={withGaThenNavigate(
+                    "Panel",
+                    "pressed back to homepage",
+                    "https://deeppavlov.ai/dream"
+                  )}
+                >
+                  <ActionBtn icon={faHome}>Dream website</ActionBtn>
+                </a>
+              </>
             )}
           </div>
 

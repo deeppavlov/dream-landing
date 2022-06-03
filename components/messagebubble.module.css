@@ -22,9 +22,15 @@
   font-weight: 400;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 1000px) {
   .bubble {
     max-width: 75%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .bubble {
+    max-width: 95%;
   }
 }
 

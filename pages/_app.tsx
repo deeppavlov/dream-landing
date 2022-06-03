@@ -18,22 +18,44 @@ function App({ Component, pageProps }: AppProps) {
           content="device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"
         />
       </Head>
-      <Script id="google-analytics" strategy="afterInteractive">
-        {`
-          if (document.location.hostname.search("dream.deeppavlov.ai") !== -1) {
-            window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-            ga('create', 'GOOGLE_ANALYTICS_ID', 'auto');
-            ga('send', 'pageview');
-          } else {
-            window.ga=(...args)=>console.log("GA", ...args)
-          }
-        `}
-      </Script>
-      {process.env.NODE_ENV !== "development" && (
-        <Script
-          src="https://www.google-analytics.com/analytics.js"
-          strategy="afterInteractive"
-        />
+      {process.env.NODE_ENV !== "development" ? (
+        <>
+          <Script id="yandex-metrika" strategy="afterInteractive">
+            {`
+              (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+              m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+              (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+              ym(88822179, "init", {
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true,
+                    webvisor:true,
+                    trackHash:true
+              });
+            `}
+          </Script>
+
+          <Script id="google-analytics" strategy="afterInteractive">
+            {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){window.dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'G-21TGJ1M308');
+            `}
+          </Script>
+          <Script
+            src="https://www.googletagmanager.com/gtag/js?id=G-21TGJ1M308"
+            strategy="afterInteractive"
+          />
+        </>
+      ) : (
+        <Script id="google-analytics-shim" strategy="afterInteractive">
+          {`
+            window.gtag=(...args) => console.info("GA", ...args)
+          `}
+        </Script>
       )}
 
       <PopupProvider>

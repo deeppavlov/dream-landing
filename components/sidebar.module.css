@@ -15,15 +15,6 @@
   transition: left linear 0.2s;
 }
 
-.close-btn {
-  display: none;
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 2em;
-  color: #0069b4;
-}
-
 .back {
   display: flex;
   flex-direction: row;
@@ -39,10 +30,19 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 5px;
+  margin-right: 10px;
   font-size: 14px;
   border: 1px solid #0069b4;
   border-radius: 2px;
+}
+
+.close-icon-cont {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 28px;
 }
 
 .overlay {
@@ -74,6 +74,25 @@
   .sidebar {
     height: 100vh;
     left: -100%;
+    padding-top: 5px;
+    padding-right: 0;
+  }
+
+  .avatar {
+    margin-top: 39px !important;
+  }
+
+  .desc {
+    padding-right: 20px;
+  }
+
+  .back {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 5px;
+    background-color: #fcfcfc;
+    border-radius: 100%;
   }
 
   .sidebar-open {
