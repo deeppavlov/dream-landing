@@ -5,6 +5,7 @@ import styles from "./disclaimerpopup.module.css";
 import useStored from "../hooks/useStored";
 import Tooltip, { useTooltip } from "./Tooltip";
 import { gaSync, withGa, withGaThenNavigate } from "../utils/analytics";
+import cn from "classnames";
 
 const DisclaimerPopup: FC<{ onDisagree: () => void }> = ({ onDisagree }) => {
   const { hide, show } = usePopup();
@@ -15,7 +16,7 @@ const DisclaimerPopup: FC<{ onDisagree: () => void }> = ({ onDisagree }) => {
   });
   useEffect(() => {
     if (agreed === false) {
-      ga("send", "event", "Disclaimer", "first open");
+      gtag("event", "first open", { event_category: "Disclaimer" });
       show("disclaimer");
     }
   }, [agreed, setAgree, show]);
@@ -24,7 +25,7 @@ const DisclaimerPopup: FC<{ onDisagree: () => void }> = ({ onDisagree }) => {
     const el = ev.currentTarget;
     const bottomScroll = el.scrollHeight - el.clientHeight - 20;
     if (el.scrollTop >= bottomScroll) {
-      ga("send", "event", "Disclaimer", "read");
+      gtag("event", "read", { event_category: "Disclaimer" });
       setRead(true);
     }
   };
@@ -47,12 +48,12 @@ const DisclaimerPopup: FC<{ onDisagree: () => void }> = ({ onDisagree }) => {
   };
 
   const { setAnchor, ...tooltipProps } = useTooltip();
-  const [showTooltip, setShowTooltip] = useState(false);
-  // useEffect(() => {
-  //   if (!showTooltip) return;
-  //   const handle = setTimeout(() => setShowTooltip(false), 1000);
-  //   return () => clearTimeout(handle);
-  // }, [showTooltip]);
+  const [showTooltip, setShowTooltip] = useState<number>(0);
+  useEffect(() => {
+    if (!showTooltip || showTooltip === Infinity) return;
+    const handle = setTimeout(() => setShowTooltip(0), showTooltip);
+    return () => clearTimeout(handle);
+  }, [showTooltip]);
 
   return (
     <Popup
@@ -171,26 +172,36 @@ const DisclaimerPopup: FC<{ onDisagree: () => void }> = ({ onDisagree }) => {
       <div className={styles["btn-cont"]}>
         <div
           ref={setAnchor}
-          onMouseEnter={() => !read && setShowTooltip(true)}
-          onMouseLeave={() => showTooltip && setShowTooltip(false)}
+          onClick={() =>
+            !read && showTooltip !== Infinity && setShowTooltip(1000)
+          }
+          onMouseEnter={() => !read && setShowTooltip(Infinity)}
+          onMouseLeave={() => showTooltip && setShowTooltip(0)}
         >
           <button
-            className={styles["red-btn"]}
-            onClick={withGa("Disclaimer", "pressed disagree", handleDisagree)}
-            disabled={!read}
+            className={cn(styles["red-btn"], !read && styles["disabled"])}
+            onClick={
+              read
+                ? withGa("Disclaimer", "pressed disagree", handleDisagree)
+                : undefined
+            }
           >
             Disagree
           </button>
           <button
-            onClick={withGa("Disclaimer", "pressed agree", handleAgree)}
-            disabled={!read}
+            className={cn(!read && styles["disabled"])}
+            onClick={
+              read
+                ? withGa("Disclaimer", "pressed agree", handleAgree)
+                : undefined
+            }
           >
             Agree
           </button>
         </div>
       </div>
 
-      {!read && showTooltip && (
+      {!read && showTooltip !== 0 && (
         <Tooltip {...tooltipProps}>
           Scroll down and read the disclaimer first!
         </Tooltip>

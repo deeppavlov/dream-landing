@@ -37,20 +37,22 @@ function App({ Component, pageProps }: AppProps) {
 
           <Script id="google-analytics" strategy="afterInteractive">
             {`
-              window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-              ga('create', 'G-21TGJ1M308', 'auto');
-              ga('send', 'pageview');
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){window.dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'G-21TGJ1M308');
             `}
           </Script>
           <Script
-            src="https://www.google-analytics.com/analytics.js"
+            src="https://www.googletagmanager.com/gtag/js?id=G-21TGJ1M308"
             strategy="afterInteractive"
           />
         </>
       ) : (
         <Script id="google-analytics-shim" strategy="afterInteractive">
           {`
-            window.ga=(...args) => console.info("GA", ...args)
+            window.gtag=(...args) => console.info("GA", ...args)
           `}
         </Script>
       )}

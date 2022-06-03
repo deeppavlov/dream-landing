@@ -105,12 +105,10 @@ function _withGa<T extends (...args: any) => any>(
   sync: boolean,
   func: T
 ): (...args: Parameters<T>) => void {
-  const args: Record<string, any> = {
-    hitType: "event",
-    eventCategory,
-    eventAction,
+  const gaArgs: Record<string, any> = {
+    event_category: eventCategory,
   };
-  if (typeof eventLabel === "string") args.eventLabel = eventLabel;
+  if (typeof eventLabel === "string") gaArgs.event_label = eventLabel;
 
   let called = false;
   const wrapped = (...fargs: Parameters<T>) => {
@@ -118,11 +116,11 @@ function _withGa<T extends (...args: any) => any>(
     called = true;
     func(...fargs);
   };
-  if (sync) args.hitCallback = wrapped;
+  if (sync) gaArgs.hitCallback = wrapped;
 
   return (...fargs: Parameters<T>) => {
     if (sync) setTimeout(() => wrapped(...fargs), 150);
-    ga("send", args);
+    gtag("event", eventAction, gaArgs);
     if (!sync) func(...fargs);
   };
 }
