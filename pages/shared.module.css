@@ -1,0 +1,83 @@
+.share-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.top-bar {
+  width: 100%;
+  padding: 13px 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2em;
+  color: white;
+  background-color: #0069b3;
+}
+
+.avatar {
+  flex-shrink: 0;
+  background: url("/logo.png");
+  width: 3em;
+  height: 3em;
+  margin-right: 10px;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.top-bar a {
+  color: #a0d7ff;
+  text-decoration: underline;
+}
+
+.chat-cont,
+.btn-cont {
+  width: 100%;
+  max-width: 800px;
+  border-right: 3px solid rgba(128, 128, 128, 0.1);
+  border-left: 3px solid rgba(128, 128, 128, 0.1);
+}
+
+.chat-cont {
+  overflow-y: auto;
+}
+
+.chat-cont > div:first-child {
+  overflow: hidden;
+}
+
+.btn-cont {
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+}
+
+.fat-btn {
+  flex: 1;
+  display: block;
+  padding: 10px 15px;
+  border: 1px solid #0069b3;
+  border-radius: 4px;
+  background-color: white;
+  font: inherit;
+  text-align: center;
+  cursor: pointer;
+  color: #0069b3;
+}
+
+.fat-btn + .fat-btn {
+  margin-left: 10px;
+}
+
+.fat-btn.primary {
+  border: none;
+  background-color: #0069b3;
+  color: white;
+}
+
+.fat-btn:hover {
+  color: white;
+  background-color: #a0d7ff;
+  border-color: transparent;
+}

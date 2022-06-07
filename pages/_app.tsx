@@ -2,6 +2,7 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import Script from "next/script";
+import { PopupProvider } from "../components/Popup";
 
 if (process.env.NODE_ENV === "development" && process.env.MSW) {
   const { worker } = require("../mocks/browser");
@@ -57,7 +58,9 @@ function App({ Component, pageProps }: AppProps) {
         </Script>
       )}
 
-      <Component {...pageProps} />
+      <PopupProvider>
+        <Component {...pageProps} />
+      </PopupProvider>
     </>
   );
 }

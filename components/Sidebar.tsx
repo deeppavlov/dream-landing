@@ -8,23 +8,33 @@ import {
   faClose,
   faArrowLeft,
   faStar,
+  faShareNodes,
+  faObjectGroup,
   faHome,
 } from "@fortawesome/free-solid-svg-icons";
 import { faTelegram } from "@fortawesome/free-brands-svg-icons";
 
 import styles from "./sidebar.module.css";
 import useOnSmallerScreen from "../hooks/useOnSmallerScreen";
-import ActionBtn from "./ActionBtn";
+import ActionBtn, { ActionBtnGroup, ActionBtnSlide } from "./ActionBtn";
 import { usePopup } from "./Popup";
 import { withGa, withGaThenNavigate } from "../utils/analytics";
 
 const Sidebar: FC<{
   open: boolean;
+  disableShare: boolean;
   onClose: () => void;
-  onScreenshot?: () => void;
+  onShareVisible?: () => void;
+  onStartSelect?: () => void;
   onReset?: () => void;
-  onDownload?: () => void;
-}> = ({ open, onClose, onScreenshot, onReset }) => {
+}> = ({
+  open,
+  disableShare,
+  onClose,
+  onShareVisible,
+  onStartSelect,
+  onReset,
+}) => {
   const { show } = usePopup();
 
   const renderFloating = useOnSmallerScreen({ width: 1000 });
@@ -76,9 +86,19 @@ const Sidebar: FC<{
 
           <div className={styles["small-title"]}>Actions</div>
           <div className={styles["actions-cont"]}>
-            <ActionBtn icon={faCamera} onClick={onScreenshot}>
-              Take screenshot
-            </ActionBtn>
+            <ActionBtnSlide toggleOnClick disabled={disableShare}>
+              <ActionBtn icon={faShareNodes}>Share dialog</ActionBtn>
+
+              <ActionBtnGroup>
+                <ActionBtn icon={faCamera} onClick={onShareVisible}>
+                  Share visible
+                </ActionBtn>
+
+                <ActionBtn icon={faObjectGroup} onClick={onStartSelect}>
+                  Select messages
+                </ActionBtn>
+              </ActionBtnGroup>
+            </ActionBtnSlide>
             <ActionBtn
               icon={faDownload}
               onClick={withGaThenNavigate(

@@ -18,6 +18,7 @@
 }
 
 .icon-cont {
+  flex-shrink: 0;
   width: 40px;
   height: 40px;
   display: flex;
@@ -27,4 +28,40 @@
   border-radius: 4px;
   margin-right: 15px;
   background-color: rgba(0, 105, 180, 0.3);
+}
+
+.slide-wrapper {
+  position: relative;
+  height: 40px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.slide-overflow {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  transition: left 0.1s linear;
+}
+
+.slide-overflow > * {
+  flex: 1;
+}
+
+.disabled {
+  filter: brightness(30%);
+  pointer-events: none;
+}
+
+.group {
+  display: flex;
+  flex-direction: row;
+}
+
+.group > * {
+  flex: 1;
+}
+
+.group > * + * {
+  margin-left: 5px;
 }

@@ -1,24 +1,36 @@
 import React, { FC, useEffect, useRef, useState } from "react";
+import cn from "classnames";
 
 import styles from "./messagebubble.module.css";
 import { Message } from "../hooks/useChat";
 // import MessageReaction from "./MessageReaction";
 import { usePopup } from "./Popup";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 const MessageBubble: FC<{
   msg: Message;
   isNew: boolean;
+  canSelect: boolean;
   onReact?: (uttId: string, reaction: number) => void;
+  onSelect?: (ev: React.MouseEvent) => void;
   disableReaction?: boolean;
   className?: string;
+  selected?: boolean;
+  idxData?: number;
 }> = ({
   msg,
   isNew,
   onReact,
   disableReaction: disableRating = false,
   className = "",
+  canSelect,
+  selected = false,
+  onSelect = () => {},
+  idxData,
   children,
 }) => {
+  selected = canSelect && selected;
   const isRight = msg.sender === "user";
   const divRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -26,14 +38,38 @@ const MessageBubble: FC<{
       divRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [isNew]);
+
   return (
-    <div ref={divRef} className={styles["bubble-wrap"]}>
+    <div
+      ref={divRef}
+      className={cn(styles["bubble-wrap"], selected && styles["selected"])}
+      onClick={canSelect ? onSelect : undefined}
+    >
       <div
-        className={
-          styles["bubble"] +
-          ` ${isRight ? styles["bubble-right"] : ""}` +
-          ` ${className}`
-        }
+        className={cn(
+          styles["gutter"],
+          canSelect && styles["gutter-selecting"]
+        )}
+      >
+        <div
+          className={cn(
+            styles["checkbox"],
+            canSelect && selected && styles["checked"]
+          )}
+        >
+          <FontAwesomeIcon icon={faCheck} />
+        </div>
+      </div>
+      <div
+        // We save the message index in the DOM, so that when finding
+        // which messages are visible, we can get back the idx.
+        data-idx={`${idxData}`}
+        className={cn(
+          styles["bubble"],
+          isRight && styles["bubble-right"],
+          selected && styles["selected"],
+          className
+        )}
       >
         {children || msg.content.replace(/ #\+#.*/, "")}
         {/* {msg.utteranceId && !disableRating && (
@@ -62,6 +98,7 @@ export const ThinkingBubble: FC = () => {
 
   return (
     <MessageBubble
+      canSelect={false}
       msg={{
         sender: "bot",
         type: "text",
@@ -78,6 +115,7 @@ export const DisclaimerBubble: FC = () => {
 
   return (
     <MessageBubble
+      canSelect={false}
       msg={{
         sender: "bot",
         type: "text",
