@@ -1,4 +1,11 @@
-import React, { useState, useCallback, useRef, useEffect } from "react";
+import React, {
+  useState,
+  useCallback,
+  useRef,
+  useEffect,
+  useLayoutEffect,
+  FC,
+} from "react";
 import type { NextPage } from "next";
 import ReactTextareaAutosize, {
   TextareaAutosizeProps,
@@ -20,12 +27,14 @@ import {
   faCancel,
   faSquare,
   faSquareCheck,
+  faPlay,
 } from "@fortawesome/free-solid-svg-icons";
 import { withGa } from "../utils/analytics";
 import ActionBtn from "../components/ActionBtn";
 import { getShareUrl } from "../utils/shareUrl";
 import SharePopup from "../components/SharePopup";
 import MessageHistory from "../components/MessageHistory";
+import useOnSmallerScreen from "../hooks/useOnSmallerScreen";
 
 const BubbleClass = "chatbubble";
 const MsgScrollContClass = "chatscroll";
@@ -45,6 +54,24 @@ const getVisibleBubbles = () => {
     }
   });
   return visible;
+};
+
+const SendBtn: FC<{
+  onClick?: () => void;
+  btnHeight?: number | null;
+  disabled?: boolean;
+}> = ({ onClick, btnHeight, disabled }) => {
+  const isMobile = useOnSmallerScreen({ width: 500 });
+
+  return (
+    <button
+      onClick={onClick}
+      style={btnHeight ? { height: `${btnHeight}px` } : undefined}
+      disabled={disabled}
+    >
+      {isMobile ? <FontAwesomeIcon icon={faPlay} /> : "Send"}
+    </button>
+  );
 };
 
 const Chat: NextPage = () => {
@@ -260,13 +287,12 @@ const Chat: NextPage = () => {
               }
               disabled={!!error || selectingMode}
             />
-            <button
-              onClick={() => onClickSend()}
-              style={btnHeight ? { height: `${btnHeight}px` } : undefined}
+
+            <SendBtn
+              onClick={onClickSend}
+              btnHeight={btnHeight}
               disabled={msgDraft.replace(/\W/gi, "") === "" || selectingMode}
-            >
-              Send
-            </button>
+            />
           </div>
         </div>
       </div>
