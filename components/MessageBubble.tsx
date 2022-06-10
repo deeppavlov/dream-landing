@@ -34,8 +34,13 @@ const MessageBubble: FC<{
   const isRight = msg.sender === "user";
   const divRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (isNew && divRef.current) {
-      divRef.current.scrollIntoView({ behavior: "smooth" });
+    if (isNew) {
+      // This hack is required on mobile chrome to have the thinking bubble
+      // scrolling into view working.
+      setTimeout(
+        () => divRef.current?.scrollIntoView({ behavior: "smooth" }),
+        50
+      );
     }
   }, [isNew]);
 
@@ -90,10 +95,14 @@ export default MessageBubble;
 export const ThinkingBubble: FC = () => {
   const [msg, setMsg] = useState("...");
   useEffect(() => {
+    console.log("Thinking bubble mounted");
     const handle = setInterval(() => {
       setMsg((msg) => (msg.length >= 4 ? "." : msg + "."));
     }, 200);
-    return () => clearInterval(handle);
+    return () => {
+      clearInterval(handle);
+      console.log("Thinking bubble unmounted");
+    };
   }, []);
 
   return (
