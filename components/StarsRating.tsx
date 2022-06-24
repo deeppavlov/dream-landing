@@ -1,5 +1,6 @@
 import React, { FC, useCallback, useEffect, useRef, useState } from "react";
 import { Icon } from "@iconify/react";
+import confetti from "canvas-confetti";
 
 import styles from "./starsrating.module.css";
 import stylesAnim from "./starsanimation.module.css";
@@ -29,12 +30,37 @@ const StarsRating: FC<{
   const { setAnchor, ...tooltipProps } = useTooltip();
   const { show } = usePopup();
 
-  const [showTooltip, setShowTooltip] = useState(false);
+  const [tooltipText, setTooltip] = useState<string | null>(null);
   useEffect(() => {
-    if (!showTooltip) return;
-    const handle = setTimeout(() => setShowTooltip(false), 1000);
+    if (!tooltipText) return;
+    const handle = setTimeout(() => setTooltip(null), 2000);
     return () => clearTimeout(handle);
-  }, [showTooltip]);
+  }, [tooltipText]);
+
+  const rate = (idx: number) => {
+    // idx ∈ [0. 4]
+    if (idx >= 3) {
+      setTooltip(
+        "Thank you! I am extremely glad that you liked our chat. Come again!"
+      );
+      confetti({
+        origin: { x: 1, y: 0 },
+        angle: 215,
+        startVelocity: 20,
+        ticks: 80,
+        spread: 90,
+        particleCount: 190,
+        disableForReducedMotion: true,
+      });
+    } else if (idx === 2) {
+      setTooltip("Thank you, we have received your feedback.");
+    } else {
+      setTooltip(
+        "Thank you! I am sorry you did not enjoy our conversation. I hope next time I can improve."
+      );
+    }
+    setRating(idx);
+  };
 
   return (
     <div className={styles["stars-cont"]}>
@@ -54,7 +80,11 @@ const StarsRating: FC<{
               icon="fa6-solid:star"
               fontSize="2em"
               color={idx <= rating ? "#ffd93a" : inactiveStarColor}
-              onClick={() => (canRate ? setRating(idx) : setShowTooltip(true))}
+              onClick={() =>
+                canRate
+                  ? rate(idx)
+                  : setTooltip("Start a dialog before rating!")
+              }
               className={animate ? stylesAnim["star-jump"] : ""}
               style={{
                 animationDelay: `${idx * 0.3}s`,
@@ -76,9 +106,9 @@ const StarsRating: FC<{
           </span>
         )}
       </span>
-      {showTooltip && (
-        <Tooltip fade {...tooltipProps}>
-          Start a dialog before rating
+      {tooltipText && (
+        <Tooltip fade={2} {...tooltipProps}>
+          {tooltipText}
         </Tooltip>
       )}
     </div>

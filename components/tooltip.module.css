@@ -10,11 +10,12 @@
 .tooltip-fade {
   animation: tooltipfade linear;
   animation-duration: 0.2s;
-  animation-delay: 0.8s;
 }
 
 .tooltip {
   display: inline-block;
+  max-width: 300px;
+  text-align: left;
   background: rgba(255, 255, 255, 0.815);
   color: black;
   font-weight: bold;
