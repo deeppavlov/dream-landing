@@ -33,7 +33,7 @@ const StarsRating: FC<{
   const [tooltipText, setTooltip] = useState<string | null>(null);
   useEffect(() => {
     if (!tooltipText) return;
-    const handle = setTimeout(() => setTooltip(null), 2000);
+    const handle = setTimeout(() => setTooltip(null), 4000);
     return () => clearTimeout(handle);
   }, [tooltipText]);
 
@@ -107,7 +107,7 @@ const StarsRating: FC<{
         )}
       </span>
       {tooltipText && (
-        <Tooltip fade={2} {...tooltipProps}>
+        <Tooltip fade={4} {...tooltipProps}>
           {tooltipText}
         </Tooltip>
       )}
