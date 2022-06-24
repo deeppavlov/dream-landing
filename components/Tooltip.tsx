@@ -24,20 +24,22 @@ export const useTooltip = () => {
 };
 
 const Tooltip: FC<
-  Omit<ReturnType<typeof useTooltip>, "setAnchor"> & { fade?: boolean }
+  Omit<ReturnType<typeof useTooltip>, "setAnchor"> & { fade?: number }
 > = ({
   attributes,
   setArrowElement,
   setPopperElement,
   styles: popperStyles,
-  fade = false,
+  fade = 0,
   children,
 }) => {
   return (
     <div
       ref={setPopperElement}
-      className={`${styles["tooltip"]} ${fade ? styles["tooltip-fade"] : ""}`}
-      style={popperStyles.popper}
+      className={`${styles["tooltip"]} ${
+        fade > 0 ? styles["tooltip-fade"] : ""
+      }`}
+      style={{ ...popperStyles.popper, animationDelay: `${fade - 0.2}s` }}
       {...attributes.popper}
     >
       {children}
