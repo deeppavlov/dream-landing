@@ -17,6 +17,7 @@ const StarsRating: FC<{
   inactiveStarColor?: string;
   starsMargin?: string;
   compactOnMobile?: boolean;
+  showTooltipAndConfetti?: boolean;
 }> = ({
   rating,
   setRating,
@@ -26,6 +27,7 @@ const StarsRating: FC<{
   inactiveStarColor = "#fbfbfb4f",
   starsMargin = "5px",
   compactOnMobile = false,
+  showTooltipAndConfetti = false,
 }) => {
   const { setAnchor, ...tooltipProps } = useTooltip();
   const { show } = usePopup();

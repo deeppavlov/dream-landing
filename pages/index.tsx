@@ -164,6 +164,7 @@ const Chat: NextPage = () => {
           canRate={!!dialogId}
           showFeedbackLink
           compactOnMobile
+          showTooltipAndConfetti
         />
       </div>
 
