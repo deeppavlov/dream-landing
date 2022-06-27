@@ -11,7 +11,7 @@ const SPREADSHEET_API_URL =
 
 const FeedbackPopup: FC<
   Parameters<typeof StarsRating>[0] & {
-    userId: string;
+    userId: string | null;
     dialogId: string | null;
   }
 > = ({ children, userId, dialogId, ...starProps }) => {

@@ -20,7 +20,7 @@ interface UseChatReturn {
   messages: Message[];
   error: string | null;
   loading: boolean;
-  userId: string;
+  userId: string | null;
   dialogId: string | null;
 }
 
@@ -38,7 +38,9 @@ const useChat = (): UseChatReturn => {
   const { error, post } = usePost(DREAM_API_URL);
   const [loading, setLoading] = useState(false);
   const [dialogId, setDialogId] = useStored<null | string>("dialog-id", null);
-  const [userId, setUserId] = useStored("user-id", nanoid);
+  const [userId, setUserId] = useStored("user-id", () => nanoid(), {
+    initialRender: null,
+  });
 
   const [rating, setStoredRating] = useStored<number>("dialog_rating", -1);
   const setRating = useCallback(

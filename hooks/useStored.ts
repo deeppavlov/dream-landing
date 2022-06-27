@@ -1,3 +1,4 @@
+import { nanoid } from "nanoid";
 import {
   useState,
   useEffect,
@@ -46,8 +47,7 @@ const useStored = <T extends Value>(
     if (hasLocalStorage()) {
       const stored = localStorage.getItem(id);
       if (stored) setStateValue(deserialize(stored));
-      else if (typeof initialRender !== "undefined")
-        setStateValue(defaultValue);
+      else setValue(defaultValue);
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
