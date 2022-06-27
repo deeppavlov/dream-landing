@@ -19,5 +19,3 @@ npm run dev:msw
 ```
 
 to mock dream endpoints in development. You can edit the mock handlers in `mocks/browser.ts`
-
-This project uses [Next.JS](https://nextjs.org/docs).

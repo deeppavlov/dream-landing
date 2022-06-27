@@ -6,7 +6,6 @@ import React, {
   useLayoutEffect,
   FC,
 } from "react";
-import type { NextPage } from "next";
 import ReactTextareaAutosize, {
   TextareaAutosizeProps,
 } from "react-textarea-autosize";
@@ -66,7 +65,7 @@ const SendBtn: FC<{
   );
 };
 
-const Chat: NextPage = () => {
+const Page: FC = () => {
   const {
     messages,
     loading,
@@ -292,4 +291,4 @@ const Chat: NextPage = () => {
   );
 };
 
-export default Chat;
+export { Page as Chat };

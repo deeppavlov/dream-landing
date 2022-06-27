@@ -1,7 +1,4 @@
 import "../styles/globals.css";
-import type { AppProps } from "next/app";
-import Head from "next/head";
-import Script from "next/script";
 import { PopupProvider } from "../components/Popup";
 
 if (process.env.NODE_ENV === "development" && process.env.MSW) {
@@ -12,12 +9,6 @@ if (process.env.NODE_ENV === "development" && process.env.MSW) {
 function App({ Component, pageProps }: AppProps) {
   return (
     <>
-      <Head>
-        <meta
-          name="viewport"
-          content="device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"
-        />
-      </Head>
       {process.env.NODE_ENV !== "development" ? (
         <>
           <Script id="yandex-metrika" strategy="afterInteractive">
