@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "Survey Config",
+  "description": "This configuration defines the options for a survey",
+  "type": "object",
+  "required": ["title", "description", "options", "trigger"],
+  "additionalProperties": false,
+  "properties": {
+    "tite": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "options": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["name"],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "icon": {
+            "type": "string"
+          },
+          "color": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "trigger": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 2,
+      "required": ["with_probability"],
+      "properties": {
+        "first_time_user": {
+          "type": "boolean"
+        },
+        "only_after_n_messages": {
+          "type": "number"
+        },
+        "only_after_n_sessions": {
+          "type": "number"
+        },
+        "after_session_start": {
+          "type": "boolean"
+        },
+        "when_skill_activated": {
+          "type": "string"
+        },
+        "with_probability": {
+          "type": "number",
+          "maximum": 1,
+          "minimum": 0
+        },
+        "max_n_times_per_session": {
+          "type": "number"
+        },
+        "max_n_times_per_user": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}

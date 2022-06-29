@@ -5,6 +5,7 @@ import { fetchSharedMessages, ShareParams } from "../../utils/shareUrl";
 const handler: NextApiHandler = async (req, res) => {
   if (req.method !== "GET") {
     res.status(400).write("Invalid method");
+    res.end();
     return;
   }
   const { w = "1200", h = "630", s = "2" } = req.query;
