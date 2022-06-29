@@ -6,7 +6,7 @@
   "required": ["title", "description", "options", "trigger"],
   "additionalProperties": false,
   "properties": {
-    "tite": {
+    "title": {
       "type": "string"
     },
     "description": {

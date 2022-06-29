@@ -68,40 +68,6 @@ export interface ClientContext {
   activeSkill: string;
 }
 
-const schemaPath = path.join(__dirname, "surveyConfig.schema.json");
-const schema: Schema = JSON.parse(
-  readFileSync(schemaPath, { encoding: "utf-8" })
-);
-
-export const validateConfig = (config: unknown, id: string): boolean => {
-  const result = validate(config, schema);
-  if (!result.valid) {
-    console.error(
-      `Invalid survey config "${id}"\n` +
-        result.errors
-          .map((err) => `  "${err.message}" at ${err.property}`)
-          .join("\n")
-    );
-  }
-  return result.valid;
-};
-
-export const parseSurveyConfigs = (surveyDir: PathLike): SurveyConfig[] =>
-  readdirSync(surveyDir)
-    .filter((file) => ["yml", "yaml"].includes(path.extname(file)))
-    .map((file) => {
-      const id = file.split(".").slice(0, -1).join(".");
-      const config = yaml.load(readFileSync(file, { encoding: "utf-8" }));
-      const valid = validateConfig(config, id);
-      return valid
-        ? <SurveyConfig>{
-            id,
-            ...(config as object),
-          }
-        : null;
-    })
-    .filter((res) => res !== null) as SurveyConfig[];
-
 export const findSurvey = (
   surveys: SurveyConfig[],
   context: ClientContext
