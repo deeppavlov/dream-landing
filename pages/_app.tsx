@@ -17,6 +17,7 @@ function App({ Component, pageProps }: AppProps) {
           name="viewport"
           content="device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"
         />
+        <title>Dream Social Bot</title>
       </Head>
       {process.env.NODE_ENV !== "development" ? (
         <>
