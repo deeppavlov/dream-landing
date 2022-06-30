@@ -86,6 +86,7 @@ const Chat: NextPage = () => {
     userId,
     dialogId,
     setMsgReaction,
+    version,
   } = useChat();
 
   // When it becomes available, set the userId on the tracker
@@ -140,6 +141,7 @@ const Chat: NextPage = () => {
   const shareDialog = (shared: number[]) => {
     if (!dialogId || shared.length === 0) return;
     const url = getShareUrl(
+      version,
       dialogId,
       shared.map((idx) => ({ idx })),
       window.location.hostname
@@ -262,11 +264,6 @@ const Chat: NextPage = () => {
                 setMsgReaction,
               }}
             />
-
-            {/* <DisclaimerHover
-                showBig={showBigDisclaimer}
-                onOk={() => setBigDisclaimer(false)}
-              /> */}
           </div>
           <div className={styles["input-cont"]}>
             <ReactTextareaAutosize

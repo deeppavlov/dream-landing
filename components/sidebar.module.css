@@ -161,7 +161,7 @@
   flex-direction: row;
   color: #1c8adb;
   /* Minimum margin for the disclaimer */
-  margin-bottom: 10px;
+  margin-bottom: 35px;
 }
 
 .disclaimer {
@@ -169,4 +169,14 @@
   color: #0069b4;
   margin-top: auto;
   cursor: pointer;
+}
+
+.version-links {
+  color: #0069b4;
+  margin-top: 0.4em;
+}
+
+.version-links a {
+  cursor: pointer;
+  text-decoration: underline;
 }

@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import usePost from "./usePost";
 import useStored from "./useStored";
 
@@ -22,6 +22,7 @@ interface UseChatReturn {
   loading: boolean;
   userId: string | null;
   dialogId: string | null;
+  version: keyof typeof DREAM_API_URL;
 }
 
 interface MsgResponse {
@@ -32,17 +33,42 @@ interface MsgResponse {
   active_skill: string;
 }
 
-const DREAM_API_URL = "https://7019.deeppavlov.ai/";
+// Probably this should be moved elsewhere, as it is also used in `utils/shareUrl.ts`
+export const DREAM_API_URL = {
+  // "" <empty string> is the default version name (=english) for backwards compatibility
+  "": "https://7019.deeppavlov.ai/",
+  // TODO: Change this URL here to Russian Dream's endpoint
+  ru: "https://7019.deeppavlov.ai/",
+};
 
 const useChat = (): UseChatReturn => {
-  const { error, post } = usePost(DREAM_API_URL);
+  // Fetch the current version from the URL search (?version=...)
+  const version = useMemo(() => {
+    if (typeof window !== "undefined" && window.location) {
+      const versionParam = new URLSearchParams(location.search).get("version");
+      if (
+        versionParam &&
+        Object.prototype.hasOwnProperty.call(DREAM_API_URL, versionParam)
+      )
+        return versionParam;
+    }
+    return "";
+  }, []) as keyof typeof DREAM_API_URL;
+
+  const { error, post } = usePost(DREAM_API_URL[version]);
   const [loading, setLoading] = useState(false);
-  const [dialogId, setDialogId] = useStored<null | string>("dialog-id", null);
-  const [userId, setUserId] = useStored("user-id", () => nanoid(), {
+  const [dialogId, setDialogId] = useStored<null | string>(
+    `${version}dialog-id`,
+    null
+  );
+  const [userId, setUserId] = useStored(`${version}user-id`, () => nanoid(), {
     initialRender: null,
   });
 
-  const [rating, setStoredRating] = useStored<number>("dialog_rating", -1);
+  const [rating, setStoredRating] = useStored<number>(
+    `${version}dialog_rating`,
+    -1
+  );
   const setRating = useCallback(
     (newRating: number) => {
       if (dialogId) {
@@ -57,7 +83,10 @@ const useChat = (): UseChatReturn => {
     [dialogId, post, userId, setStoredRating]
   );
 
-  const [messages, setMessages] = useStored<Message[]>("messages", []);
+  const [messages, setMessages] = useStored<Message[]>(
+    `${version}messages`,
+    []
+  );
 
   const sendMsg = useCallback(
     (msgText: string) => {
@@ -129,6 +158,7 @@ const useChat = (): UseChatReturn => {
     reset,
     userId,
     dialogId,
+    version,
   };
 };
 

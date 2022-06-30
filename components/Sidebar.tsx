@@ -158,6 +158,24 @@ const Sidebar: FC<{
           >
             Disclaimer of responsibility
           </a>
+
+          <span className={styles["version-links"]}>
+            <a
+              href="#"
+              onClick={(ev) => ((location.search = ""), ev.preventDefault())}
+            >
+              English
+            </a>
+            {" | "}
+            <a
+              href="#"
+              onClick={(ev) => (
+                (location.search = "?version=ru"), ev.preventDefault()
+              )}
+            >
+              Russian
+            </a>
+          </span>
         </div>
       </div>
       <div className={styles["overlay"]} onClick={() => onClose()} />

@@ -1,4 +1,4 @@
-import { Message } from "../hooks/useChat";
+import { DREAM_API_URL, Message } from "../hooks/useChat";
 
 export interface SharedMessage {
   /**
@@ -16,6 +16,11 @@ export interface SharedMessage {
 
 export interface ShareParams extends Record<string, string> {
   /**
+   * Version ID
+   */
+  v: keyof typeof DREAM_API_URL;
+
+  /**
    * Dialog ID
    */
   d: string;
@@ -23,6 +28,15 @@ export interface ShareParams extends Record<string, string> {
   /**
    * Utterance indices
    */
+  m: string;
+}
+
+/**
+ * Share parameters backwards compatible with URLs generated witout explicit version
+ */
+export interface ShareParamsCompat {
+  v?: keyof typeof DREAM_API_URL;
+  d: string;
   m: string;
 }
 
@@ -36,7 +50,7 @@ interface ApiResponse {
   }[];
 }
 
-const API_URL = "https://7019.deeppavlov.ai/api/dialogs/";
+const API_ENDPOINT = "api/dialogs/";
 
 /**
  * Takes a list of indices or index ranges, extracts the longest possible
@@ -85,11 +99,13 @@ const expandRange = (range: string) => {
  * @returns URL
  */
 export const getShareUrl = (
+  version: keyof typeof DREAM_API_URL,
   dialogId: string,
   shareMessages: SharedMessage[],
   hostname: string = "dream.deeppavlov.ai"
 ) => {
   const params: ShareParams = {
+    v: version,
     d: dialogId,
     m: extractRanges(shareMessages.map((m) => m.idx)).join("."),
   };
@@ -106,7 +122,7 @@ export const getShareUrl = (
  * @returns params.messageIdxs
  * List of message indices to show. `null`s are inserted where messages are skipped.
  */
-export const parseShareUrl = (params: ShareParams) => {
+export const parseShareUrl = (params: ShareParamsCompat) => {
   const idxsWithEllipsis: (number | null)[] = [];
   const idxs = params.m.split(".").flatMap(expandRange).sort();
   let prevIdx = idxs[0];
@@ -125,10 +141,11 @@ export const parseShareUrl = (params: ShareParams) => {
  * Parse and fetch the shared message history from the URL parameters.
  */
 export const fetchSharedMessages = async (
-  params: ShareParams
+  params: ShareParamsCompat
 ): Promise<Message[]> => {
   const { dialogId, messageIdxs } = parseShareUrl(params);
-  const resp = await fetch(API_URL + dialogId);
+  const api_url = DREAM_API_URL[params.v ?? ""];
+  const resp = await fetch(api_url + API_ENDPOINT + dialogId);
   const { utterances }: ApiResponse = await resp.json();
   const messages: Message[] = utterances
     .map(({ text, user, utt_id }) => ({
