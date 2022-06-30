@@ -90,6 +90,17 @@ const useChat = (): UseChatReturn => {
 
   const sendMsg = useCallback(
     (msgText: string) => {
+      if (msgText.startsWith("/")) {
+        // The user sent a special command
+        setLoading(true);
+        post("", { user_id: userId, payload: msgText }).finally(() => {
+          setLoading(false);
+          // TODO: make this nicer, even though it's a rare usecase
+          window.alert(`Command "${msgText}" sent!`);
+        });
+        // Commands should not be dealt with further
+        return;
+      }
       const addMsg = (msg: Message) => setMessages((msgs) => [...msgs, msg]);
 
       addMsg({
@@ -141,11 +152,15 @@ const useChat = (): UseChatReturn => {
   );
 
   const reset = useCallback(() => {
-    setUserId(nanoid());
     setMessages([]);
     setStoredRating(-1);
     setDialogId(null);
-  }, [setDialogId, setMessages, setStoredRating, setUserId]);
+    // Send a /close command to restart dialog while keeping the user id
+    setLoading(true);
+    post("", { user_id: userId, payload: "/close" }).finally(() =>
+      setLoading(false)
+    );
+  }, [post, setDialogId, setMessages, setStoredRating, userId]);
 
   return {
     messages,
