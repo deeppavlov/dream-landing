@@ -31,6 +31,12 @@ This project uses [Next.JS](https://nextjs.org/docs) and TypeScript.
 
 ## Next steps
 
+For saving text feedback to a database:
+ 1. Open up `components/FeedbackPopup.tsx`
+ 2. On line 9 change the variable `SPREADSHEET_API_URL` to the new endpoint that accepts the text feedback (the variable could also be renamed to make more sense)
+ 3. The POST request is made on line 15. Change the object there, to define the JSON data sent to the endpoint.
+
+For the new developer:
  1. Read through this documentation and the codebase
  2. Finish implementing the surveys feature
     1. Create the UI component, for the floating window in `components/`
@@ -39,8 +45,7 @@ This project uses [Next.JS](https://nextjs.org/docs) and TypeScript.
     4. Once the database is ready, the Agent folks, will probably provide a Dream endpoint for saving survey results, so that could be used directly from the client
     5. (Optionally) we could cut down on client side requests by grouping together sending messages and querying for active surveys into a single endpoint
  3. If it's fixed, add back utterance ratings
- 4. Icon loading is a bit janky with fontawesome and Next.js. I have found that replacing it with iconify works great but this has not yet made it to the production deployment. You can see that work [here](https://github.com/deepmipt/dream-landing/commit/f3ead4637b38307d3c142572516d2e96f5db7be0).
- 5. If there are no other urgent tasks:
+ 4. If there are no other urgent tasks:
     1. Shared types could be moved to one file
     2. `useChat` and the overall state management is pretty messy. A central store could be introduced + instead of saving the message history in local storage, it could be fetched from the API on load.
     3. Next.js and React are huge dependencies (about ~60% of the final bundle), but we do not use heavily any specific feature from either. Theoritcally, the whole site could be ported to use Vite (and vite-plugin-ssr) instead of Next.js and Preact instead of React. Exploration of this can be found on the [`feat/optimize-load`](https://github.com/deepmipt/dream-landing/tree/feat/optimize-load) branch.
