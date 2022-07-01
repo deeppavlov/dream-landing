@@ -61,7 +61,7 @@ const MessageBubble: FC<{
             canSelect && selected && styles["checked"]
           )}
         >
-          <Icon icon="fa-regular:check-square" />
+          <Icon icon="fa6-solid:check" />
         </div>
       </div>
       <div
