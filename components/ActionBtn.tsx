@@ -1,13 +1,12 @@
-import React, { FC, useLayoutEffect, useRef, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import React, { FC, useState } from "react";
+import { Icon } from "@iconify/react";
 import cn from "classnames";
 
 import styles from "./actionbtn.module.css";
 
 const ActionBtn: FC<{
   onClick?: () => void;
-  icon: IconDefinition;
+  icon: string;
   disabled?: boolean;
 }> = ({ onClick, icon, disabled = false, children }) => {
   return (
@@ -16,7 +15,7 @@ const ActionBtn: FC<{
       onClick={onClick}
     >
       <div className={styles["icon-cont"]}>
-        <FontAwesomeIcon icon={icon} />
+        <Icon icon={icon} />
       </div>
       {children}
     </button>

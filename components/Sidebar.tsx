@@ -1,18 +1,6 @@
 import React, { FC, useCallback, useEffect, useState } from "react";
 import ReactDom from "react-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCamera,
-  faDownload,
-  faRefresh,
-  faClose,
-  faArrowLeft,
-  faStar,
-  faShareNodes,
-  faObjectGroup,
-  faHome,
-} from "@fortawesome/free-solid-svg-icons";
-import { faTelegram } from "@fortawesome/free-brands-svg-icons";
+import { Icon } from "@iconify/react";
 
 import styles from "./sidebar.module.css";
 import useOnSmallerScreen from "../hooks/useOnSmallerScreen";
@@ -48,7 +36,7 @@ const Sidebar: FC<{
         {isMobile ? (
           <div className={styles["back"]} onClick={onClose}>
             <div className={styles["close-icon-cont"]}>
-              <FontAwesomeIcon icon={faClose} />
+              <Icon icon="fa6-solid:xmark" />
             </div>
           </div>
         ) : (
@@ -62,7 +50,7 @@ const Sidebar: FC<{
             )}
           >
             <div className={styles["back-icon-cont"]}>
-              <FontAwesomeIcon icon={faArrowLeft} />
+              <Icon icon="fa6-solid:arrow-left" />
             </div>{" "}
             Back to Dream
           </a>
@@ -87,20 +75,23 @@ const Sidebar: FC<{
           <div className={styles["small-title"]}>Actions</div>
           <div className={styles["actions-cont"]}>
             <ActionBtnSlide toggleOnClick disabled={disableShare}>
-              <ActionBtn icon={faShareNodes}>Share dialog</ActionBtn>
+              <ActionBtn icon="fa6-solid:share-nodes">Share dialog</ActionBtn>
 
               <ActionBtnGroup>
-                <ActionBtn icon={faCamera} onClick={onShareVisible}>
+                <ActionBtn icon="fa6-solid:camera" onClick={onShareVisible}>
                   Share visible
                 </ActionBtn>
 
-                <ActionBtn icon={faObjectGroup} onClick={onStartSelect}>
+                <ActionBtn
+                  icon="fa6-solid:object-group"
+                  onClick={onStartSelect}
+                >
                   Select messages
                 </ActionBtn>
               </ActionBtnGroup>
             </ActionBtnSlide>
             <ActionBtn
-              icon={faDownload}
+              icon="fa6-solid:download"
               onClick={withGaThenNavigate(
                 "Panel",
                 "pressed download other dialogs",
@@ -110,14 +101,17 @@ const Sidebar: FC<{
               Download other dialogs
             </ActionBtn>
             <ActionBtn
-              icon={faRefresh}
+              icon="fa6-solid:arrows-rotate"
               onClick={withGa("Panel", "pressed reset", onReset)}
             >
               Start a new dialog
             </ActionBtn>
             {isMobile && (
               <>
-                <ActionBtn icon={faStar} onClick={() => show("feedback")}>
+                <ActionBtn
+                  icon="fa6-solid:star"
+                  onClick={() => show("feedback")}
+                >
                   Give feedback
                 </ActionBtn>
                 <a
@@ -129,7 +123,7 @@ const Sidebar: FC<{
                     "https://deeppavlov.ai/dream"
                   )}
                 >
-                  <ActionBtn icon={faHome}>Dream website</ActionBtn>
+                  <ActionBtn icon="fa6-solid:house">Dream website</ActionBtn>
                 </a>
               </>
             )}
@@ -145,7 +139,7 @@ const Sidebar: FC<{
                 target="_blank"
                 rel="noreferrer"
               >
-                <FontAwesomeIcon size="2x" icon={faTelegram} />
+                <Icon icon="fa6-brands:telegram" fontSize="2em" />
               </a>
             </div>
           </div>

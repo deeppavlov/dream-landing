@@ -1,18 +1,17 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@fortawesome/fontawesome-svg-core': ^1.3.0
-  '@fortawesome/free-brands-svg-icons': ^6.0.0
-  '@fortawesome/free-solid-svg-icons': ^6.0.0
-  '@fortawesome/react-fontawesome': ^0.1.17
+  '@iconify/react': ^3.2.2
   '@napi-rs/canvas': ^0.1.21
   '@popperjs/core': ^2.11.4
+  '@types/canvas-confetti': ^1.4.2
   '@types/jest': ^27.5.1
   '@types/js-yaml': ^4.0.5
   '@types/node': 17.0.18
   '@types/react': 17.0.39
   '@types/react-custom-scroll': ^4.3.2
   '@types/react-dom': ^17.0.13
+  canvas-confetti: ^1.5.1
   classnames: ^2.3.1
   cross-env: ^7.0.3
   eslint: 8.9.0
@@ -34,12 +33,9 @@ specifiers:
   typescript: 4.5.5
 
 dependencies:
-  '@fortawesome/fontawesome-svg-core': 1.3.0
-  '@fortawesome/free-brands-svg-icons': 6.0.0
-  '@fortawesome/free-solid-svg-icons': 6.0.0
-  '@fortawesome/react-fontawesome': 0.1.17_4bd8f766d7cd56ce339ee1b51a510026
   '@napi-rs/canvas': 0.1.21
   '@popperjs/core': 2.11.4
+  canvas-confetti: 1.5.1
   classnames: 2.3.1
   html2canvas: 1.4.1
   js-yaml: 4.1.0
@@ -53,6 +49,8 @@ dependencies:
   react-textarea-autosize: 8.3.3_a0c521d4794c7ad97f5f4c1c4a7d5818
 
 devDependencies:
+  '@iconify/react': 3.2.2_react@17.0.2
+  '@types/canvas-confetti': 1.4.2
   '@types/jest': 27.5.1
   '@types/js-yaml': 4.0.5
   '@types/node': 17.0.18
@@ -424,47 +422,6 @@ packages:
       - supports-color
     dev: true
 
-  /@fortawesome/fontawesome-common-types/0.3.0:
-    resolution: {integrity: sha512-CA3MAZBTxVsF6SkfkHXDerkhcQs0QPofy43eFdbWJJkZiq3SfiaH1msOkac59rQaqto5EqWnASboY1dBuKen5w==}
-    engines: {node: '>=6'}
-    requiresBuild: true
-    dev: false
-
-  /@fortawesome/fontawesome-svg-core/1.3.0:
-    resolution: {integrity: sha512-UIL6crBWhjTNQcONt96ExjUnKt1D68foe3xjEensLDclqQ6YagwCRYVQdrp/hW0ALRp/5Fv/VKw+MqTUWYYvPg==}
-    engines: {node: '>=6'}
-    requiresBuild: true
-    dependencies:
-      '@fortawesome/fontawesome-common-types': 0.3.0
-    dev: false
-
-  /@fortawesome/free-brands-svg-icons/6.0.0:
-    resolution: {integrity: sha512-BIhsy2YeGuk8+KQwpqmyayQDWo1lvGMHsMIE+z5ApPRgV7T+zGhmNzYVoBT4IrJMC6ep5WpGrxoHX+IvNxHnkw==}
-    engines: {node: '>=6'}
-    requiresBuild: true
-    dependencies:
-      '@fortawesome/fontawesome-common-types': 0.3.0
-    dev: false
-
-  /@fortawesome/free-solid-svg-icons/6.0.0:
-    resolution: {integrity: sha512-o4FZ1XbndcgeWNb8Wh0y+Hgf73CjmyOQowUSaqQCtgIIdS+XliSBSOwCl330wER+I6CGYE96hT27bHBPmzX2Gg==}
-    engines: {node: '>=6'}
-    requiresBuild: true
-    dependencies:
-      '@fortawesome/fontawesome-common-types': 0.3.0
-    dev: false
-
-  /@fortawesome/react-fontawesome/0.1.17_4bd8f766d7cd56ce339ee1b51a510026:
-    resolution: {integrity: sha512-dX43Z5IvMaW7fwzU8farosYjKNGfRb2HB/DgjVBHeJZ/NSnuuaujPPx0YOdcAq+n3mqn70tyCde2HM1mqbhiuw==}
-    peerDependencies:
-      '@fortawesome/fontawesome-svg-core': ~1 || >=1.3.0-beta1
-      react: '>=16.x'
-    dependencies:
-      '@fortawesome/fontawesome-svg-core': 1.3.0
-      prop-types: 15.8.1
-      react: 17.0.2
-    dev: false
-
   /@humanwhocodes/config-array/0.9.3:
     resolution: {integrity: sha512-3xSMlXHh03hCcCmFc0rbKp3Ivt2PFEJnQUJDDMTJQ2wkECZWdq4GePs2ctc5H8zV+cHPaq8k2vU8mrQjA6iHdQ==}
     engines: {node: '>=10.10.0'}
@@ -478,6 +435,14 @@ packages:
 
   /@humanwhocodes/object-schema/1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
+    dev: true
+
+  /@iconify/react/3.2.2_react@17.0.2:
+    resolution: {integrity: sha512-z3+Jno3VcJzgNHsN5mEvYMsgCkOZkydqdIwOxjXh45+i2Vs9RGH68Y52vt39izwFSfuYUXhaW+1u7m7+IhCn/g==}
+    peerDependencies:
+      react: '>=16'
+    dependencies:
+      react: 17.0.2
     dev: true
 
   /@istanbuljs/load-nyc-config/1.1.0:
@@ -1051,6 +1016,10 @@ packages:
       '@babel/types': 7.17.12
     dev: true
 
+  /@types/canvas-confetti/1.4.2:
+    resolution: {integrity: sha512-t45KUDHlwrD9PJVRHc5z1SlXhO82BQEgMKUXGEV1KnWLFMPA6Y5LfUsLTHHzH9KcKDHZLEiYYH5nIDcjRKWNTg==}
+    dev: true
+
   /@types/cookie/0.4.1:
     resolution: {integrity: sha512-XW/Aa8APYr6jSVVA1y/DEIZX0/GMKLEVekNG727R8cs56ahETkRAy/3DR7+fJyh7oUgGwNQaRfXCun0+KbWY7Q==}
     dev: true
@@ -1522,6 +1491,10 @@ packages:
   /caniuse-lite/1.0.30001341:
     resolution: {integrity: sha512-2SodVrFFtvGENGCv0ChVJIDQ0KPaS1cg7/qtfMaICgeMolDdo/Z2OD32F0Aq9yl6F4YFwGPBS5AaPqNYiW4PoA==}
     dev: true
+
+  /canvas-confetti/1.5.1:
+    resolution: {integrity: sha512-Ncz+oZJP6OvY7ti4E1slxVlyAV/3g7H7oQtcCDXgwGgARxPnwYY9PW5Oe+I8uvspYNtuHviAdgA0LfcKFWJfpg==}
+    dev: false
 
   /chalk/2.4.2:
     resolution: {integrity: sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==}
