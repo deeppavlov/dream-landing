@@ -8,6 +8,41 @@ import { usePopup } from "./Popup";
 import Tooltip, { useTooltip } from "./Tooltip";
 import { withGa } from "../utils/analytics";
 
+const reactions = {
+  happy: () => (
+    <>
+      <Icon
+        icon="twemoji:partying-face"
+        fontSize="2em"
+        style={{ float: "left", marginRight: "5px" }}
+      />{" "}
+      Thank you! I am extremely glad that you liked our chat. Come again!
+    </>
+  ),
+  neutral: () => (
+    <>
+      <Icon
+        icon="twemoji:slightly-smiling-face"
+        fontSize="2em"
+        style={{ float: "left", marginRight: "5px" }}
+      />{" "}
+      Thank you, we have received your feedback.
+    </>
+  ),
+  sad: () => (
+    <>
+      <Icon
+        icon="twemoji:sad-but-relieved-face"
+        fontSize="2em"
+        style={{ float: "left", marginRight: "5px" }}
+      />{" "}
+      Thank you! I am sorry you did not enjoy our conversation. I hope next time
+      I can improve.
+    </>
+  ),
+  nodialog: () => "Start a dialog before rating!",
+};
+
 const StarsRating: FC<{
   rating: number;
   setRating: (r: number) => void;
@@ -32,19 +67,17 @@ const StarsRating: FC<{
   const { setAnchor, ...tooltipProps } = useTooltip();
   const { show } = usePopup();
 
-  const [tooltipText, setTooltip] = useState<string | null>(null);
+  const [tooltipId, setTooltip] = useState<keyof typeof reactions | null>(null);
   useEffect(() => {
-    if (!tooltipText) return;
+    if (tooltipId === null) return;
     const handle = setTimeout(() => setTooltip(null), 4000);
     return () => clearTimeout(handle);
-  }, [tooltipText]);
+  }, [tooltipId]);
 
   const rate = (idx: number) => {
     // idx ∈ [0. 4]
     if (idx >= 3) {
-      setTooltip(
-        "Thank you! I am extremely glad that you liked our chat. Come again!"
-      );
+      setTooltip("happy");
       confetti({
         origin: { x: 1, y: 0 },
         angle: 215,
@@ -55,11 +88,9 @@ const StarsRating: FC<{
         disableForReducedMotion: true,
       });
     } else if (idx === 2) {
-      setTooltip("Thank you, we have received your feedback.");
+      setTooltip("neutral");
     } else {
-      setTooltip(
-        "Thank you! I am sorry you did not enjoy our conversation. I hope next time I can improve."
-      );
+      setTooltip("sad");
     }
     setRating(idx);
   };
@@ -82,11 +113,7 @@ const StarsRating: FC<{
               icon="fa6-solid:star"
               fontSize="2em"
               color={idx <= rating ? "#ffd93a" : inactiveStarColor}
-              onClick={() =>
-                canRate
-                  ? rate(idx)
-                  : setTooltip("Start a dialog before rating!")
-              }
+              onClick={() => (canRate ? rate(idx) : setTooltip("nodialog"))}
               className={animate ? stylesAnim["star-jump"] : ""}
               style={{
                 animationDelay: `${idx * 0.3}s`,
@@ -108,9 +135,9 @@ const StarsRating: FC<{
           </span>
         )}
       </span>
-      {tooltipText && (
+      {tooltipId && (
         <Tooltip fade={4} {...tooltipProps}>
-          {tooltipText}
+          {tooltipId !== null && reactions[tooltipId]()}
         </Tooltip>
       )}
     </div>
