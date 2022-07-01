@@ -1,6 +1,5 @@
 import React, { FC, useCallback, useEffect, useRef, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { Icon } from "@iconify/react";
 
 import styles from "./starsrating.module.css";
 import stylesAnim from "./starsanimation.module.css";
@@ -50,10 +49,10 @@ const StarsRating: FC<{
         {Array(5)
           .fill(0)
           .map((_, idx) => (
-            <FontAwesomeIcon
+            <Icon
               key={idx}
-              icon={faStar}
-              size="2x"
+              icon="fa6-solid:star"
+              fontSize="2em"
               color={idx <= rating ? "#ffd93a" : inactiveStarColor}
               onClick={() => (canRate ? setRating(idx) : setShowTooltip(true))}
               className={animate ? stylesAnim["star-jump"] : ""}

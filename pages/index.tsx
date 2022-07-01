@@ -20,15 +20,7 @@ import FeedbackPopup from "../components/FeedbackPopup";
 import DisclaimerPopup from "../components/DisclaimerPopup";
 import { usePopup } from "../components/Popup";
 import { ReactionsPopup } from "../components/MessageReaction";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBars,
-  faCamera,
-  faCancel,
-  faSquare,
-  faSquareCheck,
-  faPlay,
-} from "@fortawesome/free-solid-svg-icons";
+import { Icon } from "@iconify/react";
 import { withGa } from "../utils/analytics";
 import ActionBtn from "../components/ActionBtn";
 import { getShareUrl } from "../utils/shareUrl";
@@ -69,7 +61,7 @@ const SendBtn: FC<{
       style={btnHeight ? { height: `${btnHeight}px` } : undefined}
       disabled={disabled}
     >
-      {isMobile ? <FontAwesomeIcon icon={faPlay} /> : "Send"}
+      {isMobile ? <Icon icon="fa-solid:play" /> : "Send"}
     </button>
   );
 };
@@ -160,7 +152,7 @@ const Chat: NextPage = () => {
             setSidebarOpen((open) => !open)
           )}
         >
-          <FontAwesomeIcon icon={faBars} />
+          <Icon icon="fa6-solid:bars" />
         </div>
 
         <StarsRating
@@ -217,7 +209,7 @@ const Chat: NextPage = () => {
                 )}
               >
                 <ActionBtn
-                  icon={faCamera}
+                  icon="fa6-solid:camera"
                   disabled={selectedMessages.length === 0}
                   onClick={() => (
                     setSelectingMode(false), shareDialog(selectedMessages)
@@ -228,21 +220,21 @@ const Chat: NextPage = () => {
 
                 {selectedMessages.length === 0 ? (
                   <ActionBtn
-                    icon={faSquareCheck}
+                    icon="fa6-solid:square-check"
                     onClick={() => setSelectedMsgs(messages.map((_, i) => i))}
                   >
                     Select all
                   </ActionBtn>
                 ) : (
                   <ActionBtn
-                    icon={faSquare}
+                    icon="fa6-regular:square"
                     onClick={() => setSelectedMsgs([])}
                   >
                     Deselect all
                   </ActionBtn>
                 )}
                 <ActionBtn
-                  icon={faCancel}
+                  icon="fa-solid:ban"
                   onClick={() => setSelectingMode(false)}
                 >
                   Cancel

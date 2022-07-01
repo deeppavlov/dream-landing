@@ -8,8 +8,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClose } from "@fortawesome/free-solid-svg-icons";
+import { Icon } from "@iconify/react";
 
 import styles from "./popup.module.css";
 
@@ -76,7 +75,7 @@ export const Popup: FC<{
               className={styles["close-btn"]}
               onClick={() => (setOpen(false), onClose())}
             >
-              <FontAwesomeIcon icon={faClose} />
+            <Icon icon="fa6-solid:xmark"/>
             </div>
           )}
 

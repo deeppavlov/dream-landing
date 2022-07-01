@@ -4,28 +4,19 @@ import { Popup, usePopup } from "./Popup";
 import styles from "./sharepopup.module.css";
 import usePost from "../hooks/usePost";
 import { withGa } from "../utils/analytics";
-import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClipboard } from "@fortawesome/free-solid-svg-icons";
-import {
-  faFacebook,
-  faTelegram,
-  faTwitch,
-  faTwitter,
-  faVk,
-} from "@fortawesome/free-brands-svg-icons";
+import { Icon } from "@iconify/react";
 import Tooltip, { useTooltip } from "./Tooltip";
 
 const ShareBtn = React.forwardRef<
   HTMLDivElement,
   {
-    icon: IconDefinition;
+    icon: string;
     onClick?: () => void;
   }
 >(function ShareBtn({ icon, onClick }, ref) {
   return (
     <div ref={ref} className={styles["icon-cont"]} onClick={onClick}>
-      <FontAwesomeIcon icon={icon} />
+      <Icon icon={icon} />
     </div>
   );
 });
@@ -68,7 +59,7 @@ const SharePopup: FC = ({ children }) => {
             <div className={styles["btn-cont"]}>
               <ShareBtn
                 ref={tooltipTarget === 0 ? setAnchor : undefined}
-                icon={faClipboard}
+                icon="fa6-solid:clipboard"
                 onClick={() => copyToClipboard(shareUrl)}
               />
               <a
@@ -78,7 +69,7 @@ const SharePopup: FC = ({ children }) => {
               >
                 <ShareBtn
                   ref={tooltipTarget === 1 ? setAnchor : undefined}
-                  icon={faVk}
+                  icon="fa6-brands:vk"
                 />
               </a>
               <a
@@ -90,7 +81,7 @@ const SharePopup: FC = ({ children }) => {
               >
                 <ShareBtn
                   ref={tooltipTarget === 3 ? setAnchor : undefined}
-                  icon={faTelegram}
+                  icon="fa6-brands:telegram"
                 />
               </a>
             </div>

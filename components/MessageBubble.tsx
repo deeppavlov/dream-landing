@@ -5,8 +5,7 @@ import styles from "./messagebubble.module.css";
 import { Message } from "../hooks/useChat";
 // import MessageReaction from "./MessageReaction";
 import { usePopup } from "./Popup";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { Icon } from "@iconify/react";
 
 const MessageBubble: FC<{
   msg: Message;
@@ -62,7 +61,7 @@ const MessageBubble: FC<{
             canSelect && selected && styles["checked"]
           )}
         >
-          <FontAwesomeIcon icon={faCheck} />
+          <Icon icon="fa-regular:check-square" />
         </div>
       </div>
       <div
